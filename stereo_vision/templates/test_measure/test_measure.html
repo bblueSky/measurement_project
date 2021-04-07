@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+{%  extends "publicNav.html" %}
+<html lang="en">
+<head>
+    {% block head_meta %}
+    <meta charset="UTF-8">
+    {% block title %}<title>感知测量</title>{% endblock %}
+    {% endblock %}
+    <!--CSS标签 -->
+
+    {% block css %}
+    <link href="../static/css/test_css.css" rel="stylesheet">
+    <link href="../static/css/font-awesome.css" rel="stylesheet">
+    <link href="../static/css/ionicons.css" rel="stylesheet">
+    <link href="../static/css/perfect-scrollbar.css" rel="stylesheet">
+    <link href="../static/css/rickshaw.min.css" rel="stylesheet">
+    {% endblock %}
+    <!--CSS结束 -->
+    {% block my_css %}
+    <link rel="stylesheet" href="../static/css/starlight.css">
+    {% endblock %}
+
+</head>
+<body>
+    {% block header %}
+    <!-- ########## START: LEFT PANEL ########## -->
+    <div class="sl-logo" style="background-color:#1255a2"><a href=""><img src="../static/picture/logo.jpg" class="wd-30 rounded-circle"></img> BUAA</a></div>
+    <div class="sl-sideleft">
+        <label class="sidebar-label">功能模块</label>
+        <div class="sl-sideleft-menu">
+            <a href="index.html" class="sl-menu-link">
+                <div class="sl-menu-item">
+                    <i class="menu-item-icon icon ion-ios-home-outline tx-22"></i>
+                    <span class="menu-item-label">测量系统初始化</span>
+			        <i class="menu-item-arrow fa fa-angle-down"></i>
+                </div><!-- menu-item -->
+            </a><!-- sl-menu-link -->
+	        <ul class="sl-menu-sub nav flex-column">
+                <li class="nav-item"><a href="../cameraCalibration/" class="nav-link">标定板图像拍摄及管理</a></li>
+                <li class="nav-item"><a href="../cameraCalibration/" class="nav-link">激光跟踪仪数据录入及管理</a></li>
+                <li class="nav-item"><a href="../cameraCalibration/" class="nav-link">筒段数据录入及管理</a></li>
+            </ul>
+            <a href="#" class="sl-menu-link active">
+            <div class="sl-menu-item">
+                <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
+                <span class="menu-item-label">测量系统感知及测量</span>
+                <i class="menu-item-arrow fa fa-angle-down"></i>
+            </div><!-- menu-item -->
+            </a>
+            <ul class="sl-menu-sub nav flex-column">
+                <li class="nav-item"><a href="../testMeasure/" class="nav-link">筒段图像拍摄及管理</a></li>
+                <li class="nav-item"><a href="../testMeasure/" class="nav-link">关键特征检测及三维解算</a></li>
+                <li class="nav-item"><a href="../testMeasure/" class="nav-link">筒段全局三维重构</a></li>
+            </ul>
+            <a href="#" class="sl-menu-link">
+                <div class="sl-menu-item">
+                    <i class="menu-item-icon ion-ios-pie-outline tx-20"></i>
+                    <span class="menu-item-label">测量结果显示及导出</span>
+			        <i class="menu-item-arrow fa fa-angle-down"></i>
+                </div><!-- menu-item -->
+            </a><!-- sl-menu-link -->
+	        <ul class="sl-menu-sub nav flex-column">
+                <li class="nav-item"><a href="../resultsAnalysis/" class="nav-link">测量结果可视化展示</a></li>
+                <li class="nav-item"><a href="../resultsAnalysis/" class="nav-link">测量结果固定格式导出</a></li>
+                <li class="nav-item"><a href="../resultsAnalysis/" class="nav-link">多机器人加工系统数据传输</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- ########## END: LEFT PANEL ########## -->
+
+    <!-- ########## START: HEAD PANEL ########## -->
+    <div class="sl-header" style="background-color: #033f75">
+      <div class="sl-header-left">
+        <div class="navicon-left hidden-lg-up" style="background-color: #044b8c"><a id="btnLeftMenuMobile" href=""><i class="icon ion-navicon-round"></i></a></div>
+        <div class="navicon-left hidden-md-down" style="background-color: #044b8c"><a id="btnLeftMenu" href=""><i class="icon ion-navicon-round"></i></a></div>
+      </div><!-- sl-header-left -->
+      <div class="sl-header-right">
+        <nav class="nav">
+          <div class="dropdown">
+            <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
+              <span class="logged-name">开发团队<span class="hidden-md-down"> 北航A513实验室</span></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-header wd-200" style="background-color:#033f75">
+              <ul class="list-unstyled user-profile-nav">
+                <li><a href=""><i class="ion-ios-book-outline"></i> 软件概述</a></li>
+                <li><a href=""><i class="ion-ios-person-outline"></i> 了解更多</a></li>
+                <li><a href=""><i class="ion-ios-email-outline"></i> 联系我们</a></li>
+                <li><a href="https://www.cnblogs.com/monkiki/"><i class="ion-ios-information-outline"></i> 开发人员博客</a></li>
+              </ul>
+            </div><!-- dropdown-menu -->
+          </div><!-- dropdown -->
+        </nav>
+      </div><!-- sl-header-right -->
+    </div><!-- sl-header -->
+    <!-- ########## END: HEAD PANEL ########## -->
+
+    {% endblock %}
+    <!-- ########## START: MAIN PANEL ########## -->
+    {% block main %}
+    <div class="sl-mainpanel">
+        <div style="display:flex">
+            <div class="container" style="flex:1;padding-right:0px;padding-left:0px">
+                <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;width:100%;background-color:#1255a2;height:20px">
+                    <p align="center" style="color:white">筒段图像拍摄显示及管理区域</p>
+                </div>
+                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px">
+                    <div>
+                        <span>
+                            <button type="button" class="btn-success" id="updateList" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="updateList1()"><i class="fa fa-refresh"></i> 更新列表</button>
+                            <label style="font-size:18px">选择待拍摄筒类型</label>
+                            <select id="selectType" style="font-size:18px;background:rgba(0,0,0,0.08);width:250px;height:35px;border-radius:8px" onchange="selectType()">
+                                <option value ="0">请先点击左侧“更新列表”</option>
+                            </select>
+                        </span>
+                    </div>
+                    <div style="height:15px"></div>
+                    <span>
+                        <div style="float:left;width:120px">
+                            <div style="height:60px">
+                                <button class="btn-primary" style="font-size:18px;width:110px;height:55px;border-radius:8px" type="button" id="takePhotos" onclick="take_pic()"><i class="fa fa-camera"></i> 拍摄</button><!--这里按钮在拍摄与保存之间切换-->
+                            </div>
+                            <div style="height:60px">
+                                <button class="btn-info" style="font-size:18px;width:110px;height:55px;border-radius:8px" type="button" id="savePic" onclick="save_pic()" disabled="disabled"><i class="fa fa-floppy-o"></i> 保存</button><!--我放弃了5555-->
+                            </div>
+                            <div style="height:60px">
+                                <button class="btn-primary" style="font-size:18px;width:110px;height:55px;border-radius:8px" type="button" id="pageUp" onclick="pageUp()"><i class="fa fa-arrow-circle-o-up"></i> 上翻</button>
+                            </div>
+                            <div style="height:60px">
+                                <button class="btn-primary" style="font-size:18px;width:110px;height:55px;border-radius:8px" type="button" id="pageDown" onclick="pageDown()"><i class="fa fa-arrow-circle-o-down"></i> 下翻</button>
+                            </div>
+                            <div style="height:60px">
+                                <button class="btn-warning" style="font-size:18px;width:110px;height:55px;border-radius:8px" type="button" id="deleteThis" onclick="confirmDelete1()"><i class="fa fa-trash"></i> 删除这组</button>
+                            </div>
+                            <div style="height:60px">
+                                <button class="btn-danger" style="font-size:18px;width:110px;height:55px;border-radius:8px" type="button" id="deleteAll" onclick="confirmDelete2()"><i class="fa fa-trash"></i> 删除所有</button>
+                            </div>
+                        </div>
+                        <div style="float:left">
+                              <!-- 左右相机照片显示 -->
+                            <table border="3" style="border:#5b93d3">
+                                <tr>
+                                    <td><img name='leftcamera_A' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="480" height="350" id="left_img_A"></td>
+                                    <td><img name='rightcamera_A' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="480" height="350" id="right_img_A"></td>
+                                </tr>
+                                <tr>
+                                    <td><img name='leftcamera_B' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="480" height="350" id="left_img_B"></td>
+                                    <td><img name='rightcamera_B' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="480" height="350" id="right_img_B"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </span>
+                    <div>
+                        <p align="center" id="numPic" style="font-size:18px">可点击“上翻”“下翻”按钮浏览历史图片</p><!--这里更换文本-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="height:10px"></div>
+        <div style="display:flex">
+            <div class="container" style="flex:1;padding-right:0px;padding-left:0px">
+                <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;width:100%;background-color:#1255a2;height:20px">
+                    <p align="center" style="color:white">安装孔及靶标位置检测区域</p>
+                </div>
+                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px">
+                    <span>
+                        <button class="btn-success" type="button" id="updateList2" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="updateList2()"><i class="fa fa-refresh"></i> 更新列表</button>
+                        <label style="font-size:18px">选择待检测日志</label>
+                        <select id="selectLog" style="font-size:18px;background:rgba(0,0,0,0.08);width:250px;height:35px;border-radius:8px" onchange="selectLog()">
+                            <option value ="0">请先点击左侧“更新列表”</option>
+                        </select>
+                        <button class="btn-success" type="button" id="targetDetection" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="confirmDelete3()"><i class="fa fa-object-ungroup"></i> 目标检测</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div style="height:10px"></div>
+        <div style="display:flex">
+            <div class="container" style="flex:1;padding-right:0px;padding-left:0px">
+                <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;width:100%;background-color:#1255a2;height:20px">
+                    <p align="center" style="color:white">安装孔及靶标形心定准结果显示区域</p>
+                </div>
+                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px">
+                    <button class="btn-success" type="button" style="font-size:18px;width:110px;height:35px;border-radius:8px" id="TargetCentroid" onclick="centreSight()"><i class="fa fa-crosshairs"></i> 形心定准</button>
+                    <div style="display:flex">
+                        <div class="container" style="width:50%;padding-right:0px;padding-left:0px;border:2px dashed #1255a2">
+                            <p style="font-size:16px">A端左相机安装孔形心定准结果</p>
+                            <table border="3" style="border:#5b93d3">
+                                <tr>
+                                    <td><img name='AL_hole1' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_hole1"></td>
+                                    <td><img name='AL_hole2' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_hole2"></td>
+                                    <td><img name='AL_hole3' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_hole3"></td>
+                                    <td><img name='AL_hole4' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_hole4"></td>
+                                    <td><img name='AL_hole5' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_hole5"></td>
+                                    <td><img name='AL_hole6' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_hole6"></td>
+                                </tr>
+                                <tr>
+                                    <td><img name='AL_hole7' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_hole7"></td>
+                                    <td><img name='AL_hole8' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_hole8"></td>
+                                    <td><img name='AL_hole9' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_hole9"></td>
+                                    <td><img name='AL_hole10' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_hole10"></td>
+                                    <td><img name='AL_hole11' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_hole11"></td>
+                                    <td><img name='AL_hole12' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_hole12"></td>
+                                </tr>
+                            </table>
+                            <p style="font-size:16px">A端左相机靶标形心定准结果</p>
+                            <table border="3" style="border:#5b93d3">
+                                <tr>
+                                    <td><img name='AL_target1' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_target1"></td>
+                                    <td><img name='AL_target2' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_target2"></td>
+                                    <td><img name='AL_target3' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_target3"></td>
+                                </tr>
+                            </table>
+                            <p style="font-size:16px">A端右相机安装孔形心定准结果</p>
+                            <table border="3" style="border:#5b93d3">
+                                <tr>
+                                    <td><img name='AR_hole1' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_hole1"></td>
+                                    <td><img name='AR_hole2' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_hole2"></td>
+                                    <td><img name='AR_hole3' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_hole3"></td>
+                                    <td><img name='AR_hole4' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_hole4"></td>
+                                    <td><img name='AR_hole5' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_hole5"></td>
+                                    <td><img name='AR_hole6' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_hole6"></td>
+                                </tr>
+                                <tr>
+                                    <td><img name='AR_hole7' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_hole7"></td>
+                                    <td><img name='AR_hole8' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_hole8"></td>
+                                    <td><img name='AR_hole9' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_hole9"></td>
+                                    <td><img name='AR_hole10' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_hole10"></td>
+                                    <td><img name='AR_hole11' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_hole11"></td>
+                                    <td><img name='AR_hole12' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_hole12"></td>
+                                </tr>
+                            </table>
+                            <p style="font-size:16px">A端右相机靶标形心定准结果</p>
+                            <table border="3" style="border:#5b93d3">
+                                <tr>
+                                    <td><img name='AR_target1' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_target1"></td>
+                                    <td><img name='AR_target2' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_target2"></td>
+                                    <td><img name='AR_target3' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_target3"></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="container" style="width:50%;padding-right:0px;padding-left:0px;border:2px dashed #1255a2">
+                            <p style="font-size:16px">B端左相机安装孔形心定准结果</p>
+                            <table border="3" style="border:#5b93d3">
+                                <tr>
+                                    <td><img name='BL_hole1' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_hole1"></td>
+                                    <td><img name='BL_hole2' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_hole2"></td>
+                                    <td><img name='BL_hole3' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_hole3"></td>
+                                    <td><img name='BL_hole4' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_hole4"></td>
+                                    <td><img name='BL_hole5' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_hole5"></td>
+                                    <td><img name='BL_hole6' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_hole6"></td>
+                                </tr>
+                                <tr>
+                                    <td><img name='BL_hole7' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_hole7"></td>
+                                    <td><img name='BL_hole8' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_hole8"></td>
+                                    <td><img name='BL_hole9' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_hole9"></td>
+                                    <td><img name='BL_hole10' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_hole10"></td>
+                                    <td><img name='BL_hole11' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_hole11"></td>
+                                    <td><img name='BL_hole12' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_hole12"></td>
+                                </tr>
+                            </table>
+                            <p style="font-size:16px">B端左相机靶标形心定准结果</p>
+                            <table border="3" style="border:#5b93d3">
+                                <tr>
+                                    <td><img name='BL_target1' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_target1"></td>
+                                    <td><img name='BL_target2' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_target2"></td>
+                                    <td><img name='BL_target3' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_target3"></td>
+                                </tr>
+                            </table>
+                            <p style="font-size:16px">B端右相机安装孔形心定准结果</p>
+                            <table border="3" style="border:#5b93d3">
+                                <tr>
+                                    <td><img name='BR_hole1' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_hole1"></td>
+                                    <td><img name='BR_hole2' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_hole2"></td>
+                                    <td><img name='BR_hole3' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_hole3"></td>
+                                    <td><img name='BR_hole4' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_hole4"></td>
+                                    <td><img name='BR_hole5' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_hole5"></td>
+                                    <td><img name='BR_hole6' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_hole6"></td>
+                                </tr>
+                                <tr>
+                                    <td><img name='BR_hole7' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_hole7"></td>
+                                    <td><img name='BR_hole8' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_hole8"></td>
+                                    <td><img name='BR_hole9' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_hole9"></td>
+                                    <td><img name='BR_hole10' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_hole10"></td>
+                                    <td><img name='BR_hole11' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_hole11"></td>
+                                    <td><img name='BR_hole12' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_hole12"></td>
+                                </tr>
+                            </table>
+                            <p style="font-size:16px">B端右相机靶标形心定准结果</p>
+                            <table border="3" style="border:#5b93d3">
+                                <tr>
+                                    <td><img name='BR_target1' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_target1"></td>
+                                    <td><img name='BR_target2' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_target2"></td>
+                                    <td><img name='BR_target3' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_target3"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="height:10px"></div>
+        <div style="display:flex">
+            <div class="container" style="flex:1;padding-right:0px;padding-left:0px">
+                <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;width:100%;background-color:#1255a2;height:20px">
+                    <p align="center" style="color:white">安装孔及靶标三维重构结果显示区域</p>
+                </div>
+                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px">
+                    <div>
+                        <button class="btn-success" type="button" id="ConstraintCheck" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="Constraint()"><i class="fa fa-question"></i> 条件检查</button>
+                    </div>
+                    <div style="border:2px dashed #1255a2;height:50px;display:flex">
+                        <p style="font-size:18px;margin:0">相机坐标系下重构结果显示</p>
+                    </div>
+                    <div style="border:2px dashed #1255a2;height:50px;display:flex">
+                        <p style="font-size:18px;margin:0">全局坐标系下重构结果显示</p>
+                    </div>
+                    <div style="border:2px dashed #1255a2;height:50px;display:flex">
+                        <p style="font-size:18px;margin:0">A、B端筒段形心拟合结果显示</p>
+                    </div>
+                    <div style="border:2px dashed #1255a2;height:50px;display:flex">
+                        <p style="font-size:18px;margin:0">筒段轴线拟合结果显示</p>
+                    </div>
+                    <div style="border:2px dashed #1255a2;height:100px;display:flex">
+                        <p style="font-size:18px;margin:0">已完成重构的日志列表</p>
+                    </div>
+                    <div>
+                        <button class="btn-success" type="button" id="Restruction" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="Restruction()"><i class="fa fa-check"></i> 全局重构</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="height:40px"></div>
+        <div>
+            <footer class="sl-footer" style="background-color:#044b8c;height:40px">
+            <div>
+                <p align="center" style="color:white;margin-bottom: 0px;">Copyright &copy; 2018. <strong>Starlight</strong>. All Rights Reserved. Made by BUAA <strong>Laboratory of Digital Design and Manufacturing</strong>.</p>
+            </div>
+            </footer>
+        </div>
+    </div>
+    {% endblock %}
+
+    {% block js %}
+
+    {% endblock %}
+
+
+    {% block write_js %}
+    <script>
+        var time;
+        function updateList1() {
+            $("#selectType").html("");
+            $.ajax({
+                type:'GET',
+                data:{'mydata':1},
+                url:"/testMeasure/updateList1",
+                dataType: 'json',
+                success:function(res){
+                    //console.log("第一步");
+                    var options = "<option value=0>请选择待拍摄筒端类型</option>";
+                    for (var key in res) {
+                        //console.log("第二步");
+                        options += "<option value='"+key+"'>"+res[key]+"</option>";
+                    }
+                    $("#selectType").append(options);
+                    //console.log("第三步");
+                    //window.location.reload();
+                    //alert('已选择'+type+'类筒端');
+
+                    //window.location.reload();
+
+                },
+                error: function (res) {
+                    alert('失败！')
+                }
+            });
+        }
+        function selectType(){
+            var type = $("#selectType").val();
+            var type1 = $("#selectType").find("option:selected").text();
+            $.ajax({
+                type:'GET',
+                data:{'mydata':type},
+                url:"/testMeasure/selectType",
+                dataType: 'json',
+                success:function(res){
+                    //window.location.reload();
+                    if(type==0){
+                        alert('误操作！请选择待拍摄的筒端类型！')
+                    }
+                    else{
+                        alert('已选择'+type1+'类筒端');
+                    }
+
+                    //window.location.reload();
+                },
+                error: function (res) {
+                      alert('失败！')
+                }
+            })
+        }
+    </script>
+    <script>
+        function  take_pic(){
+            var type = $("#selectType").val();
+            var type1 = $("#selectType").find("option:selected").text();
+            $.ajax({
+                type:'GET',
+                data:{'mydata':type},
+                url:"/testMeasure/take_pic",
+                dataType: 'json',
+                success:function(res){
+                    time = res["key"]
+                    alert('拍照完成');
+                    document.getElementById("savePic").removeAttribute("disabled");
+                    document.getElementById("numPic").innerHTML='当前拍摄筒段型号为'+type1+';拍摄时间为'+time;
+
+                    document.getElementById("left_img_A").src='/static/res_pictures/temp/left_A.jpg?<%=Math.random()%>';
+                    console.log('/static/res_pictures/temp/left_A.jpg?<%=Math.random()%>')
+                    document.getElementById("right_img_A").src='/static/res_pictures/temp/right_A.jpg?<%=Math.random()%>';
+                    document.getElementById("left_img_B").src="/static/res_pictures/temp/left_B.jpg";
+                    document.getElementById("right_img_B").src="/static/res_pictures/temp/right_B.jpg";
+                },
+                error: function (res) {
+                      alert('失败')
+                }
+            })
+        }
+    </script>
+    <script>
+        function save_pic(){
+            var type = $("#selectType").val();
+            var type1 = $("#selectType").find("option:selected").text();
+            $.ajax({
+                type:'GET',
+                data:{'mydata':type,'mydata1':type1,'mydata2':time},
+                url:"/testMeasure/save_pic",
+                dataType: 'json',
+                success:function(res){
+                    alert("保存并创建文件树成功")
+                    document.getElementById("savePic").setAttribute("disabled",true);
+                }
+            })
+        }
+    </script>
+    <script>
+        function pageUp(){
+            document.getElementById("savePic").setAttribute("disabled",true);
+            $.ajax({
+                type:'GET',
+                data:{'mydata':time},
+                url:"/testMeasure/pageUp",
+                dataType: 'json',
+                success:function(res){
+                    //console.log(res["left_path"])
+                    document.getElementById("left_img_A").src=res["left_A_path"];
+                    document.getElementById("right_img_A").src=res["right_A_path"];
+                    document.getElementById("left_img_B").src=res["left_B_path"];
+                    document.getElementById("right_img_B").src=res["right_B_path"];
+                    time = res["time"]
+                    id = res["id"]
+                    num = res["num"]
+                    tube_name = res["tube_name"]
+                    document.getElementById("numPic").innerHTML='当前照片组标签为'+tube_name+";"+time+"第"+id+"组/共"+num+"组"
+                }
+            })
+        }
+    </script>
+    <script>
+        function pageDown(){
+            document.getElementById("savePic").setAttribute("disabled",true);
+            $.ajax({
+                type:'GET',
+                data:{'mydata':time},
+                url:"/testMeasure/pageDown",
+                dataType: 'json',
+                success:function(res){
+                    //console.log(res["left_path"])
+                    document.getElementById("left_img_A").src=res["left_A_path"];
+                    document.getElementById("right_img_A").src=res["right_A_path"];
+                    document.getElementById("left_img_B").src=res["left_B_path"];
+                    document.getElementById("right_img_B").src=res["right_B_path"];
+                    time = res["time"]
+                    id = res["id"]
+                    num = res["num"]
+                    tube_name = res["tube_name"]
+                    document.getElementById("numPic").innerHTML='当前照片组标签为'+tube_name+";"+time+"第"+id+"组/共"+num+"组"
+                }
+            })
+        }
+    </script>
+    <script>
+        function confirmDelete1(){
+            var r = confirm("确定要删除当前显示的照片吗？")
+            if (r == true) {
+                deleteThis()
+            }
+            else {
+            }
+        }
+        function deleteThis(){
+            $.ajax({
+                type:'GET',
+                data:{'mydata':time},
+                url:"/testMeasure/deleteThis",
+                dataType: 'json',
+                success:function(res){
+                    alert("标签为"+time+"的照片组已被成功删除！")
+                    document.getElementById("left_img_A").src=res["left_A_path"];
+                    document.getElementById("right_img_A").src=res["right_A_path"];
+                    document.getElementById("left_img_B").src=res["left_B_path"];
+                    document.getElementById("right_img_B").src=res["right_B_path"];
+                    time = res["time"]
+                    id = res["id"]
+                    num = res["num"]
+                    tube_name = res["tube_name"]
+                    document.getElementById("numPic").innerHTML='当前照片组标签为'+tube_name+";"+time+"第"+id+"组/共"+num+"组"
+                }
+            })
+        }
+    </script>
+    <script>
+        function confirmDelete2(){
+            var r = confirm("确定要删除图库中所有照片及数据吗？\n(警告！这会使你丢失所有本地测量数据！请慎重！)")
+            if (r == true){
+                deleteAll()
+            }
+            else {
+            }
+        }
+        function deleteAll(){
+            $.ajax({
+                type:'GET',
+                data:{'mydata':time},
+                url:"/testMeasure/deleteAll",
+                dataType: 'json',
+                success:function(res){
+                    alert("图库中所有照片已成功被删除！")
+                    document.getElementById("left_img_A").src="/static/res_pictures/temp/noImage.png";
+                    document.getElementById("right_img_A").src="/static/res_pictures/temp/noImage.png";
+                    document.getElementById("left_img_B").src="/static/res_pictures/temp/noImage.png";
+                    document.getElementById("right_img_B").src="/static/res_pictures/temp/noImage.png";
+                    document.getElementById("numPic").innerHTML='图库中没有待检测的图像'
+                }
+            })
+        }
+    </script>
+    <script>
+        function updateList2() {
+            $("#selectLog").html("");
+            $.ajax({
+                type:'GET',
+                data:{'mydata':1},
+                url:"/testMeasure/updateList2",
+                dataType: 'json',
+                success:function(res){
+                    //console.log("第一步");
+                    var options = "<option value=0>请选择待检测日志</option>";
+                    for (var key in res) {
+                        //console.log("第二步");
+                        options += "<option value='"+key+"'>"+res[key]+"</option>";
+                    }
+                    $("#selectLog").append(options);
+                    //console.log("第三步");
+                    //window.location.reload();
+                    //alert('已选择'+type+'类筒端');
+
+                    //window.location.reload();
+
+                },
+                error: function (res) {
+                    alert('失败！')
+                }
+            });
+        }
+        function selectLog(){
+            var type = $("#selectLog").val();
+            var type1 = $("#selectLog").find("option:selected").text();
+            $.ajax({
+                type:'GET',
+                data:{'mydata':type},
+                url:"/testMeasure/selectType",
+                dataType: 'json',
+                success:function(res){
+                    //window.location.reload();
+                    if(type==0){
+                        alert('误操作！请选择待检测日志！')
+                    }
+                    else{
+                        alert('已选择'+type1+'日志');
+                        document.getElementById("left_img_A").src='/static/res_pictures/A_left/'+type1+'_left.jpg';
+                        document.getElementById("right_img_A").src='/static/res_pictures/A_right/'+type1+'_right.jpg';
+                        document.getElementById("left_img_B").src='/static/res_pictures/B_left/'+type1+'_left.jpg';
+                        document.getElementById("right_img_B").src='/static/res_pictures/B_right/'+type1+'_right.jpg';
+                        document.getElementById("numPic").innerHTML='当前照片组标签为'+tube_name+";"+time+"第"+id+"组/共"+num+"组"
+                    }
+
+                    //window.location.reload();
+                },
+                error: function (res) {
+                      alert('失败！')
+                }
+            })
+        }
+    </script>
+    <script>
+        function confirmDelete3(){
+            var flag = $("#selectLog").find("option:selected").text();
+            var r = confirm("确定要对"+flag+"日志进行安装孔及靶标检测吗？")
+		    if (r == true) {
+		        targetDetection();
+		    }
+		    else {
+		    }
+        }
+        function targetDetection(){
+            var flag = $("#selectLog").find("option:selected").text();
+            document.getElementById("numPic").innerHTML='正在进行目标检测运算！请勿进行其他操作！'
+            document.getElementById("takePhotos").setAttribute("disabled",true);
+            document.getElementById("pageUp").setAttribute("disabled",true);
+            document.getElementById("pageDown").setAttribute("disabled",true);
+            document.getElementById("deleteThis").setAttribute("disabled",true);
+            document.getElementById("deleteAll").setAttribute("disabled",true);
+            document.getElementById("updateList2").setAttribute("disabled",true);
+            document.getElementById("targetDetection").setAttribute("disabled",true);
+            $.ajax({
+                type:'GET',
+                data:{'flag':flag},
+                url:"/testMeasure/targetDetection",
+                dataType: 'json',
+                success:function(res){
+                    if(!res["key"]){
+                        alert('双目相机位置过偏！请微调相机位置重新拍摄！')
+                        document.getElementById("numPic").innerHTML='请重新拍摄！';
+                    }
+                    else{
+                        alert('安装孔及靶标检测完成！')
+                        //需要显示的区域：1原四图改为检测后的效果，2在下面的区域显示小图像
+                        document.getElementById("left_img_A").src='/static/res_pictures/result/'+flag+'/A_left.jpg';
+                        document.getElementById("right_img_A").src='/static/res_pictures/result/'+flag+'/A_right.jpg';
+                        document.getElementById("left_img_B").src='/static/res_pictures/result/'+flag+'/B_left.jpg';
+                        document.getElementById("right_img_B").src='/static/res_pictures/result/'+flag+'/B_right.jpg';
+                        document.getElementById("takePhotos").removeAttribute("disabled");
+                        document.getElementById("pageUp").removeAttribute("disabled");
+                        document.getElementById("pageDown").removeAttribute("disabled");
+                        document.getElementById("deleteThis").removeAttribute("disabled");
+                        document.getElementById("deleteAll").removeAttribute("disabled");
+                        document.getElementById("updateList2").removeAttribute("disabled");
+                        document.getElementById("targetDetection").removeAttribute("disabled");
+                        document.getElementById("numPic").innerHTML='已完成'+flag+'日志的安装孔及靶标检测！\n可进行其他操作！'
+                    }
+                },
+                error: function (res) {
+                      alert('失败！')
+                }
+            })
+        }
+    </script>
+    <script>
+        function centreSight(){
+            var flag = $("#selectLog").find("option:selected").text();
+            $.ajax({
+                type:'GET',
+                data:{'flag':flag},
+                url:"/testMeasure/centreSight",
+                dataType: 'json',
+                success:function(res){
+                    alert('安装孔及靶标形心定准完成！');
+                    //后面还需要加图像的显示（多层循环遍历）
+                    for(var i=1;i<13;i++){
+                        var img_id = "AL_hole"+i;
+                        document.getElementById(img_id).src='/static/picture/noimg.png';
+                    }
+                    for(var i=1;i<13;i++){
+                        var img_id = "AR_hole"+i;
+                        document.getElementById(img_id).src='/static/picture/noimg.png';
+                    }
+                    for(var i=1;i<13;i++){
+                        var img_id = "BL_hole"+i;
+                        document.getElementById(img_id).src='/static/picture/noimg.png';
+                    }
+                    for(var i=1;i<13;i++){
+                        var img_id = "BR_hole"+i;
+                        document.getElementById(img_id).src='/static/picture/noimg.png';
+                    }
+                    for(var i=1;i<3;i++){
+                        var img_id = "AL_target"+i;
+                        document.getElementById(img_id).src='/static/picture/noimg.png';
+                    }
+                    for(var i=1;i<3;i++){
+                        var img_id = "AR_target"+i;
+                        document.getElementById(img_id).src='/static/picture/noimg.png';
+                    }
+                    for(var i=1;i<3;i++){
+                        var img_id = "BL_target"+i;
+                        document.getElementById(img_id).src='/static/picture/noimg.png';
+                    }
+                    for(var i=1;i<3;i++){
+                        var img_id = "BR_target"+i;
+                        document.getElementById(img_id).src='/static/picture/noimg.png';
+                    }
+                    var numsOfALh = (res["ALh"]>12?12:res["ALh"]);
+                    var numsOfALt = (res["ALt"]>3?3:res["ALt"]);
+                    var numsOfARh = (res["ARh"]>12?12:res["ARh"]);
+                    var numsOfARt = (res["ARt"]>3?3:res["ARt"]);
+                    var numsOfBLh = (res["BLh"]>12?12:res["BLh"]);
+                    var numsOfBLt = (res["BLt"]>3?3:res["BLt"]);
+                    var numsOfBRh = (res["BRh"]>12?12:res["BRh"]);
+                    var numsOfBRt = (res["BRt"]>3?3:res["BRt"]);
+                    //hole
+                    for(var i=0;i<numsOfALh;i++){
+                        var img_id = "AL_hole"+(i+1);
+                        document.getElementById(img_id).src='/static/res_pictures/result/'+flag+'/A_left/boxes_img/p_hole'+i+'.jpg';
+                    }
+                    for(var i=0;i<numsOfARh;i++){
+                        var img_id = "AR_hole"+(i+1);
+                        document.getElementById(img_id).src='/static/res_pictures/result/'+flag+'/A_right/boxes_img/p_hole'+i+'.jpg';
+                    }
+                    for(var i=0;i<numsOfBLh;i++){
+                        var img_id = "BL_hole"+(i+1);
+                        document.getElementById(img_id).src='/static/res_pictures/result/'+flag+'/B_left/boxes_img/p_hole'+i+'.jpg';
+                    }
+                    for(var i=0;i<numsOfBRh;i++){
+                        var img_id = "BR_hole"+(i+1);
+                        document.getElementById(img_id).src='/static/res_pictures/result/'+flag+'/B_right/boxes_img/p_hole'+i+'.jpg';
+                    }
+<!--                    for(var i=0;i<numsOfALt;i++){-->
+<!--                        var img_id = "AL_target"+(i+1);-->
+<!--                        document.getElementById(img_id).src='/static/res_pictures/result/'+flag+'/A_left/boxes_img/p_target'+i+'.jpg';-->
+<!--                    }-->
+<!--                    for(var i=0;i<numsOfARt;i++){-->
+<!--                        var img_id = "AR_target"+(i+1);-->
+<!--                        document.getElementById(img_id).src='/static/res_pictures/result/'+flag+'/A_right/boxes_img/p_target'+i+'.jpg';-->
+<!--                    }-->
+<!--                    for(var i=0;i<numsOfBLt;i++){-->
+<!--                        var img_id = "BL_target"+(i+1);-->
+<!--                        document.getElementById(img_id).src='/static/res_pictures/result/'+flag+'/B_left/boxes_img/p_target'+i+'.jpg';-->
+<!--                    }-->
+<!--                    for(var i=0;i<numsOfBRt;i++){-->
+<!--                        var img_id = "BR_target"+(i+1);-->
+<!--                        document.getElementById(img_id).src='/static/res_pictures/result/'+flag+'/B_right/boxes_img/p_target'+i+'.jpg';-->
+<!--                    }-->
+                },
+                error: function (res) {
+                    alert('失败！');
+                }
+            })
+        }
+    </script>
+    <script>
+        function Constraint(){
+
+            $.ajax({
+                type:'GET',
+                data:{'mydata':type},
+                url:"/testMeasure/Constraint",
+                dataType: 'json',
+                success:function(res){
+                    alert('成功！')
+                },
+                error: function (res) {
+                    alert('失败！')
+                }
+            })
+        }
+    </script>
+    {% endblock %}
+    <!-- ######### END: MAIN PANEL ########## -->
+
+    {% block my_js %}
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/popper.js"></script>
+    <script src="/static/js/bootstrap.js"></script>
+    <script src="/static/js/jquery-ui.js"></script>
+    <script src="/static/js/perfect-scrollbar.jquery.js"></script>
+    <script src="/static/js/jquery.sparkline.min.js"></script>
+    <script src="/static/js/d3.js"></script>
+    <script src="/static/js/rickshaw.min.js"></script>
+    <script src="/static/js/chart.js"></script>
+    <script src="/static/js/jquery.flot.js"></script>
+    <script src="/static/js/jquery.flot.pie.js"></script>
+    <script src="/static/js/jquery.flot.resize.js"></script>
+    <script src="/static/js/jquery.flot.spline.js"></script>
+    <script src="/static/js/starlight.js"></script>
+    <script src="/static/js/resizesensor.js"></script>
+    <script src="/static/js/dashboard.js"></script>
+
+
+    {% endblock %}
+
+</body>
+</html>

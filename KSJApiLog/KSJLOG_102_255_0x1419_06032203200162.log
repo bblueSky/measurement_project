@@ -1,0 +1,47 @@
+2019-06-03 22-03-20-0162: KSJAPI::Api Version     = 8.0.0.6 
+2019-06-03 22-03-20-0162: KSJAPI::Device Type     = 102 
+2019-06-03 22-03-20-0162: KSJAPI::Serial          = 255  
+2019-06-03 22-03-20-0162: KSJAPI::FirmwareVersion = 20.25  
+2019-06-03 22-03-20-0162: KSJAPI:: __FUNCTION__ = AddCamera 
+2019-06-03 22-03-20-0162: KSJAPI::szDllName = libksjcam_102.so  dlopen success
+2019-06-03 22-03-20-0163: KSJAPI::RdFpga Address = 0128(0x0080), Value = 57855(0xe1ff), Return = 0
+2019-06-03 22-03-20-0163: KSJAPI::RdFpga Address = 0241(0x00f1), Value = 05381(0x1505), Return = 0
+2019-06-03 22-03-20-0163: KSJAPI::RdFpga Address = 0128(0x0080), Value = 57855(0xe1ff), Return = 0
+2019-06-03 22-03-20-0164: KSJAPI::RdFpga Address = 0241(0x00f1), Value = 05381(0x1505), Return = 0
+2019-06-03 22-03-20-0164: KSJAPI::GetWorkingMode WorkingMode = 02048(0x0800), Return = 0
+2019-06-03 22-03-20-0164: KSJAPI::RdSensor Address = 0011(0x000b), Value = 00010(0x000a), Return = 0
+2019-06-03 22-03-20-0164: KSJAPI::RdSensor Address = 0012(0x000c), Value = 00000(0x0000), Return = 0
+2019-06-03 22-03-20-0165: KSJAPI::RdSensor Address = 0013(0x000d), Value = 00000(0x0000), Return = 0
+2019-06-03 22-03-20-0165: KSJAPI::RdSensor Address = 0014(0x000e), Value = 00000(0x0000), Return = 0
+2019-06-03 22-03-20-0165: KSJAPI::RdSensor Address = 0015(0x000f), Value = 00000(0x0000), Return = 0
+2019-06-03 22-03-20-0165: KSJAPI::RdSensor Address = 0016(0x0010), Value = 00000(0x0000), Return = 0
+2019-06-03 22-03-20-0166: KSJAPI::RdSensor Address = 0009(0x0009), Value = 00000(0x0000), Return = 0
+2019-06-03 22-03-20-0166: KSJAPI::RdSensor Address = 0010(0x000a), Value = 00002(0x0002), Return = 0
+2019-06-03 22-03-20-0166: KSJAPI::RdSensor Address = 0017(0x0011), Value = 00000(0x0000), Return = 0
+2019-06-03 22-03-20-0166: KSJAPI::RdSensor Address = 0026(0x001a), Value = 00000(0x0000), Return = 0
+2019-06-03 22-03-20-0167: KSJAPI::RdSensor Address = 0069(0x0045), Value = 00000(0x0000), Return = 0
+2019-06-03 22-03-20-0167: KSJAPI::RdSensor Address = 0004(0x0004), Value = 00000(0x0000), Return = 0
+2019-06-03 22-03-20-0167: KSJAPI::RdSensor Address = 0005(0x0005), Value = 00003(0x0003), Return = 0
+2019-06-03 22-03-20-0167: KSJAPI::RdSensor Address = 0006(0x0006), Value = 00016(0x0010), Return = 0
+2019-06-03 22-03-20-0168: KSJAPI::RdSensor Address = 0007(0x0007), Value = 00000(0x0000), Return = 0
+2019-06-03 22-03-20-0168: KSJAPI::RdFpga Address = 0128(0x0080), Value = 57855(0xe1ff), Return = 0
+2019-06-03 22-03-20-0168: KSJAPI::RdFpga Address = 0241(0x00f1), Value = 05381(0x1505), Return = 0
+2019-06-03 22-03-20-0169: KSJAPI::RdFpga Address = 0128(0x0080), Value = 57855(0xe1ff), Return = 0
+2019-06-03 22-03-20-0169: KSJAPI::RdFpga Address = 0241(0x00f1), Value = 05381(0x1505), Return = 0
+2019-06-03 22-03-20-0169: KSJAPI::GetWorkingMode WorkingMode = 02048(0x0800), Return = 0
+2019-06-03 22-03-20-0169: KSJAPI::RdFpga Address = 0131(0x0083), Value = 00000(0x0000), Return = 0
+2019-06-03 22-03-20-0170: KSJAPI::RdSensor Address = 0011(0x000b), Value = 00010(0x000a), Return = 0
+2019-06-03 22-03-20-0170: KSJAPI::RdSensor Address = 0012(0x000c), Value = 00000(0x0000), Return = 0
+2019-06-03 22-03-20-0170: KSJAPI::RdSensor Address = 0013(0x000d), Value = 00000(0x0000), Return = 0
+2019-06-03 22-03-20-0170: KSJAPI::RdSensor Address = 0014(0x000e), Value = 00000(0x0000), Return = 0
+2019-06-03 22-03-20-0171: KSJAPI::RdSensor Address = 0015(0x000f), Value = 00000(0x0000), Return = 0
+2019-06-03 22-03-20-0171: KSJAPI::RdSensor Address = 0016(0x0010), Value = 00000(0x0000), Return = 0
+2019-06-03 22-03-20-0171: KSJAPI::RdSensor Address = 0009(0x0009), Value = 00000(0x0000), Return = 0
+2019-06-03 22-03-20-0171: KSJAPI::RdSensor Address = 0010(0x000a), Value = 00002(0x0002), Return = 0
+2019-06-03 22-03-20-0172: KSJAPI::RdSensor Address = 0017(0x0011), Value = 00000(0x0000), Return = 0
+2019-06-03 22-03-20-0172: KSJAPI::RdSensor Address = 0026(0x001a), Value = 00000(0x0000), Return = 0
+2019-06-03 22-03-20-0172: KSJAPI::RdSensor Address = 0069(0x0045), Value = 00000(0x0000), Return = 0
+2019-06-03 22-03-20-0173: KSJAPI::RdSensor Address = 0004(0x0004), Value = 00000(0x0000), Return = 0
+2019-06-03 22-03-20-0173: KSJAPI::RdSensor Address = 0005(0x0005), Value = 00003(0x0003), Return = 0
+2019-06-03 22-03-20-0173: KSJAPI::RdSensor Address = 0006(0x0006), Value = 00016(0x0010), Return = 0
+2019-06-03 22-03-20-0173: KSJAPI::RdSensor Address = 0007(0x0007), Value = 00000(0x0000), Return = 0

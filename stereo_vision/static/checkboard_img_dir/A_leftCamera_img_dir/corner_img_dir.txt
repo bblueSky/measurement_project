@@ -1,0 +1,1 @@
+/home/cx/PycharmProjects/stereo_vision/stereo_vision/corner_img_dir/

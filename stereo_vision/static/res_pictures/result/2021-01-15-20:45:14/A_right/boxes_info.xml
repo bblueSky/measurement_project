@@ -1,0 +1,11 @@
+<?xml version="1.0" ?><boxes_info 数据时间="2021-01-15-20:45:14">
+		<camera_position>A_right</camera_position>
+		<boxes>
+			
+			
+		<hole><hole_box0><x>1364</x><y>3150</y><w>195</w><h>235</h></hole_box0><hole_box1><x>1667</x><y>918</y><w>188</w><h>179</h></hole_box1><hole_box2><x>1329</x><y>222</y><w>190</w><h>166</h></hole_box2><hole_box3><x>1663</x><y>2468</y><w>200</w><h>197</h></hole_box3><hole_box4><x>1774</x><y>1651</y><w>161</w><h>193</h></hole_box4></hole><target/></boxes>
+		<imgs>
+			
+			
+		<hole><hole_img0><x>134</x><y>87</y><r>45</r><s>74</s></hole_img0><hole_img1><x>0</x><y>0</y><r>0</r><s>0</s></hole_img1><hole_img2><x>105</x><y>111</y><r>48</r><s>60</s></hole_img2><hole_img3><x>103</x><y>85</y><r>34</r><s>47</s></hole_img3><hole_img4><x>134</x><y>141</y><r>52</r><s>23</s></hole_img4></hole><target/></imgs>
+	</boxes_info>

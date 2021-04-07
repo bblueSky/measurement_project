@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+{%  extends "publicNav.html" %}
+<html lang="en">
+<head>
+    {% block head_meta %}
+    <meta charset="UTF-8">
+    {% block title %}<title>结果分析</title>{% endblock %}
+    {% endblock %}
+    <!--CSS标签 -->
+
+    {% block css %}
+    <link href="../static/css/test_css.css" rel="stylesheet">
+    <link href="../static/css/font-awesome.css" rel="stylesheet">
+    <link href="../static/css/ionicons.css" rel="stylesheet">
+    <link href="../static/css/perfect-scrollbar.css" rel="stylesheet">
+    <link href="../static/css/rickshaw.min.css" rel="stylesheet">
+    {% endblock %}
+    <!--CSS结束 -->
+    {% block my_css %}
+    <link rel="stylesheet" href="../static/css/starlight.css">
+    {% endblock %}
+
+</head>
+<body>
+    {% block header %}
+    <!-- ########## START: LEFT PANEL ########## -->
+    <div class="sl-logo" style="background-color:#1255a2"><a href=""><img src="../static/picture/logo.jpg" class="wd-30 rounded-circle"></img> BUAA</a></div>
+    <div class="sl-sideleft">
+        <label class="sidebar-label">功能模块</label>
+        <div class="sl-sideleft-menu">
+            <a href="index.html" class="sl-menu-link">
+                <div class="sl-menu-item">
+                    <i class="menu-item-icon icon ion-ios-home-outline tx-22"></i>
+                    <span class="menu-item-label">测量系统初始化</span>
+			        <i class="menu-item-arrow fa fa-angle-down"></i>
+                </div><!-- menu-item -->
+            </a><!-- sl-menu-link -->
+	        <ul class="sl-menu-sub nav flex-column">
+                <li class="nav-item"><a href="../cameraCalibration/" class="nav-link">标定板图像拍摄及管理</a></li>
+                <li class="nav-item"><a href="../cameraCalibration/" class="nav-link">激光跟踪仪数据录入及管理</a></li>
+                <li class="nav-item"><a href="../cameraCalibration/" class="nav-link">筒段数据录入及管理</a></li>
+            </ul>
+            <a href="#" class="sl-menu-link">
+            <div class="sl-menu-item">
+                <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
+                <span class="menu-item-label">测量系统感知及测量</span>
+                <i class="menu-item-arrow fa fa-angle-down"></i>
+            </div><!-- menu-item -->
+            </a>
+            <ul class="sl-menu-sub nav flex-column">
+                <li class="nav-item"><a href="../testMeasure/" class="nav-link">筒段图像拍摄及管理</a></li>
+                <li class="nav-item"><a href="../testMeasure/" class="nav-link">关键特征检测及三维解算</a></li>
+                <li class="nav-item"><a href="../testMeasure/" class="nav-link">筒段全局三维重构</a></li>
+            </ul>
+            <a href="#" class="sl-menu-link active">
+                <div class="sl-menu-item">
+                    <i class="menu-item-icon ion-ios-pie-outline tx-20"></i>
+                    <span class="menu-item-label">测量结果显示及导出</span>
+			        <i class="menu-item-arrow fa fa-angle-down"></i>
+                </div><!-- menu-item -->
+            </a><!-- sl-menu-link -->
+	        <ul class="sl-menu-sub nav flex-column">
+                <li class="nav-item"><a href="../resultsAnalysis/" class="nav-link">测量结果可视化展示</a></li>
+                <li class="nav-item"><a href="../resultsAnalysis/" class="nav-link">测量结果固定格式导出</a></li>
+                <li class="nav-item"><a href="../resultsAnalysis/" class="nav-link">多机器人加工系统数据传输</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- ########## END: LEFT PANEL ########## -->
+
+    <!-- ########## START: HEAD PANEL ########## -->
+    <div class="sl-header" style="background-color: #033f75">
+      <div class="sl-header-left">
+        <div class="navicon-left hidden-lg-up" style="background-color: #044b8c"><a id="btnLeftMenuMobile" href=""><i class="icon ion-navicon-round"></i></a></div>
+        <div class="navicon-left hidden-md-down" style="background-color: #044b8c"><a id="btnLeftMenu" href=""><i class="icon ion-navicon-round"></i></a></div>
+      </div><!-- sl-header-left -->
+      <div class="sl-header-right">
+        <nav class="nav">
+          <div class="dropdown">
+            <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
+              <span class="logged-name">开发团队<span class="hidden-md-down"> 北航A513实验室</span></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-header wd-200" style="background-color:#033f75">
+              <ul class="list-unstyled user-profile-nav">
+                <li><a href=""><i class="ion-ios-book-outline"></i> 软件概述</a></li>
+                <li><a href=""><i class="ion-ios-person-outline"></i> 了解更多</a></li>
+                <li><a href=""><i class="ion-ios-email-outline"></i> 联系我们</a></li>
+                <li><a href="https://www.cnblogs.com/monkiki/"><i class="ion-ios-information-outline"></i> 开发人员博客</a></li>
+              </ul>
+            </div><!-- dropdown-menu -->
+          </div><!-- dropdown -->
+        </nav>
+      </div><!-- sl-header-right -->
+    </div><!-- sl-header -->
+    <!-- ########## END: HEAD PANEL ########## -->
+
+    {% endblock %}
+    <!-- ########## START: MAIN PANEL ########## -->
+    {% block main %}
+    <div class="sl-mainpanel">
+        <label>选择待检测日志</label>
+        <select id="selectLog">
+            <option value ="1">0000</option>
+            <option value ="2">0001</option>
+        </select>
+        <button type="button" id="import">导入</button>
+        <div class="card pd-20 pd-sm-25 mg-t-20" align="center">
+            <iframe width=640 height=480 src="https://www.ddd.online/jq/webEdit/project/embedProject/YQR68MBF-Gm9gePL3-dIatiuH9-snoqjxQI" frameborder="0" allowvr allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>
+        </div>
+        <div class="card pd-20 pd-sm-25 mg-t-20" align="center">
+
+        </div>
+        <div class="card pd-20 pd-sm-25 mg-t-20" align="center">
+            <p></p>
+        </div>
+        <button type="button" id="derivedResult">导出测量结果</button><br>
+        <button type="button" id="analysisReport">生成测量分析报告</button>
+
+        <div style="height:40px"></div>
+        <div>
+            <footer class="sl-footer" style="background-color:#044b8c;height:40px">
+            <div>
+                <p align="center" style="color:white;margin-bottom: 0px;">Copyright &copy; 2018. <strong>Starlight</strong>. All Rights Reserved. Made by BUAA <strong>Laboratory of Digital Design and Manufacturing</strong>.</p>
+            </div>
+            </footer>
+        </div>
+    </div>
+
+
+    {% endblock %}
+
+    {% block js %}
+
+    {% endblock %}
+
+
+    {% block write_js %}
+
+    {% endblock %}
+
+    <!-- ######### END: MAIN PANEL ########## -->
+    {% block my_js %}
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/popper.js"></script>
+    <script src="/static/js/bootstrap.js"></script>
+    <script src="/static/js/jquery-ui.js"></script>
+    <script src="/static/js/perfect-scrollbar.jquery.js"></script>
+    <script src="/static/js/jquery.sparkline.min.js"></script>
+    <script src="/static/js/d3.js"></script>
+    <script src="/static/js/rickshaw.min.js"></script>
+    <script src="/static/js/chart.js"></script>
+    <script src="/static/js/jquery.flot.js"></script>
+    <script src="/static/js/jquery.flot.pie.js"></script>
+    <script src="/static/js/jquery.flot.resize.js"></script>
+    <script src="/static/js/jquery.flot.spline.js"></script>
+    <script src="/static/js/starlight.js"></script>
+    <script src="/static/js/resizesensor.js"></script>
+    <script src="/static/js/dashboard.js"></script>
+    {% endblock %}
+
+</body>
+</html>

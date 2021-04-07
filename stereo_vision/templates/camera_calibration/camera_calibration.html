@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+{%  extends "publicNav.html" %}
+<html lang="en">
+<head>
+    {% block head_meta %}
+    <meta charset="UTF-8">
+    {% block  title %}<title>相机标定</title>{% endblock %}
+    {% endblock %}
+    {% block css %}
+    <link href="../static/css/test_css.css" rel="stylesheet">
+    <link href="../static/css/font-awesome.css" rel="stylesheet">
+    <link href="../static/css/ionicons.css" rel="stylesheet">
+    <link href="../static/css/perfect-scrollbar.css" rel="stylesheet">
+    <link href="../static/css/rickshaw.min.css" rel="stylesheet">
+    {% endblock %}
+    {% block my_css %}
+    <link rel="stylesheet" href="../static/css/starlight.css">
+    {% endblock %}
+</head>
+<input>
+    {% block header %}
+    <!-- ########## START: LEFT PANEL ########## -->
+    <div class="sl-logo" style="background-color:#1255a2"><a href=""><img src="../static/picture/logo.jpg" class="wd-30 rounded-circle"></img> BUAA</a></div>
+    <div class="sl-sideleft">
+        <label class="sidebar-label">功能模块</label>
+        <div class="sl-sideleft-menu">
+            <a href="index.html" class="sl-menu-link active">
+                <div class="sl-menu-item">
+                    <i class="menu-item-icon icon ion-ios-home-outline tx-22"></i>
+                    <span class="menu-item-label">测量系统初始化</span>
+			        <i class="menu-item-arrow fa fa-angle-down"></i>
+                </div><!-- menu-item -->
+            </a><!-- sl-menu-link -->
+	        <ul class="sl-menu-sub nav flex-column">
+                <li class="nav-item"><a href="../cameraCalibration/" class="nav-link">标定板图像拍摄及管理</a></li>
+                <li class="nav-item"><a href="../cameraCalibration/" class="nav-link">激光跟踪仪数据录入及管理</a></li>
+                <li class="nav-item"><a href="../cameraCalibration/" class="nav-link">筒段数据录入及管理</a></li>
+            </ul>
+            <a href="#" class="sl-menu-link">
+            <div class="sl-menu-item">
+                <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
+                <span class="menu-item-label">测量系统感知及测量</span>
+                <i class="menu-item-arrow fa fa-angle-down"></i>
+            </div><!-- menu-item -->
+            </a>
+            <ul class="sl-menu-sub nav flex-column">
+                <li class="nav-item"><a href="../testMeasure/" class="nav-link">筒段图像拍摄及管理</a></li>
+                <li class="nav-item"><a href="../testMeasure/" class="nav-link">关键特征检测及三维解算</a></li>
+                <li class="nav-item"><a href="../testMeasure/" class="nav-link">筒段全局三维重构</a></li>
+            </ul>
+            <a href="#" class="sl-menu-link">
+                <div class="sl-menu-item">
+                    <i class="menu-item-icon ion-ios-pie-outline tx-20"></i>
+                    <span class="menu-item-label">测量结果显示及导出</span>
+			        <i class="menu-item-arrow fa fa-angle-down"></i>
+                </div><!-- menu-item -->
+            </a><!-- sl-menu-link -->
+	        <ul class="sl-menu-sub nav flex-column">
+                <li class="nav-item"><a href="../resultsAnalysis/" class="nav-link">测量结果可视化展示</a></li>
+                <li class="nav-item"><a href="../resultsAnalysis/" class="nav-link">测量结果固定格式导出</a></li>
+                <li class="nav-item"><a href="../resultsAnalysis/" class="nav-link">多机器人加工系统数据传输</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- ########## END: LEFT PANEL ########## -->
+
+    <!-- ########## START: HEAD PANEL ########## -->
+    <div class="sl-header" style="background-color: #033f75">
+      <div class="sl-header-left">
+        <div class="navicon-left hidden-lg-up" style="background-color: #044b8c"><a id="btnLeftMenuMobile" href=""><i class="icon ion-navicon-round"></i></a></div>
+        <div class="navicon-left hidden-md-down" style="background-color: #044b8c"><a id="btnLeftMenu" href=""><i class="icon ion-navicon-round"></i></a></div>
+      </div><!-- sl-header-left -->
+      <div class="sl-header-right">
+        <nav class="nav">
+          <div class="dropdown">
+            <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
+              <span class="logged-name">开发团队<span class="hidden-md-down"> 北航A513实验室</span></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-header wd-200" style="background-color:#033f75">
+              <ul class="list-unstyled user-profile-nav">
+                <li><a href=""><i class="ion-ios-book-outline"></i> 软件概述</a></li>
+                <li><a href=""><i class="ion-ios-person-outline"></i> 了解更多</a></li>
+                <li><a href=""><i class="ion-ios-email-outline"></i> 联系我们</a></li>
+                <li><a href="https://www.cnblogs.com/monkiki/"><i class="ion-ios-information-outline"></i> 开发人员博客</a></li>
+              </ul>
+            </div><!-- dropdown-menu -->
+          </div><!-- dropdown -->
+        </nav>
+      </div><!-- sl-header-right -->
+    </div><!-- sl-header -->
+    <!-- ########## END: HEAD PANEL ########## -->
+
+    {% endblock %}
+    <!-- ########## START: MAIN PANEL ########## -->
+    {% block main %}
+    <div class="sl-mainpanel">
+        <div style="display:flex">
+            <div class="container" style="flex:1;padding-right:0px;padding-left:0px">
+                <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;width:100%;background-color:#1255a2;height:20px">
+                    <p align="center" style="color:white">待标定相机组选择区域</p>
+                </div>
+                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px">
+                    <span>
+                        <input type="radio" name="AorB" id="selectA" value="A"><label style="font-size:18px">A端相机组标定</label>
+                        <input type="radio" name="AorB" id="selectB" value="B"><label style="font-size:18px">B端相机组标定</label>
+                        <button class="btn-success" style="font-size:18px;width:110px;height:35px;border-radius:8px" type="button" id="selectAorB" onclick="selectAorB()"><i class="fa fa-repeat"></i> 切换</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div style="height:10px"></div>
+        <div style="display:flex">
+            <div class="container" style="flex:1;padding-right:0px;padding-left:0px">
+                <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;width:100%;background-color:#1255a2;height:20px">
+                    <p align="center" style="color:white">标定板图像显示区域</p>
+                </div>
+                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px">
+                    <span>
+                    <div style="float:left;width:120px">
+                        <div style="height:60px">
+                            <button class="btn-primary" style="font-size:18px;width:110px;height:55px;border-radius:8px" type="button" id="takePhotos" onclick="take_pic()"><i class="fa fa-camera"></i> 拍摄</button><!--这里按钮在拍摄与保存之间切换-->
+                        </div>
+                        <div style="height:60px">
+                            <button class="btn-info" style="font-size:18px;width:110px;height:55px;border-radius:8px" type="button" id="savePic" onclick="save_pic()" disabled="disabled"><i class="fa fa-floppy-o"></i> 保存</button><!--我放弃了5555-->
+                        </div>
+                        <div style="height:60px">
+                            <button class="btn-primary" style="font-size:18px;width:110px;height:55px;border-radius:8px" type="button" id="pageUp" onclick="pageUp()"><i class="fa fa-arrow-circle-o-up"></i> 上翻</button>
+                        </div>
+                        <div style="height:60px">
+                            <button class="btn-primary" style="font-size:18px;width:110px;height:55px;border-radius:8px" type="button" id="pageDown" onclick="pageDown()"><i class="fa fa-arrow-circle-o-down"></i> 下翻</button>
+                        </div>
+                        <div style="height:60px">
+                            <button class="btn-warning" style="font-size:18px;width:110px;height:55px;border-radius:8px" type="button" id="deleteThis" onclick="confirmDelete1()"><i class="fa fa-trash"></i> 删除这组</button>
+                        </div>
+                        <div style="height:60px">
+                            <button class="btn-danger" style="font-size:18px;width:110px;height:55px;border-radius:8px" type="button" id="deleteAll" onclick="confirmDelete2()"><i class="fa fa-trash"></i> 删除所有</button>
+                        </div>
+                    </div>
+                    <div style="float:left">
+                      <table border="3" style="border:#5b93d3"><tr>
+                            <td><img name= 'leftcamera' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="480" height="350" id="left_img"></td>
+                            <td><img name='rightcamera' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="480" height="350" id="right_img"></td>
+                      </tr></table>
+                    </div>
+                    </span>
+                    <div align="center">
+                        <p align="center" id="numPic" style="font-size:18px">拍照后点击“保存”即可存入标定图库</p><!--这里更换文本-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="height:10px"></div>
+        <div style="display:flex">
+            <div class="container" style="flex:1;padding-right:0px;padding-left:0px">
+                <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;background-color:#1255a2;height:20px;width:100%">
+                    <p align="center" style="color:white">标定结果显示区域</p>
+                </div>
+                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px;width:100%;height:330px">
+                    <div>
+                        <button class="btn-success" style="font-size:18px;width:110px;height:35px;border-radius:8px" type="button" id="stereoCalibration" onclick="confirmDelete3()"><i class="fa fa-binoculars"></i> 立体标定</button>
+                    </div>
+                    <div style="border:2px dashed #1255a2;height:260px;display:flex">
+                        <p align="center" style="font-size:18px;margin:0">标定结果显示</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="height:10px"></div>
+        <div style="display:flex">
+            <div class="container" style="width:30%;padding-right:0px;padding-left:0px">
+                <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;background-color:#1255a2;height:20px;width:100%">
+                    <p align="center" style="color:white">激光跟踪仪文件导入区域</p>
+                </div>
+                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px;width:100%;height:200px">
+                    <button class="btn-success" style="font-size:18px;width:110px;height:35px;border-radius:8px" type="button" id="laserTracker" onclick="laserTracker()"><i class="fa fa-download"></i> LT导入</button>
+                </div>
+            </div>
+            <div class="container" style="flex:1;padding-right:0px;padding-left:0px">
+                <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;background-color:#1255a2;height:20px;width:100%">
+                    <p align="center" style="color:white">激光跟踪仪数据手动输入区域</p>
+                </div>
+                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px;width:100%;height:200px">
+                    <!--这里加激光跟踪仪数显input-->
+                </div>
+            </div>
+        </div>
+        <div style="height:10px"></div>
+        <div style="display:flex">
+            <div class="container" style="flex:1;padding-right:0px;padding-left:0px">
+                <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;background-color:#1255a2;height:20px;width:100%">
+                    <p align="center" style="color:white">测量场及全局坐标系构建区域</p>
+                </div>
+                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px;width:100%">
+                    <div style="border:2px dashed #1255a2;display:flex">
+                        <p align="center" style="font-size:18px;margin:0">A端相机标定状态显示</p>
+                    </div>
+                    <div style="border:2px dashed #1255a2;display:flex">
+                        <p align="center" style="font-size:18px;margin:0">B端相机标定状态显示</p>
+                    </div>
+                    <div style="border:2px dashed #1255a2;display:flex">
+                        <p align="center" style="font-size:18px;margin:0">激光跟踪仪数据录入状态显示</p>
+                    </div>
+                    <div>
+                        <button class="btn-success" style="font-size:18px;width:130px;height:35px;border-radius:8px" type="button" id="constructMeasureField" onclick="constructMeasureField()"><i class="fa fa-codepen"></i> 构建测量场</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="height:10px"></div>
+        <div style="display:flex">
+            <div class="container" style="flex:1;padding-right:0px;padding-left:0px">
+                <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;background-color:#1255a2;height:20px;width:100%">
+                    <p align="center" style="color:white">筒段数据录入及管理区域</p>
+                </div>
+                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px;width:100%;min-height:200px">
+                    <!--这里加筒段信息录入和管理的东西-->
+                    这里应该有一串input表单（未做）
+                </div>
+            </div>
+        </div>
+        <div style="height:40px"></div>
+        <div>
+            <footer class="sl-footer" style="background-color:#044b8c;height:40px">
+            <div>
+                <p align="center" style="color:white;margin-bottom: 0px;">Copyright &copy; 2018. <strong>Starlight</strong>. All Rights Reserved. Made by BUAA <strong>Laboratory of Digital Design and Manufacturing</strong>.</p>
+            </div>
+            </footer>
+        </div>
+    </div>
+
+    {% endblock %}
+    {% block js %}
+
+    {% endblock %}
+
+
+    {% block write_js %}
+    <script>
+        var time
+        function selectAorB(){
+            var chkObjs=null;
+            var obj=document.getElementsByName("AorB");
+            document.getElementById("selectAorB").setAttribute("disabled", true);
+            document.getElementById("selectA").setAttribute("disabled",true);
+            document.getElementById("selectB").setAttribute("disabled",true);
+            for (var i=0;i<obj.length;i++){
+                if(obj[i].checked){
+                    chkObjs=obj[i].value;
+                }
+            }
+            document.getElementById("numPic").innerHTML='当前正在标定'+chkObjs+'端相机组';
+            $.ajax({
+                  type: 'GET',
+                  data: {'mydata':chkObjs},
+                  url: "/cameraCalibration/selectAorB",
+                  dataType: "json",
+                  success: function (res) {
+                      alert("已切换至标定"+chkObjs+"端相机")
+                  },
+                  error: function (res) {
+                      alert('失败！')
+                  }
+            })
+        }
+    </script>
+    <script>
+        function  take_pic(){
+            var flag = $('input[type=radio][name=AorB]:checked').val();
+            $.ajax({
+                type:'GET',
+                data:{'mydata':flag},
+                url:"/cameraCalibration/take_pic",
+                dataType: 'json',
+                success:function(res){
+                    //window.location.reload();
+                    alert('拍照完成');
+                    document.getElementById("savePic").removeAttribute("disabled");
+                    time = res["key"];
+                    //window.location.reload();
+                    document.getElementById("numPic").innerHTML='当前照片组标签为'+flag+'端'+time;
+                    document.getElementById("left_img").src="/static/res_pictures/temp/left.jpg";
+                    document.getElementById("right_img").src="/static/res_pictures/temp/right.jpg";
+                },
+                error: function (res) {
+                      alert('失败')
+                }
+            })
+        }
+    </script>
+    <script>
+        function save_pic(){
+            var flag = $('input[type=radio][name=AorB]:checked').val()
+            $.ajax({
+                type:'GET',
+                data:{'mydata':flag,'mydata1':time},
+                url:"/cameraCalibration/save_pic",
+                dataType: 'json',
+                success:function(res){
+                    alert("成功以"+"'"+time+"'"+"为标签保存至"+flag+"端标定图库")
+                    document.getElementById("savePic").setAttribute("disabled",true);
+                    document.getElementById("selectA").removeAttribute("disabled");
+                    document.getElementById("selectB").removeAttribute("disabled");
+                    document.getElementById("selectAorB").removeAttribute("disabled");
+                }
+            })
+        }
+    </script>
+    <script>
+        function pageUp(){
+            document.getElementById("savePic").setAttribute("disabled",true);
+            document.getElementById("selectA").removeAttribute("disabled");
+            document.getElementById("selectB").removeAttribute("disabled");
+            document.getElementById("selectAorB").removeAttribute("disabled");
+            var flag = $('input[type=radio][name=AorB]:checked').val();
+            $.ajax({
+                type:'GET',
+                data:{'mydata':flag,'mydata1':time},
+                url:"/cameraCalibration/pageUp",
+                dataType: 'json',
+                success:function(res){
+                    //console.log(res["left_path"])
+                    document.getElementById("left_img").src=res["left_path"];
+                    document.getElementById("right_img").src=res["right_path"];
+                    time = res["time"]
+                    id = res["id"]
+                    num = res["num"]
+                    document.getElementById("numPic").innerHTML='当前照片组标签为'+flag+'端'+time+"       "+flag+"端标定图库中第"+id+"组/共"+num+"组"
+                }
+            })
+        }
+    </script>
+    <script>
+        function pageDown(){
+            document.getElementById("savePic").setAttribute("disabled",true);
+            document.getElementById("selectA").removeAttribute("disabled");
+            document.getElementById("selectB").removeAttribute("disabled");
+            document.getElementById("selectAorB").removeAttribute("disabled");
+            var flag = $('input[type=radio][name=AorB]:checked').val()
+            $.ajax({
+                type:'GET',
+                data:{'mydata':flag,'mydata1':time},
+                url:"/cameraCalibration/pageDown",
+                dataType: 'json',
+                success:function(res){
+                    console.log(res["left_path"])
+                    document.getElementById("left_img").src=res["left_path"];
+                    document.getElementById("right_img").src=res["right_path"];
+                    time = res["time"]
+                    id = res["id"]
+                    num = res["num"]
+                    document.getElementById("numPic").innerHTML='当前照片组标签为'+flag+'端'+time+"       "+flag+"端标定图库中第"+id+"组/共"+num+"组"
+                }
+            })
+        }
+    </script>
+    <script>
+        function confirmDelete1(){
+            var flag = $('input[type=radio][name=AorB]:checked').val()
+            var r = confirm("确定要删除当前显示的照片吗？")
+		    if (r == true) {
+		        deleteThis()
+		    }
+		    else {
+		    }
+        }
+        function deleteThis(){
+            var flag = $('input[type=radio][name=AorB]:checked').val()
+            $.ajax({
+                type:'GET',
+                data:{'mydata':flag,'mydata1':time},
+                url:"/cameraCalibration/deleteThis",
+                dataType: 'json',
+                success:function(res){
+                    alert("标签为"+flag+"端"+time+"照片组已被成功删除！")
+                    document.getElementById("left_img").src=res["left_path"];
+                    document.getElementById("right_img").src=res["right_path"];
+                    time = res["time"]
+                    id = res["id"]
+                    num = res["num"]
+                    document.getElementById("numPic").innerHTML='当前照片组标签为'+flag+'端'+time+"       "+flag+"端标定图库中第"+id+"组/共"+num+"组"
+                }
+            })
+        }
+    </script>
+    <script>
+        function confirmDelete2(){
+            var flag = $('input[type=radio][name=AorB]:checked').val()
+            var r = confirm("确定要删除"+flag+"端标定图库中所有照片吗？")
+		    if (r == true) {
+		        deleteAll()
+		    }
+		    else {
+		    }
+        }
+        function deleteAll(){
+            var flag = $('input[type=radio][name=AorB]:checked').val()
+            $.ajax({
+                type:'GET',
+                data:{'mydata':flag},
+                url:"/cameraCalibration/deleteAll",
+                dataType: 'json',
+                success:function(res){
+                    alert(flag+"端标定图库中所有照片已成功被删除！")
+                    document.getElementById("left_img").src="/static/res_pictures/temp/noImage.png";
+                    document.getElementById("right_img").src="/static/res_pictures/temp/noImage.png";
+                    document.getElementById("numPic").innerHTML='当前正在标定'+flag+'端相机组'
+                }
+            })
+        }
+    </script>
+    <script>
+        function confirmDelete3(){
+            var flag = $('input[type=radio][name=AorB]:checked').val();
+            var r = confirm("确定要对"+flag+"端双目相机进行标定吗？");
+		    if (r == true) {
+		        stereoCalibration();
+		    }
+		    else {
+		    }
+        }
+        function stereoCalibration(){
+            var flag = $('input[type=radio][name=AorB]:checked').val()
+            document.getElementById("numPic").innerHTML='正在进行标定运算！请勿进行其他操作！'
+            document.getElementById("takePhotos").setAttribute("disabled",true);
+            document.getElementById("pageUp").setAttribute("disabled",true);
+            document.getElementById("pageDown").setAttribute("disabled",true);
+            document.getElementById("deleteThis").setAttribute("disabled",true);
+            document.getElementById("deleteAll").setAttribute("disabled",true);
+            document.getElementById("stereoCalibration").setAttribute("disabled",true);
+            $.ajax({
+                type:'GET',
+                data:{'mydata':flag},
+                url:"/cameraCalibration/stereoCalibration",
+                dataType: 'json',
+                success:function(res){
+                    alert(flag+"端双目相机已标定完成！")
+                    document.getElementById("left_img").src="/static/res_pictures/temp/noImage.png";
+                    document.getElementById("right_img").src="/static/res_pictures/temp/noImage.png";
+                    document.getElementById("takePhotos").removeAttribute("disabled");
+                    document.getElementById("pageUp").removeAttribute("disabled");
+                    document.getElementById("pageDown").removeAttribute("disabled");
+                    document.getElementById("deleteThis").removeAttribute("disabled");
+                    document.getElementById("deleteAll").removeAttribute("disabled");
+                    document.getElementById("stereoCalibration").removeAttribute("disabled");
+                    document.getElementById("numPic").innerHTML='已完成'+flag+'端相机组的标定！可进行其他操作！'
+                }
+            })
+        }
+    </script>
+    {% endblock %}
+    <!-- ######### END: MAIN PANEL ########## -->
+
+    {% block my_js %}
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/popper.js"></script>
+    <script src="/static/js/bootstrap.js"></script>
+    <script src="/static/js/jquery-ui.js"></script>
+    <script src="/static/js/perfect-scrollbar.jquery.js"></script>
+    <script src="/static/js/jquery.sparkline.min.js"></script>
+    <script src="/static/js/d3.js"></script>
+    <script src="/static/js/rickshaw.min.js"></script>
+    <script src="/static/js/chart.js"></script>
+    <script src="/static/js/jquery.flot.js"></script>
+    <script src="/static/js/jquery.flot.pie.js"></script>
+    <script src="/static/js/jquery.flot.resize.js"></script>
+    <script src="/static/js/jquery.flot.spline.js"></script>
+    <script src="/static/js/starlight.js"></script>
+    <script src="/static/js/resizesensor.js"></script>
+    <script src="/static/js/dashboard.js"></script>
+
+    {% endblock %}
+</body>
+</html>

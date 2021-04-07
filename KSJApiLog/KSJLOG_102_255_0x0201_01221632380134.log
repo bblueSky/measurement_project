@@ -1,0 +1,132 @@
+2019-01-22 16-32-38-0135: KSJAPI::Api Version     = 8.0.0.6 
+2019-01-22 16-32-38-0135: KSJAPI::Device Type     = 102 
+2019-01-22 16-32-38-0135: KSJAPI::Serial          = 255  
+2019-01-22 16-32-38-0135: KSJAPI::FirmwareVersion = 2.1  
+2019-01-22 16-32-38-0135: KSJAPI:: __FUNCTION__ = AddCamera 
+2019-01-22 16-32-38-0135: KSJAPI::szDllName = libksjcam_102.so  dlopen success
+2019-01-22 16-32-38-0136: KSJAPI::RdFpga Address = 0128(0x0080), Value = 58352(0xe3f0), Return = 0
+2019-01-22 16-32-38-0137: KSJAPI::RdFpga Address = 0241(0x00f1), Value = 02048(0x0800), Return = 0
+2019-01-22 16-32-38-0137: KSJAPI::RdFpga Address = 0128(0x0080), Value = 58352(0xe3f0), Return = 0
+2019-01-22 16-32-38-0138: KSJAPI::RdFpga Address = 0241(0x00f1), Value = 02048(0x0800), Return = 0
+2019-01-22 16-32-38-0138: KSJAPI::RdFpga Address = 0255(0x00ff), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0139: KSJAPI::RdFpga Address = 0131(0x0083), Value = 65535(0xffff), Return = 0
+2019-01-22 16-32-38-0139: KSJAPI::RdFpga Address = 0137(0x0089), Value = 00257(0x0101), Return = 0
+2019-01-22 16-32-38-0142: KSJAPI::RdFpga Address = 0147(0x0093), Value = 05693(0x163d), Return = 0
+2019-01-22 16-32-38-0142: KSJAPI::RdFpga Address = 0148(0x0094), Value = 63284(0xf734), Return = 0
+2019-01-22 16-32-38-0142: KSJAPI::RdFpga Address = 0149(0x0095), Value = 00655(0x028f), Return = 0
+2019-01-22 16-32-38-0143: KSJAPI::RdFpga Address = 0150(0x0096), Value = 64267(0xfb0b), Return = 0
+2019-01-22 16-32-38-0143: KSJAPI::RdFpga Address = 0151(0x0097), Value = 05079(0x13d7), Return = 0
+2019-01-22 16-32-38-0143: KSJAPI::RdFpga Address = 0152(0x0098), Value = 00286(0x011e), Return = 0
+2019-01-22 16-32-38-0144: KSJAPI::RdFpga Address = 0153(0x0099), Value = 00245(0x00f5), Return = 0
+2019-01-22 16-32-38-0144: KSJAPI::RdFpga Address = 0154(0x009a), Value = 64144(0xfa90), Return = 0
+2019-01-22 16-32-38-0144: KSJAPI::RdFpga Address = 0155(0x009b), Value = 05242(0x147a), Return = 0
+2019-01-22 16-32-38-0144: KSJAPI::RdFpga Address = 0156(0x009c), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0145: KSJAPI::RdFpga Address = 0157(0x009d), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0145: KSJAPI::RdFpga Address = 0158(0x009e), Value = 00006(0x0006), Return = 0
+2019-01-22 16-32-38-0145: KSJAPI::RdFpga Address = 0159(0x009f), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0146: KSJAPI::RdFpga Address = 0161(0x00a1), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0146: KSJAPI::RdFpga Address = 0162(0x00a2), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0146: KSJAPI::RdSensor Address = 0011(0x000b), Value = 00196(0x00c4), Return = 0
+2019-01-22 16-32-38-0147: KSJAPI::RdSensor Address = 0012(0x000c), Value = 00004(0x0004), Return = 0
+2019-01-22 16-32-38-0147: KSJAPI::RdSensor Address = 0013(0x000d), Value = 00002(0x0002), Return = 0
+2019-01-22 16-32-38-0148: KSJAPI::RdSensor Address = 0014(0x000e), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0148: KSJAPI::RdSensor Address = 0015(0x000f), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0148: KSJAPI::RdSensor Address = 0016(0x0010), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0149: KSJAPI::RdSensor Address = 0009(0x0009), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0149: KSJAPI::RdSensor Address = 0010(0x000a), Value = 00002(0x0002), Return = 0
+2019-01-22 16-32-38-0149: KSJAPI::RdSensor Address = 0017(0x0011), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0150: KSJAPI::RdSensor Address = 0026(0x001a), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0150: KSJAPI::RdSensor Address = 0069(0x0045), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0151: KSJAPI::RdSensor Address = 0004(0x0004), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0151: KSJAPI::RdSensor Address = 0005(0x0005), Value = 00003(0x0003), Return = 0
+2019-01-22 16-32-38-0151: KSJAPI::RdSensor Address = 0006(0x0006), Value = 00016(0x0010), Return = 0
+2019-01-22 16-32-38-0152: KSJAPI::RdSensor Address = 0007(0x0007), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0152: KSJAPI::RdFpga Address = 0128(0x0080), Value = 58352(0xe3f0), Return = 0
+2019-01-22 16-32-38-0153: KSJAPI::RdFpga Address = 0241(0x00f1), Value = 02048(0x0800), Return = 0
+2019-01-22 16-32-38-0153: KSJAPI::RdFpga Address = 0128(0x0080), Value = 58352(0xe3f0), Return = 0
+2019-01-22 16-32-38-0153: KSJAPI::RdFpga Address = 0241(0x00f1), Value = 02048(0x0800), Return = 0
+2019-01-22 16-32-38-0154: KSJAPI::RdFpga Address = 0255(0x00ff), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0154: KSJAPI::RdFpga Address = 0131(0x0083), Value = 65535(0xffff), Return = 0
+2019-01-22 16-32-38-0155: KSJAPI::RdFpga Address = 0137(0x0089), Value = 00257(0x0101), Return = 0
+2019-01-22 16-32-38-0156: KSJAPI::RdFpga Address = 0147(0x0093), Value = 05693(0x163d), Return = 0
+2019-01-22 16-32-38-0156: KSJAPI::RdFpga Address = 0148(0x0094), Value = 63284(0xf734), Return = 0
+2019-01-22 16-32-38-0157: KSJAPI::RdFpga Address = 0149(0x0095), Value = 00655(0x028f), Return = 0
+2019-01-22 16-32-38-0157: KSJAPI::RdFpga Address = 0150(0x0096), Value = 64267(0xfb0b), Return = 0
+2019-01-22 16-32-38-0157: KSJAPI::RdFpga Address = 0151(0x0097), Value = 05079(0x13d7), Return = 0
+2019-01-22 16-32-38-0158: KSJAPI::RdFpga Address = 0152(0x0098), Value = 00286(0x011e), Return = 0
+2019-01-22 16-32-38-0158: KSJAPI::RdFpga Address = 0153(0x0099), Value = 00245(0x00f5), Return = 0
+2019-01-22 16-32-38-0158: KSJAPI::RdFpga Address = 0154(0x009a), Value = 64144(0xfa90), Return = 0
+2019-01-22 16-32-38-0159: KSJAPI::RdFpga Address = 0155(0x009b), Value = 05242(0x147a), Return = 0
+2019-01-22 16-32-38-0159: KSJAPI::RdFpga Address = 0156(0x009c), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0159: KSJAPI::RdFpga Address = 0157(0x009d), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0160: KSJAPI::RdFpga Address = 0158(0x009e), Value = 00006(0x0006), Return = 0
+2019-01-22 16-32-38-0160: KSJAPI::RdFpga Address = 0159(0x009f), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0161: KSJAPI::RdFpga Address = 0161(0x00a1), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0161: KSJAPI::RdFpga Address = 0162(0x00a2), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0161: KSJAPI::RdSensor Address = 0011(0x000b), Value = 00196(0x00c4), Return = 0
+2019-01-22 16-32-38-0162: KSJAPI::RdSensor Address = 0012(0x000c), Value = 00004(0x0004), Return = 0
+2019-01-22 16-32-38-0162: KSJAPI::RdSensor Address = 0013(0x000d), Value = 00002(0x0002), Return = 0
+2019-01-22 16-32-38-0162: KSJAPI::RdSensor Address = 0014(0x000e), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0163: KSJAPI::RdSensor Address = 0015(0x000f), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0163: KSJAPI::RdSensor Address = 0016(0x0010), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0164: KSJAPI::RdSensor Address = 0009(0x0009), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0164: KSJAPI::RdSensor Address = 0010(0x000a), Value = 00002(0x0002), Return = 0
+2019-01-22 16-32-38-0164: KSJAPI::RdSensor Address = 0017(0x0011), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0165: KSJAPI::RdSensor Address = 0026(0x001a), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0165: KSJAPI::RdSensor Address = 0069(0x0045), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0165: KSJAPI::RdSensor Address = 0004(0x0004), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0166: KSJAPI::RdSensor Address = 0005(0x0005), Value = 00003(0x0003), Return = 0
+2019-01-22 16-32-38-0166: KSJAPI::RdSensor Address = 0006(0x0006), Value = 00016(0x0010), Return = 0
+2019-01-22 16-32-38-0166: KSJAPI::RdSensor Address = 0007(0x0007), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-38-0554: KSJAPI::RdFpga Address = 0147(0x0093), Value = 05693(0x163d), Return = 0
+2019-01-22 16-32-38-0555: KSJAPI::RdFpga Address = 0148(0x0094), Value = 63284(0xf734), Return = 0
+2019-01-22 16-32-38-0555: KSJAPI::RdFpga Address = 0149(0x0095), Value = 00655(0x028f), Return = 0
+2019-01-22 16-32-38-0556: KSJAPI::RdFpga Address = 0150(0x0096), Value = 64267(0xfb0b), Return = 0
+2019-01-22 16-32-38-0557: KSJAPI::RdFpga Address = 0151(0x0097), Value = 05079(0x13d7), Return = 0
+2019-01-22 16-32-38-0558: KSJAPI::RdFpga Address = 0152(0x0098), Value = 00286(0x011e), Return = 0
+2019-01-22 16-32-38-0559: KSJAPI::RdFpga Address = 0153(0x0099), Value = 00245(0x00f5), Return = 0
+2019-01-22 16-32-38-0559: KSJAPI::RdFpga Address = 0154(0x009a), Value = 64144(0xfa90), Return = 0
+2019-01-22 16-32-38-0560: KSJAPI::RdFpga Address = 0155(0x009b), Value = 05242(0x147a), Return = 0
+2019-01-22 16-32-40-0139: libusb_bulk_transfer: ret = -4, hPipe = 0x4800ac40, m_uBulkEndpointAddress = 0x81, nTotalBytes = 19961856, nNumberOfBytesRead = 5783552 ulTimeOut = 8000
+2019-01-22 16-32-40-0139: CKSJBusUsb::ReadData ReadRawDataAfterStart error  nRet = -8 
+2019-01-22 16-32-40-0139: KSJAPI::RdFpga Address = 0128(0x0080), Value = 58367(0xe3ff), Return = 0
+2019-01-22 16-32-40-0139: KSJAPI::CKSJDeviceOnBusUsb::Recover Close()  nRet = 0  
+2019-01-22 16-32-40-0140: KSJAPI::CKSJDeviceOnBusUsb::Recover OpenLostDevice()  nRet = 0  
+2019-01-22 16-32-40-0140: KSJAPI::SetWorkingMode WorkingMode = 00000(0x0000), Return = 0000
+2019-01-22 16-32-40-0140: KSJAPI::WrFpga Address = 0003(0x0003), Value = 65535(0xffff), Return = 0
+2019-01-22 16-32-40-0140: KSJAPI::WrFpga Address = 0009(0x0009), Value = 00257(0x0101), Return = 0
+2019-01-22 16-32-40-0141: KSJAPI::WrFpga Address = 0016(0x0010), Value = 07426(0x1d02), Return = 0
+2019-01-22 16-32-40-0141: KSJAPI::WrFpga Address = 0017(0x0011), Value = 04096(0x1000), Return = 0
+2019-01-22 16-32-40-0141: KSJAPI::WrFpga Address = 0018(0x0012), Value = 08257(0x2041), Return = 0
+2019-01-22 16-32-40-0142: KSJAPI::WrFpga Address = 0019(0x0013), Value = 05693(0x163d), Return = 0
+2019-01-22 16-32-40-0142: KSJAPI::WrFpga Address = 0020(0x0014), Value = 63284(0xf734), Return = 0
+2019-01-22 16-32-40-0142: KSJAPI::WrFpga Address = 0021(0x0015), Value = 00655(0x028f), Return = 0
+2019-01-22 16-32-40-0142: KSJAPI::WrFpga Address = 0022(0x0016), Value = 64267(0xfb0b), Return = 0
+2019-01-22 16-32-40-0143: KSJAPI::WrFpga Address = 0023(0x0017), Value = 05079(0x13d7), Return = 0
+2019-01-22 16-32-40-0143: KSJAPI::WrFpga Address = 0024(0x0018), Value = 00286(0x011e), Return = 0
+2019-01-22 16-32-40-0143: KSJAPI::WrFpga Address = 0025(0x0019), Value = 00245(0x00f5), Return = 0
+2019-01-22 16-32-40-0143: KSJAPI::WrFpga Address = 0026(0x001a), Value = 64144(0xfa90), Return = 0
+2019-01-22 16-32-40-0144: KSJAPI::WrFpga Address = 0027(0x001b), Value = 05242(0x147a), Return = 0
+2019-01-22 16-32-40-0144: KSJAPI::WrFpga Address = 0028(0x001c), Value = 00001(0x0001), Return = 0
+2019-01-22 16-32-40-0144: KSJAPI::WrFpga Address = 0029(0x001d), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-40-0145: KSJAPI::WrFpga Address = 0030(0x001e), Value = 00006(0x0006), Return = 0
+2019-01-22 16-32-40-0145: KSJAPI::WrFpga Address = 0031(0x001f), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-40-0145: KSJAPI::WrFpga Address = 0033(0x0021), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-40-0145: KSJAPI::WrFpga Address = 0034(0x0022), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-40-0146: KSJAPI::WrSensor Address = 0011(0x000b), Value = 00196(0x00c4), Return = 0
+2019-01-22 16-32-40-0146: KSJAPI::WrSensor Address = 0012(0x000c), Value = 00004(0x0004), Return = 0
+2019-01-22 16-32-40-0146: KSJAPI::WrSensor Address = 0013(0x000d), Value = 00002(0x0002), Return = 0
+2019-01-22 16-32-40-0147: KSJAPI::WrSensor Address = 0014(0x000e), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-40-0147: KSJAPI::WrSensor Address = 0015(0x000f), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-40-0147: KSJAPI::WrSensor Address = 0016(0x0010), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-40-0147: KSJAPI::WrSensor Address = 0009(0x0009), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-40-0148: KSJAPI::WrSensor Address = 0010(0x000a), Value = 00002(0x0002), Return = 0
+2019-01-22 16-32-40-0148: KSJAPI::WrSensor Address = 0017(0x0011), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-40-0148: KSJAPI::WrSensor Address = 0026(0x001a), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-40-0149: KSJAPI::WrSensor Address = 0069(0x0045), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-40-0149: KSJAPI::WrSensor Address = 0004(0x0004), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-40-0149: KSJAPI::WrSensor Address = 0005(0x0005), Value = 00003(0x0003), Return = 0
+2019-01-22 16-32-40-0150: KSJAPI::WrSensor Address = 0006(0x0006), Value = 00016(0x0010), Return = 0
+2019-01-22 16-32-40-0151: KSJAPI::WrSensor Address = 0007(0x0007), Value = 00000(0x0000), Return = 0
+2019-01-22 16-32-40-0151: KSJAPI::CKSJDeviceOnBusUsb::Recover  m_pCam->Cam_RecoverRelatedRegValue() nRet = -10  
+2019-01-22 16-32-40-0563: KSJAPI::CKSJDeviceOnBusUsb::Recover Reset() nRet = -10  

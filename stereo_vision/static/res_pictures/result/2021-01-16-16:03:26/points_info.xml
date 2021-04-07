@@ -1,0 +1,23 @@
+<?xml version="1.0" ?><points_info 数据时间="2021-01-16-16:03:26">
+		<type>筒径822安装孔13</type>
+		<A_end>
+			<hole>
+				
+				
+			<pairs><pair0><left_x>3057.0</left_x><left_y>927.0</left_y><right_x>1625.0</right_x><right_y>983.0</right_y><radius>33.0</radius><score>57.0</score></pair0><pair1><left_x>3031.0</left_x><left_y>2359.0</left_y><right_x>1950.0</right_x><right_y>331.0</right_y><radius>45.0</radius><score>48.0</score></pair1><pair2><left_x>3467.0</left_x><left_y>332.0</left_y><right_x>1490.0</right_x><right_y>2416.0</right_y><radius>33.0</radius><score>59.0</score></pair2></pairs><threeD/></hole>
+			<target>
+				
+				
+			<pairs/><threeD/></target>
+		</A_end>
+		<B_end>
+			<hole>
+				
+				
+			<pairs><pair0><left_x>3057.0</left_x><left_y>927.0</left_y><right_x>1490.0</right_x><right_y>2416.0</right_y><radius>25.0</radius><score>35.0</score></pair0><pair1><left_x>3031.0</left_x><left_y>2359.0</left_y><right_x>1950.0</right_x><right_y>331.0</right_y><radius>45.0</radius><score>48.0</score></pair1><pair2><left_x>3467.0</left_x><left_y>332.0</left_y><right_x>1625.0</right_x><right_y>983.0</right_y><radius>41.0</radius><score>81.0</score></pair2></pairs><threeD/></hole>
+			<target>
+				
+				
+			<pairs/><threeD/></target>
+		</B_end>
+	</points_info>
