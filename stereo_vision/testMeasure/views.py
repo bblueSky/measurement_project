@@ -441,7 +441,7 @@ def centreSight():
         item_h = itemlist_h[1]
         item_t = itemlist_t[1]
         result[i*2] = numsOf_holes = len(hole_list)
-        result[i*2+1] = numsOf_targets = 3  ## 基准板上三个靶标
+        result[i*2+1] = numsOf_targets = len(target_list)  ## 基准板上三个靶标
         for j in range(numsOf_holes):
             #遍历所有的孔
             imgPath = boxes_img_dir_path+"/hole"+str(j)+".jpg"
@@ -461,25 +461,25 @@ def centreSight():
             score.appendChild(dom.createTextNode(str(res[3])))
             hole_img.appendChild(score)
             item_h.appendChild(hole_img)
-        # for j in range(numsOf_targets):
-        #     #遍历所有的靶标
-        #     imgPath = boxes_img_dir_path+"/target"+str(j)+".jpg"
-        #     #print(imgPath)
-        #     res = img_process(imgPath,class_of_img="target")
-        #     target_img = dom.createElement('target_img' + str(j))
-        #     x = dom.createElement('x')  ##"x"代表横坐标
-        #     x.appendChild(dom.createTextNode(str(res[0])))
-        #     target_img.appendChild(x)
-        #     y = dom.createElement('y')  ##"y"代表纵坐标
-        #     y.appendChild(dom.createTextNode(str(res[1])))
-        #     target_img.appendChild(y)
-        #     radius = dom.createElement('r')  ##"r"代表半径
-        #     radius.appendChild(dom.createTextNode(str(res[2])))
-        #     target_img.appendChild(radius)
-        #     score = dom.createElement('s')  ##"s"代表score，即圆拟合程度
-        #     score.appendChild(dom.createTextNode(str(res[3])))
-        #     target_img.appendChild(score)
-        #     item_t.appendChild(target_img)
+        for j in range(numsOf_targets):
+            #遍历所有的靶标
+            imgPath = boxes_img_dir_path+"/target"+str(j)+".jpg"
+            #print(imgPath)
+            res = img_process(imgPath,class_of_img="target")
+            target_img = dom.createElement('target_img' + str(j))
+            x = dom.createElement('x')  ##"x"代表横坐标
+            x.appendChild(dom.createTextNode(str(res[0])))
+            target_img.appendChild(x)
+            y = dom.createElement('y')  ##"y"代表纵坐标
+            y.appendChild(dom.createTextNode(str(res[1])))
+            target_img.appendChild(y)
+            radius = dom.createElement('r')  ##"r"代表半径
+            radius.appendChild(dom.createTextNode(str(res[2])))
+            target_img.appendChild(radius)
+            score = dom.createElement('s')  ##"s"代表score，即圆拟合程度
+            score.appendChild(dom.createTextNode(str(res[3])))
+            target_img.appendChild(score)
+            item_t.appendChild(target_img)
         with open(save_path,'w') as fp:
             dom.writexml(fp)
     return {"ALh":result[0],"ALt":result[1],"ARh":result[2],"ARt":result[3],"BLh":result[4],"BLt":result[5],"BRh":result[6],"BRt":result[7]}

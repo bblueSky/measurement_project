@@ -2,8 +2,8 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-# import stereo_vision.testMeasure._init_paths ##这里还要改回来
-import _init_paths
+import stereo_vision.testMeasure._init_paths ##这里还要改回来
+# import _init_paths
 from model.config import cfg
 from model.test import im_detect
 from model.nms_wrapper import nms
@@ -451,9 +451,11 @@ def xy2xyz(uvLeft, uvRight):
     return XYZ
 
 
-def  point_undistort(point,flag):
-
-    root_path = os.path.dirname(os.path.realpath(__file__)).replace('threeRestruction', 'checkboard_img_dir')
+def  point_undistort(point,flag,end='A'):
+    if end=='A':
+        root_path = os.path.dirname(os.path.realpath(__file__)).replace('testMeasure', 'static/checkboard_img_dir/A_')
+    elif end=='B':
+        root_path = os.path.dirname(os.path.realpath(__file__)).replace('testMeasure', 'static/checkboard_img_dir/B_')
     left_path = os.path.join(root_path, 'left_single_calibration.xml')
     right_path = os.path.join(root_path, 'right_single_calibration.xml')
     if flag == 'left':
@@ -503,9 +505,11 @@ def  pixel2cam(point,intrinsic):
 
     return xy
 
-def xy2xyz1(uvLeft, uvRight,mLeftIntrinsic,mRightIntrinsic,R_matrix,T_matrix):
-
-    root_path = os.path.dirname(os.path.realpath(__file__)).replace('threeRestruction','checkboard_img_dir')
+def xy2xyz1(uvLeft, uvRight,end='A'):
+    if end=='A':
+        root_path = os.path.dirname(os.path.realpath(__file__)).replace('testMeasure','static/checkboard_img_dir/A_')
+    elif end=='B':
+        root_path = os.path.dirname(os.path.realpath(__file__)).replace('testMeasure','static/checkboard_img_dir/B_')
     left_path = os.path.join(root_path,'left_single_calibration.xml')
     right_path = os.path.join(root_path,'right_single_calibration.xml')
     stereo_path = os.path.join(root_path, 'stereo_calibration.xml')
@@ -1080,8 +1084,7 @@ def  creat_point_pairs(right_points,left_points,F):
 def save_pairs_file(epoch_name,pairs,end='A',hot="hole"):
     ##主要步骤是先擦除原始数据，再往里面写数据
     root_path = os.path.dirname(os.path.realpath(__file__)).replace('testMeasure', 'static/res_pictures/result/')
-    file_path = os.path.join(root_path,epoch_name)
-    file_path = file_path+"/points_info.xml"
+    file_path = os.path.join(root_path,epoch_name+"/points_info.xml")
     dom = minidom.parse(file_path)
     root = dom.documentElement
     if end=='A':
@@ -1357,121 +1360,207 @@ def  epoch_3Dpoints(epoch_name): ##主要函数2
     3、将参数传入xy2xyz计算
     """
 
-    root_path_ = os.path.dirname(os.path.realpath(__file__)).replace('threeRestruction','checkboard_img_dir')
-    left_path = os.path.join(root_path_,'left_single_calibration.xml')
-    right_path = os.path.join(root_path_,'right_single_calibration.xml')
-    stereo_path = os.path.join(root_path_, 'stereo_calibration.xml')
+    ckbd_root_path = os.path.dirname(os.path.realpath(__file__)).replace('testMeasure','static/checkboard_img_dir/')
+    A_left_path = os.path.join(ckbd_root_path,'A_left_single_calibration.xml')
+    A_right_path = os.path.join(ckbd_root_path,'A_right_single_calibration.xml')
+    A_stereo_path = os.path.join(ckbd_root_path,'A_stereo_calibration.xml')
+    B_left_path = os.path.join(ckbd_root_path, 'B_left_single_calibration.xml')
+    B_right_path = os.path.join(ckbd_root_path, 'B_right_single_calibration.xml')
+    B_stereo_path = os.path.join(ckbd_root_path, 'B_stereo_calibration.xml')
 
-    fs_left = cv2.FileStorage(left_path, cv2.FileStorage_READ)
-    fs_right = cv2.FileStorage(right_path, cv2.FileStorage_READ)
-    fs_stereo = cv2.FileStorage(stereo_path, cv2.FileStorage_READ)
+    A_fs_left = cv2.FileStorage(A_left_path, cv2.FileStorage_READ)
+    A_fs_right = cv2.FileStorage(A_right_path, cv2.FileStorage_READ)
+    A_fs_stereo = cv2.FileStorage(A_stereo_path, cv2.FileStorage_READ)
+    B_fs_left = cv2.FileStorage(B_left_path, cv2.FileStorage_READ)
+    B_fs_right = cv2.FileStorage(B_right_path, cv2.FileStorage_READ)
+    B_fs_stereo = cv2.FileStorage(B_stereo_path, cv2.FileStorage_READ)
 
-    mLeftIntrinsic = fs_left.getNode('mtx').mat()
-    mRightIntrinsic = fs_right.getNode('mtx').mat()
-    R_matrix  = fs_stereo.getNode('R_matrix').mat()
-    T_matrix  = fs_stereo.getNode('T_matrix').mat()
-
-
-    root_path = os.path.dirname(os.path.realpath(__file__)).replace('threeRestruction', 'static/zj_pictures/result/pointsPairs')
-
-    pointsPairs_path = os.path.join(root_path,epoch_name,'pairs.json')
-
-    f  = open(pointsPairs_path,encoding='utf-8')
-
-    data = json.load(f)
-
-    pic_root_path =  os.path.dirname(os.path.realpath(__file__)).replace('threeRestruction', 'static/zj_pictures/after_detection_classification')
-
-    left_pic_path =  os.path.join(pic_root_path,epoch_name,'left.jpg')
-    right_pic_path = left_pic_path.replace('left','right')
-
-    left_img =  cv2.imread(left_pic_path)
-    right_img = cv2.imread(right_pic_path)
-
-    #保存3d的点
-    points_3d_root_path =  os.path.dirname(os.path.realpath(__file__)).replace('threeRestruction', 'static/zj_pictures/result/points_3d')
-    points_3d_path  =  os.path.join(points_3d_root_path,epoch_name)
-    points_3d_path1 =  os.path.join(points_3d_path,'points_3d.json')
-    #将三维点画在图像上显示
-    pic_3d_root_path = os.path.dirname(os.path.realpath(__file__)).replace('threeRestruction', 'static/zj_pictures/points_3dRestruction')
-    pic_3d_path = os.path.join(pic_3d_root_path, epoch_name)
-
-    if  not  os.path.exists(points_3d_path):
-        os.mkdir(points_3d_path)
-
-    if not os.path.exists(pic_3d_path):
-        os.mkdir(pic_3d_path)
-
-    font = cv2.FONT_HERSHEY_SIMPLEX
-
-    points_3d = {}
-
-    min_point = 0
-    for i, item in enumerate(data):
-
-        left_point = item['left_point']
-        right_point = item['right_point']
-
-        if i ==0 :
-            min_point = left_point[0]
-            flag_point_left = left_point
-            flag_point_right = right_point
-
-        elif left_point[0] <min_point:
-
-            min_point = left_point[0]
-            flag_point_left = left_point
-            flag_point_right = right_point
-
-    L_flag = point_undistort(flag_point_left, 'left')
-    R_flag = point_undistort(flag_point_right, 'right')
-
-    xyz_flag = xy2xyz1(L_flag, R_flag, mLeftIntrinsic, mRightIntrinsic, R_matrix, T_matrix) ## 涉及函数5
-    xyz_flag = [int(xyz_flag[0]), int(xyz_flag[1]), int(xyz_flag[2])]
+    A_mLeftIntrinsic = A_fs_left.getNode('mtx').mat()
+    A_mRightIntrinsic = A_fs_right.getNode('mtx').mat()
+    A_R_matrix  = A_fs_stereo.getNode('R_matrix').mat()
+    A_T_matrix  = A_fs_stereo.getNode('T_matrix').mat()
+    B_mLeftIntrinsic = B_fs_left.getNode('mtx').mat()
+    B_mRightIntrinsic = B_fs_right.getNode('mtx').mat()
+    B_R_matrix = B_fs_stereo.getNode('R_matrix').mat()
+    B_T_matrix = B_fs_stereo.getNode('T_matrix').mat()
 
 
-    num = 0
+    data_root_path = os.path.dirname(os.path.realpath(__file__)).replace('testMeasure', 'static/res_pictures/result/')
+    pairs_3D_path = os.path.join(data_root_path,epoch_name+'/points_info.xml')  ##匹配点与三维点保存在同一个文件
 
-    for i,item in enumerate(data):
-        print(item)
-        left_point =  item['left_point']
-        right_point = item['right_point']
+    dom = minidom.parse(pairs_3D_path)  ##points_info.xml文件解析点
+    root = dom.documentElement
 
-        L = point_undistort(left_point, 'left') ##涉及函数6
-        R = point_undistort(right_point, 'right')
+    AH_numsOfPairs = len(root.getElementsByTagName("pairs")[0].childNodes)
+    AT_numsOfPairs = len(root.getElementsByTagName("pairs")[1].childNodes)
+    BH_numsOfPairs = len(root.getElementsByTagName("pairs")[2].childNodes)
+    BT_numsOfPairs = len(root.getElementsByTagName("pairs")[3].childNodes)
+    ## 清除原始数据
+    theNode0 = root.getElementsByTagName("hole")[0]
+    theNode0.removeChild(root.getElementsByTagName("threeD")[0])
+    theNode0.appendChild(dom.createElement("threeD"))
+    theNode1 = root.getElementsByTagName("target")[0]
+    theNode1.removeChild(root.getElementsByTagName("threeD")[1])
+    theNode1.appendChild(dom.createElement("threeD"))
+    theNode2 = root.getElementsByTagName("hole")[1]
+    theNode2.removeChild(root.getElementsByTagName("threeD")[2])
+    theNode2.appendChild(dom.createElement("threeD"))
+    theNode3 = root.getElementsByTagName("target")[1]
+    theNode3.removeChild(root.getElementsByTagName("threeD")[3])
+    theNode3.appendChild(dom.createElement("threeD"))
+    ## 计算A端孔的三维坐标并存入文件
+    threeD = root.getElementsByTagName("threeD")[0]
+    for i in range(AH_numsOfPairs):
+        left_point = [0,0]
+        right_point = [0,0]
+        left_point[0] = root.getElementsByTagName("left_x")[i].childNodes[0].data
+        left_point[1] = root.getElementsByTagName("left_y")[i].childNodes[0].data
+        right_point[0] = root.getElementsByTagName("right_x")[i].childNodes[0].data
+        right_point[1] = root.getElementsByTagName("right_y")[i].childNodes[0].data
+        print(left_point)
+        print(right_point)
+        radius = root.getElementsByTagName("radius")[i].childNodes[0].data
+        score = root.getElementsByTagName("score")[i].childNodes[0].data
+        L = point_undistort(left_point,"left",end='A')  ## 函数增加端面参数
+        R = point_undistort(right_point,"right",end='A')
+        xyz = xy2xyz1(L,R,end='A') ## 函数增加端面参数
+        print(xyz)
+        X = dom.createElement("X")
+        X.appendChild(dom.createTextNode(str(xyz[0])))
+        threeD.appendChild(X)
+        Y = dom.createElement("Y")
+        Y.appendChild(dom.createTextNode(str(xyz[1])))
+        threeD.appendChild(Y)
+        Z = dom.createElement("Z")
+        Z.appendChild(dom.createTextNode(str(xyz[2])))
+        threeD.appendChild(Z)
+        R = dom.createElement("R")
+        R.appendChild(dom.createTextNode(radius))
+        threeD.appendChild(R)
+        S = dom.createElement("S")
+        S.appendChild(dom.createTextNode(score))
+        threeD.appendChild(S)
+    ## 计算A端标的三维坐标
+    threeD = root.getElementsByTagName("threeD")[1]
+    for i in range(AT_numsOfPairs):
+        left_point = [0,0]
+        right_point = [0,0]
+        left_point[0] = root.getElementsByTagName("left_x")[i+AH_numsOfPairs].childNodes[0].data
+        left_point[1] = root.getElementsByTagName("left_y")[i+AH_numsOfPairs].childNodes[0].data
+        right_point[0] = root.getElementsByTagName("right_x")[i+AH_numsOfPairs].childNodes[0].data
+        right_point[1] = root.getElementsByTagName("right_y")[i+AH_numsOfPairs].childNodes[0].data
+        print(left_point)
+        print(right_point)
+        radius = root.getElementsByTagName("radius")[i+AH_numsOfPairs].childNodes[0].data
+        score = root.getElementsByTagName("score")[i+AH_numsOfPairs].childNodes[0].data
+        L = point_undistort(left_point,"left",end='A')
+        R = point_undistort(right_point,"right",end='A')
+        xyz = xy2xyz1(L,R,end='A')
+        print(xyz)
+        X = dom.createElement("X")
+        X.appendChild(dom.createTextNode(str(xyz[0])))
+        threeD.appendChild(X)
+        Y = dom.createElement("Y")
+        Y.appendChild(dom.createTextNode(str(xyz[1])))
+        threeD.appendChild(Y)
+        Z = dom.createElement("Z")
+        Z.appendChild(dom.createTextNode(str(xyz[2])))
+        threeD.appendChild(Z)
+        R = dom.createElement("R")
+        R.appendChild(dom.createTextNode(radius))
+        threeD.appendChild(R)
+        S = dom.createElement("S")
+        S.appendChild(dom.createTextNode(score))
+        threeD.appendChild(S)
+    ## 计算B端孔的三维坐标
+    threeD = root.getElementsByTagName("threeD")[2]
+    for i in range(BH_numsOfPairs):
+        left_point = [0, 0]
+        right_point = [0, 0]
+        left_point[0] = root.getElementsByTagName("left_x")[i + AH_numsOfPairs+AT_numsOfPairs].childNodes[0].data
+        left_point[1] = root.getElementsByTagName("left_y")[i + AH_numsOfPairs+AT_numsOfPairs].childNodes[0].data
+        right_point[0] = root.getElementsByTagName("right_x")[i + AH_numsOfPairs+AT_numsOfPairs].childNodes[0].data
+        right_point[1] = root.getElementsByTagName("right_y")[i + AH_numsOfPairs+AT_numsOfPairs].childNodes[0].data
+        print(left_point)
+        print(right_point)
+        radius = root.getElementsByTagName("radius")[i + AH_numsOfPairs+AT_numsOfPairs].childNodes[0].data
+        score = root.getElementsByTagName("score")[i + AH_numsOfPairs+AT_numsOfPairs].childNodes[0].data
+        L = point_undistort(left_point,"left",end='B')
+        R = point_undistort(right_point, "right",end='B')
+        xyz = xy2xyz1(L, R,end='B')
+        print(xyz)
+        X = dom.createElement("X")
+        X.appendChild(dom.createTextNode(str(xyz[0])))
+        threeD.appendChild(X)
+        Y = dom.createElement("Y")
+        Y.appendChild(dom.createTextNode(str(xyz[1])))
+        threeD.appendChild(Y)
+        Z = dom.createElement("Z")
+        Z.appendChild(dom.createTextNode(str(xyz[2])))
+        threeD.appendChild(Z)
+        R = dom.createElement("R")
+        R.appendChild(dom.createTextNode(radius))
+        threeD.appendChild(R)
+        S = dom.createElement("S")
+        S.appendChild(dom.createTextNode(score))
+        threeD.appendChild(S)
+    ## 计算B端标的三维坐标
+    threeD = root.getElementsByTagName("threeD")[3]
+    for i in range(BT_numsOfPairs):
+        left_point = [0, 0]
+        right_point = [0, 0]
+        left_point[0] = root.getElementsByTagName("left_x")[i + AH_numsOfPairs + AT_numsOfPairs+BH_numsOfPairs].childNodes[0].data
+        left_point[1] = root.getElementsByTagName("left_y")[i + AH_numsOfPairs + AT_numsOfPairs+BH_numsOfPairs].childNodes[0].data
+        right_point[0] = root.getElementsByTagName("right_x")[i + AH_numsOfPairs + AT_numsOfPairs+BH_numsOfPairs].childNodes[0].data
+        right_point[1] = root.getElementsByTagName("right_y")[i + AH_numsOfPairs + AT_numsOfPairs+BH_numsOfPairs].childNodes[0].data
+        print(left_point)
+        print(right_point)
+        radius = root.getElementsByTagName("radius")[i + AH_numsOfPairs + AT_numsOfPairs+BH_numsOfPairs].childNodes[0].data
+        score = root.getElementsByTagName("score")[i + AH_numsOfPairs + AT_numsOfPairs+BH_numsOfPairs].childNodes[0].data
+        L = point_undistort(left_point, "left",end='B')
+        R = point_undistort(right_point, "right",end='B')
+        xyz = xy2xyz1(L, R,end='B')
+        print(xyz)
+        X = dom.createElement("X")
+        X.appendChild(dom.createTextNode(str(xyz[0])))
+        threeD.appendChild(X)
+        Y = dom.createElement("Y")
+        Y.appendChild(dom.createTextNode(str(xyz[1])))
+        threeD.appendChild(Y)
+        Z = dom.createElement("Z")
+        Z.appendChild(dom.createTextNode(str(xyz[2])))
+        threeD.appendChild(Z)
+        R = dom.createElement("R")
+        R.appendChild(dom.createTextNode(radius))
+        threeD.appendChild(R)
+        S = dom.createElement("S")
+        S.appendChild(dom.createTextNode(score))
+        threeD.appendChild(S)
 
-        xyz = xy2xyz1(L,R,mLeftIntrinsic,mRightIntrinsic,R_matrix,T_matrix)
-        xyz = [int(xyz[0])-xyz_flag[0],int(xyz[1])-xyz_flag[1],int(xyz[2])-xyz_flag[2]]
-        print(xyz,xyz_flag)
-        xyz_show = str(str(int(xyz[0]))+','+str(int(xyz[1]))+','+str(int(xyz[2])))
-
-        #num += 1
-
-        #num = 1
-        cv2.circle(left_img, (int(left_point[0]), int(left_point[1])), 5, (255, 255, 255), 1)
-        print('left--------',int(left_point[0]), int(left_point[1]))
-        #cv2.putText(left_img, xyz_show, (int(left_point[0])+50*num, int(left_point[1])+num*50), font, 3, (255, 255, 255), 3)
-        cv2.putText(left_img, xyz_show, (int(left_point[0]), int(left_point[1])), font, 3,(255, 255, 255), 3)
-
-        cv2.circle(right_img, (int(right_point[0]), int(right_point[1])), 5, (255, 255, 255), 1)
-        #cv2.putText(right_img, xyz_show, (int(right_point[0])+num*50, int(right_point[1])+num*50), font, 3, (255, 255, 255), 3)
-        cv2.putText(right_img, xyz_show, (int(right_point[0]) + num, int(right_point[1]) + num), font, 3,
-                    (255, 255, 255), 3)
-
-        points_3d[str(int(left_point[0]))+','+str(int(left_point[1]))]= xyz
-
-        points_3d[str(int(right_point[0])) + ',' + str(int(right_point[1]))] = xyz
+    # for i,item in enumerate(data):
+    #     print(item)
+    #     left_point =  item['left_point']
+    #     right_point = item['right_point']
+    #
+    #     L = point_undistort(left_point, 'left') ##涉及函数6
+    #     R = point_undistort(right_point, 'right')
+    #
+    #     xyz = xy2xyz1(L,R,mLeftIntrinsic,mRightIntrinsic,R_matrix,T_matrix)
+    #     xyz = [int(xyz[0])-xyz_flag[0],int(xyz[1])-xyz_flag[1],int(xyz[2])-xyz_flag[2]]
+    #     print(xyz,xyz_flag)
+    #     xyz_show = str(str(int(xyz[0]))+','+str(int(xyz[1]))+','+str(int(xyz[2])))
+    #
+    #     points_3d[str(int(left_point[0]))+','+str(int(left_point[1]))]= xyz
+    #
+    #     points_3d[str(int(right_point[0])) + ',' + str(int(right_point[1]))] = xyz
+    with open(pairs_3D_path,'w') as fp:
+        dom.writexml(fp)
 
 
 
-    print('points_3d',points_3d)
 
-    with  open(points_3d_path1, 'w') as  file:
 
-        json.dump(points_3d, file)
 
-    cv2.imwrite(os.path.join(pic_3d_path,'left.jpg'),left_img)
-    cv2.imwrite(os.path.join(pic_3d_path,'right.jpg'),right_img)
 
 
 def  epoch_3Dpoints_show(epoch_name): ##主要函数3
@@ -1510,4 +1599,4 @@ def  epoch_3Dpoints_show(epoch_name): ##主要函数3
 
 if __name__ == '__main__':
     epoch_name = "2021-01-16-16:03:26"
-    get_epoch_pairs_points(epoch_name)
+    epoch_3Dpoints(epoch_name)
