@@ -4,7 +4,7 @@
 			<hole>
 				
 				
-			<pairs><pair0><left_x>3057.0</left_x><left_y>927.0</left_y><right_x>1625.0</right_x><right_y>983.0</right_y><radius>33.0</radius><score>57.0</score></pair0><pair1><left_x>3031.0</left_x><left_y>2359.0</left_y><right_x>1950.0</right_x><right_y>331.0</right_y><radius>45.0</radius><score>48.0</score></pair1><pair2><left_x>3467.0</left_x><left_y>332.0</left_y><right_x>1490.0</right_x><right_y>2416.0</right_y><radius>33.0</radius><score>59.0</score></pair2></pairs><threeD/></hole>
+			<pairs><pair0><left_x>3057.0</left_x><left_y>927.0</left_y><right_x>1625.0</right_x><right_y>983.0</right_y><radius>33.0</radius><score>57.0</score></pair0><pair1><left_x>3031.0</left_x><left_y>2359.0</left_y><right_x>1950.0</right_x><right_y>331.0</right_y><radius>45.0</radius><score>48.0</score></pair1><pair2><left_x>3467.0</left_x><left_y>332.0</left_y><right_x>1490.0</right_x><right_y>2416.0</right_y><radius>33.0</radius><score>59.0</score></pair2></pairs><threeD><point0><X>1.3648490647988412</X><Y>-1.4759089151915266</Y><Z>17.130835391746064</Z><R>33.0</R><S>57.0</S></point0><point1><X>1.069321524595422</X><Y>2.49752872709473</Y><Z>18.37583354835173</Z><R>45.0</R><S>48.0</S></point1><point2><X>2.0787420287439575</X><Y>-5.8456368279202096</Y><Z>17.45360948845347</Z><R>33.0</R><S>59.0</S></point2></threeD></hole>
 			<target>
 				
 				
@@ -14,7 +14,7 @@
 			<hole>
 				
 				
-			<pairs><pair0><left_x>3057.0</left_x><left_y>927.0</left_y><right_x>1490.0</right_x><right_y>2416.0</right_y><radius>25.0</radius><score>35.0</score></pair0><pair1><left_x>3031.0</left_x><left_y>2359.0</left_y><right_x>1950.0</right_x><right_y>331.0</right_y><radius>45.0</radius><score>48.0</score></pair1><pair2><left_x>3467.0</left_x><left_y>332.0</left_y><right_x>1625.0</right_x><right_y>983.0</right_y><radius>41.0</radius><score>81.0</score></pair2></pairs><threeD/></hole>
+			<pairs><pair0><left_x>3057.0</left_x><left_y>927.0</left_y><right_x>1490.0</right_x><right_y>2416.0</right_y><radius>25.0</radius><score>35.0</score></pair0><pair1><left_x>3031.0</left_x><left_y>2359.0</left_y><right_x>1950.0</right_x><right_y>331.0</right_y><radius>45.0</radius><score>48.0</score></pair1><pair2><left_x>3467.0</left_x><left_y>332.0</left_y><right_x>1625.0</right_x><right_y>983.0</right_y><radius>41.0</radius><score>81.0</score></pair2></pairs><threeD><point0><X>0.751113624650751</X><Y>-2.3259359860330027</Y><Z>10.219384286805498</Z><R>25.0</R><S>35.0</S></point0><point1><X>1.0330464086976365</X><Y>1.965938763076306</Y><Z>17.087969801957033</Z><R>45.0</R><S>48.0</S></point1><point2><X>1.1459120660091926</X><Y>-1.7966125222826652</Y><Z>11.149629757636697</Z><R>41.0</R><S>81.0</S></point2></threeD></hole>
 			<target>
 				
 				

@@ -2,8 +2,8 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import stereo_vision.testMeasure._init_paths ##这里还要改回来
-# import _init_paths
+# import stereo_vision.testMeasure._init_paths ##这里还要改回来
+import _init_paths
 from model.config import cfg
 from model.test import im_detect
 from model.nms_wrapper import nms
@@ -456,18 +456,21 @@ def  point_undistort(point,flag,end='A'):
         root_path = os.path.dirname(os.path.realpath(__file__)).replace('testMeasure', 'static/checkboard_img_dir/A_')
     elif end=='B':
         root_path = os.path.dirname(os.path.realpath(__file__)).replace('testMeasure', 'static/checkboard_img_dir/B_')
-    left_path = os.path.join(root_path, 'left_single_calibration.xml')
-    right_path = os.path.join(root_path, 'right_single_calibration.xml')
+    left_path = root_path+'left_single_calibration.xml'
+    right_path = root_path+'right_single_calibration.xml'
+    # print(left_path)
+    # print(right_path)
     if flag == 'left':
         fs_left = cv2.FileStorage(left_path, cv2.FileStorage_READ)
         Intrinsic = fs_left.getNode('mtx').mat()
         Dist = fs_left.getNode('dist').mat()
 
-    if flag == 'right':
+    elif flag == 'right':
         fs_right = cv2.FileStorage(right_path, cv2.FileStorage_READ)
         Intrinsic = fs_right.getNode('mtx').mat()
         Dist = fs_right.getNode('dist').mat()
-
+    # print(Intrinsic)
+    # print(Dist)
     src = np.array([[point[0],point[1]]], dtype=np.float)
     src = np.array(np.reshape(src,(len(src),1,2)),dtype=float)
     dst = cv2.undistortPoints(src,Intrinsic,Dist)
@@ -510,9 +513,12 @@ def xy2xyz1(uvLeft, uvRight,end='A'):
         root_path = os.path.dirname(os.path.realpath(__file__)).replace('testMeasure','static/checkboard_img_dir/A_')
     elif end=='B':
         root_path = os.path.dirname(os.path.realpath(__file__)).replace('testMeasure','static/checkboard_img_dir/B_')
-    left_path = os.path.join(root_path,'left_single_calibration.xml')
-    right_path = os.path.join(root_path,'right_single_calibration.xml')
-    stereo_path = os.path.join(root_path, 'stereo_calibration.xml')
+    left_path = root_path+'left_single_calibration.xml'
+    right_path = root_path+'right_single_calibration.xml'
+    stereo_path = root_path+'stereo_calibration.xml'
+    # print(left_path)
+    # print(right_path)
+    # print(stereo_path)
 
     fs_left = cv2.FileStorage(left_path, cv2.FileStorage_READ)
     fs_right = cv2.FileStorage(right_path, cv2.FileStorage_READ)
@@ -1359,32 +1365,6 @@ def  epoch_3Dpoints(epoch_name): ##主要函数2
     2、确定最左点，去除畸变(具体还没看懂)
     3、将参数传入xy2xyz计算
     """
-
-    ckbd_root_path = os.path.dirname(os.path.realpath(__file__)).replace('testMeasure','static/checkboard_img_dir/')
-    A_left_path = os.path.join(ckbd_root_path,'A_left_single_calibration.xml')
-    A_right_path = os.path.join(ckbd_root_path,'A_right_single_calibration.xml')
-    A_stereo_path = os.path.join(ckbd_root_path,'A_stereo_calibration.xml')
-    B_left_path = os.path.join(ckbd_root_path, 'B_left_single_calibration.xml')
-    B_right_path = os.path.join(ckbd_root_path, 'B_right_single_calibration.xml')
-    B_stereo_path = os.path.join(ckbd_root_path, 'B_stereo_calibration.xml')
-
-    A_fs_left = cv2.FileStorage(A_left_path, cv2.FileStorage_READ)
-    A_fs_right = cv2.FileStorage(A_right_path, cv2.FileStorage_READ)
-    A_fs_stereo = cv2.FileStorage(A_stereo_path, cv2.FileStorage_READ)
-    B_fs_left = cv2.FileStorage(B_left_path, cv2.FileStorage_READ)
-    B_fs_right = cv2.FileStorage(B_right_path, cv2.FileStorage_READ)
-    B_fs_stereo = cv2.FileStorage(B_stereo_path, cv2.FileStorage_READ)
-
-    A_mLeftIntrinsic = A_fs_left.getNode('mtx').mat()
-    A_mRightIntrinsic = A_fs_right.getNode('mtx').mat()
-    A_R_matrix  = A_fs_stereo.getNode('R_matrix').mat()
-    A_T_matrix  = A_fs_stereo.getNode('T_matrix').mat()
-    B_mLeftIntrinsic = B_fs_left.getNode('mtx').mat()
-    B_mRightIntrinsic = B_fs_right.getNode('mtx').mat()
-    B_R_matrix = B_fs_stereo.getNode('R_matrix').mat()
-    B_T_matrix = B_fs_stereo.getNode('T_matrix').mat()
-
-
     data_root_path = os.path.dirname(os.path.realpath(__file__)).replace('testMeasure', 'static/res_pictures/result/')
     pairs_3D_path = os.path.join(data_root_path,epoch_name+'/points_info.xml')  ##匹配点与三维点保存在同一个文件
 
@@ -1411,6 +1391,7 @@ def  epoch_3Dpoints(epoch_name): ##主要函数2
     ## 计算A端孔的三维坐标并存入文件
     threeD = root.getElementsByTagName("threeD")[0]
     for i in range(AH_numsOfPairs):
+        td = dom.createElement("point"+str(i))
         left_point = [0,0]
         right_point = [0,0]
         left_point[0] = root.getElementsByTagName("left_x")[i].childNodes[0].data
@@ -1426,23 +1407,25 @@ def  epoch_3Dpoints(epoch_name): ##主要函数2
         xyz = xy2xyz1(L,R,end='A') ## 函数增加端面参数
         print(xyz)
         X = dom.createElement("X")
-        X.appendChild(dom.createTextNode(str(xyz[0])))
-        threeD.appendChild(X)
+        X.appendChild(dom.createTextNode(str(xyz[0][0])))
+        td.appendChild(X)
         Y = dom.createElement("Y")
-        Y.appendChild(dom.createTextNode(str(xyz[1])))
-        threeD.appendChild(Y)
+        Y.appendChild(dom.createTextNode(str(xyz[1][0])))
+        td.appendChild(Y)
         Z = dom.createElement("Z")
-        Z.appendChild(dom.createTextNode(str(xyz[2])))
-        threeD.appendChild(Z)
+        Z.appendChild(dom.createTextNode(str(xyz[2][0])))
+        td.appendChild(Z)
         R = dom.createElement("R")
         R.appendChild(dom.createTextNode(radius))
-        threeD.appendChild(R)
+        td.appendChild(R)
         S = dom.createElement("S")
         S.appendChild(dom.createTextNode(score))
-        threeD.appendChild(S)
+        td.appendChild(S)
+        threeD.appendChild(td)
     ## 计算A端标的三维坐标
     threeD = root.getElementsByTagName("threeD")[1]
     for i in range(AT_numsOfPairs):
+        td = dom.createElement("point"+str(i))
         left_point = [0,0]
         right_point = [0,0]
         left_point[0] = root.getElementsByTagName("left_x")[i+AH_numsOfPairs].childNodes[0].data
@@ -1458,23 +1441,25 @@ def  epoch_3Dpoints(epoch_name): ##主要函数2
         xyz = xy2xyz1(L,R,end='A')
         print(xyz)
         X = dom.createElement("X")
-        X.appendChild(dom.createTextNode(str(xyz[0])))
-        threeD.appendChild(X)
+        X.appendChild(dom.createTextNode(str(xyz[0][0])))
+        td.appendChild(X)
         Y = dom.createElement("Y")
-        Y.appendChild(dom.createTextNode(str(xyz[1])))
-        threeD.appendChild(Y)
+        Y.appendChild(dom.createTextNode(str(xyz[1][0])))
+        td.appendChild(Y)
         Z = dom.createElement("Z")
-        Z.appendChild(dom.createTextNode(str(xyz[2])))
-        threeD.appendChild(Z)
+        Z.appendChild(dom.createTextNode(str(xyz[2][0])))
+        td.appendChild(Z)
         R = dom.createElement("R")
         R.appendChild(dom.createTextNode(radius))
-        threeD.appendChild(R)
+        td.appendChild(R)
         S = dom.createElement("S")
         S.appendChild(dom.createTextNode(score))
-        threeD.appendChild(S)
+        td.appendChild(S)
+        threeD.appendChild(td)
     ## 计算B端孔的三维坐标
     threeD = root.getElementsByTagName("threeD")[2]
     for i in range(BH_numsOfPairs):
+        td = dom.createElement("point"+str(i))
         left_point = [0, 0]
         right_point = [0, 0]
         left_point[0] = root.getElementsByTagName("left_x")[i + AH_numsOfPairs+AT_numsOfPairs].childNodes[0].data
@@ -1490,23 +1475,25 @@ def  epoch_3Dpoints(epoch_name): ##主要函数2
         xyz = xy2xyz1(L, R,end='B')
         print(xyz)
         X = dom.createElement("X")
-        X.appendChild(dom.createTextNode(str(xyz[0])))
-        threeD.appendChild(X)
+        X.appendChild(dom.createTextNode(str(xyz[0][0])))
+        td.appendChild(X)
         Y = dom.createElement("Y")
-        Y.appendChild(dom.createTextNode(str(xyz[1])))
-        threeD.appendChild(Y)
+        Y.appendChild(dom.createTextNode(str(xyz[1][0])))
+        td.appendChild(Y)
         Z = dom.createElement("Z")
-        Z.appendChild(dom.createTextNode(str(xyz[2])))
-        threeD.appendChild(Z)
+        Z.appendChild(dom.createTextNode(str(xyz[2][0])))
+        td.appendChild(Z)
         R = dom.createElement("R")
         R.appendChild(dom.createTextNode(radius))
-        threeD.appendChild(R)
+        td.appendChild(R)
         S = dom.createElement("S")
         S.appendChild(dom.createTextNode(score))
-        threeD.appendChild(S)
+        td.appendChild(S)
+        threeD.appendChild(td)
     ## 计算B端标的三维坐标
     threeD = root.getElementsByTagName("threeD")[3]
     for i in range(BT_numsOfPairs):
+        td = dom.createElement("point"+str(i))
         left_point = [0, 0]
         right_point = [0, 0]
         left_point[0] = root.getElementsByTagName("left_x")[i + AH_numsOfPairs + AT_numsOfPairs+BH_numsOfPairs].childNodes[0].data
@@ -1522,20 +1509,21 @@ def  epoch_3Dpoints(epoch_name): ##主要函数2
         xyz = xy2xyz1(L, R,end='B')
         print(xyz)
         X = dom.createElement("X")
-        X.appendChild(dom.createTextNode(str(xyz[0])))
-        threeD.appendChild(X)
+        X.appendChild(dom.createTextNode(str(xyz[0][0])))
+        td.appendChild(X)
         Y = dom.createElement("Y")
-        Y.appendChild(dom.createTextNode(str(xyz[1])))
-        threeD.appendChild(Y)
+        Y.appendChild(dom.createTextNode(str(xyz[1][0])))
+        td.appendChild(Y)
         Z = dom.createElement("Z")
-        Z.appendChild(dom.createTextNode(str(xyz[2])))
-        threeD.appendChild(Z)
+        Z.appendChild(dom.createTextNode(str(xyz[2][0])))
+        td.appendChild(Z)
         R = dom.createElement("R")
         R.appendChild(dom.createTextNode(radius))
-        threeD.appendChild(R)
+        td.appendChild(R)
         S = dom.createElement("S")
         S.appendChild(dom.createTextNode(score))
-        threeD.appendChild(S)
+        td.appendChild(S)
+        threeD.appendChild(td)
 
     # for i,item in enumerate(data):
     #     print(item)
