@@ -2,8 +2,8 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-# import stereo_vision.testMeasure._init_paths ##这里还要改回来
-import _init_paths
+import stereo_vision.testMeasure._init_paths ##这里还要改回来
+# import _init_paths
 from model.config import cfg
 from model.test import im_detect
 from model.nms_wrapper import nms
@@ -1525,22 +1525,6 @@ def  epoch_3Dpoints(epoch_name): ##主要函数2
         td.appendChild(S)
         threeD.appendChild(td)
 
-    # for i,item in enumerate(data):
-    #     print(item)
-    #     left_point =  item['left_point']
-    #     right_point = item['right_point']
-    #
-    #     L = point_undistort(left_point, 'left') ##涉及函数6
-    #     R = point_undistort(right_point, 'right')
-    #
-    #     xyz = xy2xyz1(L,R,mLeftIntrinsic,mRightIntrinsic,R_matrix,T_matrix)
-    #     xyz = [int(xyz[0])-xyz_flag[0],int(xyz[1])-xyz_flag[1],int(xyz[2])-xyz_flag[2]]
-    #     print(xyz,xyz_flag)
-    #     xyz_show = str(str(int(xyz[0]))+','+str(int(xyz[1]))+','+str(int(xyz[2])))
-    #
-    #     points_3d[str(int(left_point[0]))+','+str(int(left_point[1]))]= xyz
-    #
-    #     points_3d[str(int(right_point[0])) + ',' + str(int(right_point[1]))] = xyz
     with open(pairs_3D_path,'w') as fp:
         dom.writexml(fp)
 

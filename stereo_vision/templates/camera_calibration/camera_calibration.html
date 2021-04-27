@@ -167,20 +167,58 @@
         </div>
         <div style="height:10px"></div>
         <div style="display:flex">
-            <div class="container" style="width:30%;padding-right:0px;padding-left:0px">
-                <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;background-color:#1255a2;height:20px;width:100%">
-                    <p align="center" style="color:white">激光跟踪仪文件导入区域</p>
-                </div>
-                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px;width:100%;height:200px">
-                    <button class="btn-success" style="font-size:18px;width:110px;height:35px;border-radius:8px" type="button" id="laserTracker" onclick="laserTracker()"><i class="fa fa-download"></i> LT导入</button>
-                </div>
-            </div>
             <div class="container" style="flex:1;padding-right:0px;padding-left:0px">
                 <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;background-color:#1255a2;height:20px;width:100%">
-                    <p align="center" style="color:white">激光跟踪仪数据手动输入区域</p>
+                    <p align="center" style="color:white">激光跟踪仪数据导入区域</p>
                 </div>
-                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px;width:100%;height:200px">
-                    <!--这里加激光跟踪仪数显input-->
+                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px;width:100%;height:240px">
+                    <div style="border:2px dashed #1255a2;height:70px">
+                        <input type="file" id="File1" style="font-size:0px" onchange="document.getElementById('textfield').value=document.getElementById('File1').value">
+                        <button class="btn-success" style="font-size:18px;width:110px;height:35px;border-radius:8px;margin-left:0px" type="button" id="laserTrackerFile" onclick="laserTrackerFile()"><i class="fa fa-download"></i> 选择文件</button>
+                        <input type="text" id="textfield" style="font-size:18px;margin-left:0px;width:60%">
+                    </div>
+                    <div style="display:flex">
+                        <!--这里加激光跟踪仪数显input-->
+                        <div style="border:2px dashed #1255a2;height:130px;width:50%">
+                            <p style="font-size:18px;margin:0">基准板A测量数据手动录入</p>
+                            <div style="display:flex">
+                                <p style="font-size:18px;margin:0">靶球1:&nbsp;&nbsp;&nbsp;&nbsp;X:</p><input type="text" id="A1X" style="font-size:18px;margin-left:0px;width:170px">
+                                <p style="font-size:18px;margin:0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y:</p><input type="text" id="A1Y" style="font-size:18px;margin-left:0px;width:170px">
+                                <p style="font-size:18px;margin:0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z:</p><input type="text" id="A1Z" style="font-size:18px;margin-left:0px;width:170px">
+                            </div>
+                            <div style="display:flex">
+                                <p style="font-size:18px;margin:0">靶球2:&nbsp;&nbsp;&nbsp;&nbsp;X:</p><input type="text" id="A2X" style="font-size:18px;margin-left:0px;width:170px">
+                                <p style="font-size:18px;margin:0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y:</p><input type="text" id="A2Y" style="font-size:18px;margin-left:0px;width:170px">
+                                <p style="font-size:18px;margin:0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z:</p><input type="text" id="A2Z" style="font-size:18px;margin-left:0px;width:170px">
+                            </div>
+                            <div style="display:flex">
+                                <p style="font-size:18px;margin:0">靶球3:&nbsp;&nbsp;&nbsp;&nbsp;X:</p><input type="text" id="A3X" style="font-size:18px;margin-left:0px;width:170px">
+                                <p style="font-size:18px;margin:0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y:</p><input type="text" id="A3Y" style="font-size:18px;margin-left:0px;width:170px">
+                                <p style="font-size:18px;margin:0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z:</p><input type="text" id="A3Z" style="font-size:18px;margin-left:0px;width:170px">
+                            </div>
+                        </div>
+                        <div style="border:2px dashed #1255a2;height:130px;width:50%">
+                            <p style="font-size:18px;margin:0">基准板B测量数据手动录入</p>
+                            <div style="display:flex">
+                                <p style="font-size:18px;margin:0">靶球1:&nbsp;&nbsp;&nbsp;&nbsp;X:</p><input type="text" id="B1X" style="font-size:18px;margin-left:0px;width:170px">
+                                <p style="font-size:18px;margin:0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y:</p><input type="text" id="B1Y" style="font-size:18px;margin-left:0px;width:170px">
+                                <p style="font-size:18px;margin:0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z:</p><input type="text" id="B1Z" style="font-size:18px;margin-left:0px;width:170px">
+                            </div>
+                            <div style="display:flex">
+                                <p style="font-size:18px;margin:0">靶球2:&nbsp;&nbsp;&nbsp;&nbsp;X:</p><input type="text" id="B2X" style="font-size:18px;margin-left:0px;width:170px">
+                                <p style="font-size:18px;margin:0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y:</p><input type="text" id="B2Y" style="font-size:18px;margin-left:0px;width:170px">
+                                <p style="font-size:18px;margin:0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z:</p><input type="text" id="B2Z" style="font-size:18px;margin-left:0px;width:170px">
+                            </div>
+                            <div style="display:flex">
+                                <p style="font-size:18px;margin:0">靶球3:&nbsp;&nbsp;&nbsp;&nbsp;X:</p><input type="text" id="B3X" style="font-size:18px;margin-left:0px;width:170px">
+                                <p style="font-size:18px;margin:0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y:</p><input type="text" id="B3Y" style="font-size:18px;margin-left:0px;width:170px">
+                                <p style="font-size:18px;margin:0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z:</p><input type="text" id="B3Z" style="font-size:18px;margin-left:0px;width:170px">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn-success" style="font-size:18px;width:170px;height:35px;border-radius:8px;margin-left:0px" type="button" id="coordinateSystem" onclick="coordinateSystem()"><i class="fa fa-codepen"></i> 构建全局坐标系</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -447,6 +485,27 @@
             })
         }
     </script>
+    <script>
+        function laserTrackerFile(){
+            var file = document.getElementById("File1");
+            file.click();
+        }
+    </script>
+<!--    <script>-->
+<!--        function laserTrackerFile(){-->
+<!--            var file;-->
+<!--            file = $('<input type="file" />');-->
+<!--            $('#laserTrackerFile').click(function(){-->
+<!--		        // 启动文件选择-->
+<!--		        file.click();-->
+<!--		        document.getElementById('textfield').value=file.value-->
+<!--	        });-->
+<!--	        //file.change(function(e){-->
+<!--		    //    var select_file = file[0].files[0];-->
+<!--		    //    console.log(select_file);-->
+<!--	        //})-->
+<!--        }-->
+<!--    </script>-->
     {% endblock %}
     <!-- ######### END: MAIN PANEL ########## -->
 
