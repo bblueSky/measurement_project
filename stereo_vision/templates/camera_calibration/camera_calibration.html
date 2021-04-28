@@ -4,7 +4,7 @@
 <head>
     {% block head_meta %}
     <meta charset="UTF-8">
-    {% block  title %}<title>相机标定</title>{% endblock %}
+    {% block  title %}<title>大型细长筒类构件位姿原位测量系统</title>{% endblock %}
     {% endblock %}
     {% block css %}
     <link href="../static/css/test_css.css" rel="stylesheet">
@@ -101,15 +101,26 @@
                 </div>
                 <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px">
                     <span>
-                        <input type="radio" name="AorB" id="selectA" value="A"><label style="font-size:18px">A端相机组标定</label>
-                        <input type="radio" name="AorB" id="selectB" value="B"><label style="font-size:18px">B端相机组标定</label>
+                        <input type="radio" name="AorB" id="selectA" value="A"><label style="font-size:18px;color:black">A端相机组标定</label>
+                        <input type="radio" name="AorB" id="selectB" value="B"><label style="font-size:18px;color:black">B端相机组标定</label>
                         <button class="btn-success" style="font-size:18px;width:110px;height:35px;border-radius:8px" type="button" id="selectAorB" onclick="selectAorB()"><i class="fa fa-repeat"></i> 切换</button>
                     </span>
                 </div>
+                <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;background-color:#1255a2;height:20px;width:100%">
+                    <p align="center" style="color:white">标定结果显示区域</p>
+                </div>
+                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px;width:100%;height:258px">
+                    <div>
+                        <button class="btn-success" style="font-size:18px;width:110px;height:35px;border-radius:8px" type="button" id="stereoCalibration" onclick="confirmDelete3()"><i class="fa fa-binoculars"></i> 立体标定</button>
+                    </div>
+                    <div style="border:2px dashed #1255a2;height:170px;display:flex">
+                        <p align="center" style="font-size:18px;margin:0">...</p>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div style="height:10px"></div>
-        <div style="display:flex">
+
+            <div style="height:10px"></div>
+
             <div class="container" style="flex:1;padding-right:0px;padding-left:0px">
                 <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;width:100%;background-color:#1255a2;height:20px">
                     <p align="center" style="color:white">标定板图像显示区域</p>
@@ -117,107 +128,34 @@
                 <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px">
                     <span>
                     <div style="float:left;width:120px">
-                        <div style="height:60px">
-                            <button class="btn-primary" style="font-size:18px;width:110px;height:55px;border-radius:8px" type="button" id="takePhotos" onclick="take_pic()"><i class="fa fa-camera"></i> 拍摄</button><!--这里按钮在拍摄与保存之间切换-->
+                        <div style="height:45px">
+                            <button class="btn-primary" style="font-size:18px;width:110px;height:40px;border-radius:8px" type="button" id="takePhotos" onclick="take_pic()"><i class="fa fa-camera"></i> 拍摄</button><!--这里按钮在拍摄与保存之间切换-->
                         </div>
-                        <div style="height:60px">
-                            <button class="btn-info" style="font-size:18px;width:110px;height:55px;border-radius:8px" type="button" id="savePic" onclick="save_pic()" disabled="disabled"><i class="fa fa-floppy-o"></i> 保存</button><!--我放弃了5555-->
+                        <div style="height:45px">
+                            <button class="btn-info" style="font-size:18px;width:110px;height:40px;border-radius:8px" type="button" id="savePic" onclick="save_pic()" disabled="disabled"><i class="fa fa-floppy-o"></i> 保存</button><!--我放弃了5555-->
                         </div>
-                        <div style="height:60px">
-                            <button class="btn-primary" style="font-size:18px;width:110px;height:55px;border-radius:8px" type="button" id="pageUp" onclick="pageUp()"><i class="fa fa-arrow-circle-o-up"></i> 上翻</button>
+                        <div style="height:45px">
+                            <button class="btn-primary" style="font-size:18px;width:110px;height:40px;border-radius:8px" type="button" id="pageUp" onclick="pageUp()"><i class="fa fa-arrow-circle-o-up"></i> 上翻</button>
                         </div>
-                        <div style="height:60px">
-                            <button class="btn-primary" style="font-size:18px;width:110px;height:55px;border-radius:8px" type="button" id="pageDown" onclick="pageDown()"><i class="fa fa-arrow-circle-o-down"></i> 下翻</button>
+                        <div style="height:45px">
+                            <button class="btn-primary" style="font-size:18px;width:110px;height:40px;border-radius:8px" type="button" id="pageDown" onclick="pageDown()"><i class="fa fa-arrow-circle-o-down"></i> 下翻</button>
                         </div>
-                        <div style="height:60px">
-                            <button class="btn-warning" style="font-size:18px;width:110px;height:55px;border-radius:8px" type="button" id="deleteThis" onclick="confirmDelete1()"><i class="fa fa-trash"></i> 删除这组</button>
+                        <div style="height:45px">
+                            <button class="btn-warning" style="font-size:18px;width:110px;height:40px;border-radius:8px" type="button" id="deleteThis" onclick="confirmDelete1()"><i class="fa fa-trash"></i> 删除这组</button>
                         </div>
-                        <div style="height:60px">
-                            <button class="btn-danger" style="font-size:18px;width:110px;height:55px;border-radius:8px" type="button" id="deleteAll" onclick="confirmDelete2()"><i class="fa fa-trash"></i> 删除所有</button>
+                        <div style="height:45px">
+                            <button class="btn-danger" style="font-size:18px;width:110px;height:40px;border-radius:8px" type="button" id="deleteAll" onclick="confirmDelete2()"><i class="fa fa-trash"></i> 删除所有</button>
                         </div>
                     </div>
                     <div style="float:left">
                       <table border="3" style="border:#5b93d3"><tr>
-                            <td><img name= 'leftcamera' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="480" height="350" id="left_img"></td>
-                            <td><img name='rightcamera' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="480" height="350" id="right_img"></td>
+                            <td><img name= 'leftcamera' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="300" height="250" id="left_img"></td>
+                            <td><img name='rightcamera' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="300" height="250" id="right_img"></td>
                       </tr></table>
                     </div>
                     </span>
                     <div align="center">
-                        <p align="center" id="numPic" style="font-size:18px">拍照后点击“保存”即可存入标定图库</p><!--这里更换文本-->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div style="height:10px"></div>
-        <div style="display:flex">
-            <div class="container" style="flex:1;padding-right:0px;padding-left:0px">
-                <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;background-color:#1255a2;height:20px;width:100%">
-                    <p align="center" style="color:white">标定结果显示区域</p>
-                </div>
-                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px;width:100%;height:330px">
-                    <div>
-                        <button class="btn-success" style="font-size:18px;width:110px;height:35px;border-radius:8px" type="button" id="stereoCalibration" onclick="confirmDelete3()"><i class="fa fa-binoculars"></i> 立体标定</button>
-                    </div>
-                    <div style="border:2px dashed #1255a2;height:260px;display:flex">
-                        <p align="center" style="font-size:18px;margin:0">标定结果显示</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div style="height:10px"></div>
-        <div style="display:flex">
-            <div class="container" style="flex:1;padding-right:0px;padding-left:0px">
-                <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;background-color:#1255a2;height:20px;width:100%">
-                    <p align="center" style="color:white">激光跟踪仪数据导入区域</p>
-                </div>
-                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px;width:100%;height:240px">
-                    <div style="border:2px dashed #1255a2;height:70px">
-                        <input type="file" id="File1" style="font-size:0px" onchange="document.getElementById('textfield').value=document.getElementById('File1').value">
-                        <button class="btn-success" style="font-size:18px;width:110px;height:35px;border-radius:8px;margin-left:0px" type="button" id="laserTrackerFile" onclick="laserTrackerFile()"><i class="fa fa-download"></i> 选择文件</button>
-                        <input type="text" id="textfield" style="font-size:18px;margin-left:0px;width:60%">
-                    </div>
-                    <div style="display:flex">
-                        <!--这里加激光跟踪仪数显input-->
-                        <div style="border:2px dashed #1255a2;height:130px;width:50%">
-                            <p style="font-size:18px;margin:0">基准板A测量数据手动录入</p>
-                            <div style="display:flex">
-                                <p style="font-size:18px;margin:0">靶球1:&nbsp;&nbsp;&nbsp;&nbsp;X:</p><input type="text" id="A1X" style="font-size:18px;margin-left:0px;width:170px">
-                                <p style="font-size:18px;margin:0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y:</p><input type="text" id="A1Y" style="font-size:18px;margin-left:0px;width:170px">
-                                <p style="font-size:18px;margin:0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z:</p><input type="text" id="A1Z" style="font-size:18px;margin-left:0px;width:170px">
-                            </div>
-                            <div style="display:flex">
-                                <p style="font-size:18px;margin:0">靶球2:&nbsp;&nbsp;&nbsp;&nbsp;X:</p><input type="text" id="A2X" style="font-size:18px;margin-left:0px;width:170px">
-                                <p style="font-size:18px;margin:0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y:</p><input type="text" id="A2Y" style="font-size:18px;margin-left:0px;width:170px">
-                                <p style="font-size:18px;margin:0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z:</p><input type="text" id="A2Z" style="font-size:18px;margin-left:0px;width:170px">
-                            </div>
-                            <div style="display:flex">
-                                <p style="font-size:18px;margin:0">靶球3:&nbsp;&nbsp;&nbsp;&nbsp;X:</p><input type="text" id="A3X" style="font-size:18px;margin-left:0px;width:170px">
-                                <p style="font-size:18px;margin:0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y:</p><input type="text" id="A3Y" style="font-size:18px;margin-left:0px;width:170px">
-                                <p style="font-size:18px;margin:0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z:</p><input type="text" id="A3Z" style="font-size:18px;margin-left:0px;width:170px">
-                            </div>
-                        </div>
-                        <div style="border:2px dashed #1255a2;height:130px;width:50%">
-                            <p style="font-size:18px;margin:0">基准板B测量数据手动录入</p>
-                            <div style="display:flex">
-                                <p style="font-size:18px;margin:0">靶球1:&nbsp;&nbsp;&nbsp;&nbsp;X:</p><input type="text" id="B1X" style="font-size:18px;margin-left:0px;width:170px">
-                                <p style="font-size:18px;margin:0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y:</p><input type="text" id="B1Y" style="font-size:18px;margin-left:0px;width:170px">
-                                <p style="font-size:18px;margin:0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z:</p><input type="text" id="B1Z" style="font-size:18px;margin-left:0px;width:170px">
-                            </div>
-                            <div style="display:flex">
-                                <p style="font-size:18px;margin:0">靶球2:&nbsp;&nbsp;&nbsp;&nbsp;X:</p><input type="text" id="B2X" style="font-size:18px;margin-left:0px;width:170px">
-                                <p style="font-size:18px;margin:0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y:</p><input type="text" id="B2Y" style="font-size:18px;margin-left:0px;width:170px">
-                                <p style="font-size:18px;margin:0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z:</p><input type="text" id="B2Z" style="font-size:18px;margin-left:0px;width:170px">
-                            </div>
-                            <div style="display:flex">
-                                <p style="font-size:18px;margin:0">靶球3:&nbsp;&nbsp;&nbsp;&nbsp;X:</p><input type="text" id="B3X" style="font-size:18px;margin-left:0px;width:170px">
-                                <p style="font-size:18px;margin:0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y:</p><input type="text" id="B3Y" style="font-size:18px;margin-left:0px;width:170px">
-                                <p style="font-size:18px;margin:0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z:</p><input type="text" id="B3Z" style="font-size:18px;margin-left:0px;width:170px">
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <button class="btn-success" style="font-size:18px;width:170px;height:35px;border-radius:8px;margin-left:0px" type="button" id="coordinateSystem" onclick="coordinateSystem()"><i class="fa fa-codepen"></i> 构建全局坐标系</button>
+                        <p align="center" id="numPic" style="font-size:18px;color:black">拍照后点击“保存”即可存入标定图库</p><!--这里更换文本-->
                     </div>
                 </div>
             </div>
@@ -228,18 +166,74 @@
                 <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;background-color:#1255a2;height:20px;width:100%">
                     <p align="center" style="color:white">测量场及全局坐标系构建区域</p>
                 </div>
-                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px;width:100%">
-                    <div style="border:2px dashed #1255a2;display:flex">
-                        <p align="center" style="font-size:18px;margin:0">A端相机标定状态显示</p>
-                    </div>
-                    <div style="border:2px dashed #1255a2;display:flex">
-                        <p align="center" style="font-size:18px;margin:0">B端相机标定状态显示</p>
-                    </div>
-                    <div style="border:2px dashed #1255a2;display:flex">
-                        <p align="center" style="font-size:18px;margin:0">激光跟踪仪数据录入状态显示</p>
-                    </div>
+                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px;width:100%;height:390px">
                     <div>
                         <button class="btn-success" style="font-size:18px;width:130px;height:35px;border-radius:8px" type="button" id="constructMeasureField" onclick="constructMeasureField()"><i class="fa fa-codepen"></i> 构建测量场</button>
+                    </div>
+                    <div style="display:flex">
+                        <div style="border:2px dashed #1255a2;display:flex;width:100%">
+                            <p align="center" style="font-size:18px;margin:0">...</p>
+                        </div>
+                        <div>
+                            <table border="3" style="border:#5b93d3">
+                                <tr>
+                                    <td><img name= 'targetBallCoordinates' src="/static/res_pictures/temp/noPoint.png" alt="Pulpit rock" width="330" height="250" id="targetBallCoordinates"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container" style="flex:1;padding-right:0px;padding-left:0px">
+                <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;background-color:#1255a2;height:20px;width:100%">
+                    <p align="center" style="color:white">激光跟踪仪数据导入区域</p>
+                </div>
+                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px;width:100%;height:390px">
+                    <div style="border:2px dashed #1255a2;height:70px">
+                        <input type="file" id="File1" style="font-size:0px;width:0px;height:0px" onchange="document.getElementById('textfield').value=document.getElementById('File1').value">
+                        <button class="btn-success" style="font-size:18px;width:110px;height:35px;border-radius:8px;margin-left:0px" type="button" id="laserTrackerFile" onclick="laserTrackerFile()"><i class="fa fa-download"></i> 选择文件</button>
+                        <input type="text" id="textfield" style="font-size:18px;margin-left:0px;width:60%">
+                    </div>
+
+                    <!--这里加激光跟踪仪数显input-->
+                    <div style="border:2px dashed #1255a2;height:130px;width:100%">
+                        <p style="font-size:18px;margin:0;color:black">基准板A测量数据手动录入</p>
+                        <div style="display:flex">
+                            <p style="font-size:18px;margin:0;color:black">&nbsp;&nbsp;&nbsp;靶球1:&nbsp;&nbsp;&nbsp;&nbsp;X:</p><input type="text" id="A1X" style="font-size:18px;margin-left:0px;width:170px">
+                            <p style="font-size:18px;margin:0;color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y:</p><input type="text" id="A1Y" style="font-size:18px;margin-left:0px;width:170px">
+                            <p style="font-size:18px;margin:0;color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z:</p><input type="text" id="A1Z" style="font-size:18px;margin-left:0px;width:170px">
+                        </div>
+                        <div style="display:flex">
+                            <p style="font-size:18px;margin:0;color:black">&nbsp;&nbsp;&nbsp;靶球2:&nbsp;&nbsp;&nbsp;&nbsp;X:</p><input type="text" id="A2X" style="font-size:18px;margin-left:0px;width:170px">
+                            <p style="font-size:18px;margin:0;color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y:</p><input type="text" id="A2Y" style="font-size:18px;margin-left:0px;width:170px">
+                            <p style="font-size:18px;margin:0;color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z:</p><input type="text" id="A2Z" style="font-size:18px;margin-left:0px;width:170px">
+                        </div>
+                        <div style="display:flex">
+                            <p style="font-size:18px;margin:0;color:black">&nbsp;&nbsp;&nbsp;靶球3:&nbsp;&nbsp;&nbsp;&nbsp;X:</p><input type="text" id="A3X" style="font-size:18px;margin-left:0px;width:170px">
+                            <p style="font-size:18px;margin:0;color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y:</p><input type="text" id="A3Y" style="font-size:18px;margin-left:0px;width:170px">
+                            <p style="font-size:18px;margin:0;color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z:</p><input type="text" id="A3Z" style="font-size:18px;margin-left:0px;width:170px">
+                        </div>
+                    </div>
+                    <div style="border:2px dashed #1255a2;height:130px;width:100%">
+                        <p style="font-size:18px;margin:0;color:black">基准板B测量数据手动录入</p>
+                        <div style="display:flex">
+                            <p style="font-size:18px;margin:0;color:black">&nbsp;&nbsp;&nbsp;靶球1:&nbsp;&nbsp;&nbsp;&nbsp;X:</p><input type="text" id="B1X" style="font-size:18px;margin-left:0px;width:170px">
+                            <p style="font-size:18px;margin:0;color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y:</p><input type="text" id="B1Y" style="font-size:18px;margin-left:0px;width:170px">
+                            <p style="font-size:18px;margin:0;color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z:</p><input type="text" id="B1Z" style="font-size:18px;margin-left:0px;width:170px">
+                        </div>
+                        <div style="display:flex">
+                            <p style="font-size:18px;margin:0;color:black">&nbsp;&nbsp;&nbsp;靶球2:&nbsp;&nbsp;&nbsp;&nbsp;X:</p><input type="text" id="B2X" style="font-size:18px;margin-left:0px;width:170px">
+                            <p style="font-size:18px;margin:0;color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y:</p><input type="text" id="B2Y" style="font-size:18px;margin-left:0px;width:170px">
+                            <p style="font-size:18px;margin:0;color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z:</p><input type="text" id="B2Z" style="font-size:18px;margin-left:0px;width:170px">
+                        </div>
+                        <div style="display:flex">
+                            <p style="font-size:18px;margin:0;color:black">&nbsp;&nbsp;&nbsp;靶球3:&nbsp;&nbsp;&nbsp;&nbsp;X:</p><input type="text" id="B3X" style="font-size:18px;margin-left:0px;width:170px">
+                            <p style="font-size:18px;margin:0;color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y:</p><input type="text" id="B3Y" style="font-size:18px;margin-left:0px;width:170px">
+                            <p style="font-size:18px;margin:0;color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z:</p><input type="text" id="B3Z" style="font-size:18px;margin-left:0px;width:170px">
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn-success" style="font-size:18px;width:115px;height:35px;border-radius:8px;margin-left:0px" type="button" id="inputComplete" onclick="inputComplete()"><i class="fa fa-check"></i> 完成导入</button>
                     </div>
                 </div>
             </div>
