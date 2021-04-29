@@ -193,6 +193,7 @@
                         <input type="file" id="File1" style="font-size:0px;width:0px;height:0px" onchange="document.getElementById('textfield').value=document.getElementById('File1').value">
                         <button class="btn-success" style="font-size:18px;width:110px;height:35px;border-radius:8px;margin-left:0px" type="button" id="laserTrackerFile" onclick="laserTrackerFile()"><i class="fa fa-download"></i> 选择文件</button>
                         <input type="text" id="textfield" style="font-size:18px;margin-left:0px;width:60%">
+                        <button class="btn-success" style="font-size:18px;width:110px;height:35px;border-radius:8px;margin-left:0px" type="button" id="inputComplete" onclick="inputComplete()"><i class="fa fa-check"></i> 导入完成</button>
                     </div>
 
                     <!--这里加激光跟踪仪数显input-->
@@ -233,7 +234,7 @@
                         </div>
                     </div>
                     <div>
-                        <button class="btn-success" style="font-size:18px;width:115px;height:35px;border-radius:8px;margin-left:0px" type="button" id="inputComplete" onclick="inputComplete()"><i class="fa fa-check"></i> 完成导入</button>
+                        <button class="btn-success" style="font-size:18px;width:115px;height:35px;border-radius:8px;margin-left:0px" type="button" id="insertComplete" onclick="insertComplete()"><i class="fa fa-check"></i> 录入完成</button>
                     </div>
                 </div>
             </div>
@@ -485,21 +486,46 @@
             file.click();
         }
     </script>
-<!--    <script>-->
-<!--        function laserTrackerFile(){-->
-<!--            var file;-->
-<!--            file = $('<input type="file" />');-->
-<!--            $('#laserTrackerFile').click(function(){-->
-<!--		        // 启动文件选择-->
-<!--		        file.click();-->
-<!--		        document.getElementById('textfield').value=file.value-->
-<!--	        });-->
-<!--	        //file.change(function(e){-->
-<!--		    //    var select_file = file[0].files[0];-->
-<!--		    //    console.log(select_file);-->
-<!--	        //})-->
-<!--        }-->
-<!--    </script>-->
+    <script>
+        function insertComplete(){
+            var A1X = document.getElementById("A1X").value;
+            var A1Y = document.getElementById("A1Y").value;
+            var A1Z = document.getElementById("A1Z").value;
+            var A2X = document.getElementById("A2X").value;
+            var A2Y = document.getElementById("A2Y").value;
+            var A2Z = document.getElementById("A2Z").value;
+            var A3X = document.getElementById("A3X").value;
+            var A3Y = document.getElementById("A3Y").value;
+            var A3Z = document.getElementById("A3Z").value;
+            var B1X = document.getElementById("B1X").value;
+            var B1Y = document.getElementById("B1Y").value;
+            var B1Z = document.getElementById("B1Z").value;
+            var B2X = document.getElementById("B2X").value;
+            var B2Y = document.getElementById("B2Y").value;
+            var B2Z = document.getElementById("B2Z").value;
+            var B3X = document.getElementById("B3X").value;
+            var B3Y = document.getElementById("B3Y").value;
+            var B3Z = document.getElementById("B3Z").value;
+            $.ajax({
+                type:'GET',
+                data:{'A1X':A1X;'A1Y':A1Y;'A1Z':A1Z;'A2X':A2X;'A2Y':A2Y;'A2Z':A2Z;'A3X':A3X;'A3Y':A3Y;'A3Z':A3Z;'B1X':B1X;'B1Y':B1Y;'B1Z':B1Z;'B2X':B2X;'B2Y':B2Y;'B2Z':B2Z;'B3X':B3X;'B3Y':B3Y;'B3Z':B3Z},
+                url:"/cameraCalibration/insertComplete",
+                dataType: 'json',
+                success:function(res){
+                    alert(flag+"端双目相机已标定完成！")
+                    document.getElementById("left_img").src="/static/res_pictures/temp/noImage.png";
+                    document.getElementById("right_img").src="/static/res_pictures/temp/noImage.png";
+                    document.getElementById("takePhotos").removeAttribute("disabled");
+                    document.getElementById("pageUp").removeAttribute("disabled");
+                    document.getElementById("pageDown").removeAttribute("disabled");
+                    document.getElementById("deleteThis").removeAttribute("disabled");
+                    document.getElementById("deleteAll").removeAttribute("disabled");
+                    document.getElementById("stereoCalibration").removeAttribute("disabled");
+                    document.getElementById("numPic").innerHTML='已完成'+flag+'端相机组的标定！可进行其他操作！'
+                }
+            })
+        }
+    </script>
     {% endblock %}
     <!-- ######### END: MAIN PANEL ########## -->
 

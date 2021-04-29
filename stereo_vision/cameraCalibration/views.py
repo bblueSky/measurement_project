@@ -11,9 +11,10 @@ import datetime
 import signal
 import threading
 import os
+from xml.dom import minidom
 import stereo_vision.ksj.cam as  kcam
 
-from  stereo_vision.cameraCalibration.utils  import  sig_calibration,stereo_Calibration
+from  stereo_vision.cameraCalibration.utils  import  sig_calibration,stereo_Calibration,LTOrd2AOrd,LTside2VSide
 
 
 @cameraCalibration.route('/')
@@ -231,10 +232,41 @@ def  stereo_calibration():
     return str(1)
 
 
-@cameraCalibration.route('/displayInfo/',methods=['POST','GET'])
-def displayInfo():
+@cameraCalibration.route('/insertComplete/',methods=['POST','GET'])
+def insertComplete():
+    A1X = request.args.get('A1X')
+    A1Y = request.args.get('A1Y')
+    A1Z = request.args.get('A1Z')
+    A2X = request.args.get('A2X')
+    A2Y = request.args.get('A2Y')
+    A2Z = request.args.get('A2Z')
+    A3X = request.args.get('A3X')
+    A3Y = request.args.get('A3Y')
+    A3Z = request.args.get('A3Z')
+    B1X = request.args.get('B1X')
+    B1Y = request.args.get('B1Y')
+    B1Z = request.args.get('B1Z')
+    B2X = request.args.get('B2X')
+    B2Y = request.args.get('B2Y')
+    B2Z = request.args.get('B2Z')
+    B3X = request.args.get('B3X')
+    B3Y = request.args.get('B3Y')
+    B3Z = request.args.get('B3Z')
+    AP1 = np.mat([A1X,A1Y,A1Z])
+    AP2 = np.mat([A2X,A2Y,A2Z])
+    AP3 = np.mat([A3X,A3Y,A3Z])
+    BP1 = np.mat([B1X,B1Y,B1Z])
+    BP2 = np.mat([B2X,B2Y,B2Z])
+    BP3 = np.mat([B3X,B3Y,B3Z])
+    APO,APH,APW,BPO,BPH,BPW,R_T2A,T_T2A = LTOrd2AOrd(AP1,AP2,AP3,BP1,BP2,BP3)  ##激光跟踪仪下的六点坐标转移到A基准板坐标系下；APO默认（0,0,0），APH与APO同Height，APW与APO同Width
+    APOs,APHs,APWs,BPOs,BPHs,BPWs,T_AS2S,T_BS2S = LTside2VSide(APO,APH,APW,BPO,BPH,BPW)  ##靶球一侧向视觉靶标一侧转换，坐标系仍然是A基准板，解出的六点是视觉靶标在A板坐标系下的坐标
+    ## 数据存入global_ord.xml
+    savePath = os.path.dirname(os.path.realpath(__file__)).replace("cameraCalibration","static/global.xml")
+    p_doc = minidom.Document()
+    root = p_doc.createElement('global_info')
+    ts = time.time()
+    st = datetime.datetime.fromtimestamp(ts).strftime('%Y' + '-' + '%m' + '-' + '%d' + '-' + '%H' + ':' + '%M' + ':' + '%S')
 
-    return str(1)
 
 
 @cameraCalibration.route('/laserTracker/',methods=['POST','GET'])
