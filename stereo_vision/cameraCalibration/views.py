@@ -14,8 +14,8 @@ import os
 from xml.dom import minidom
 import stereo_vision.ksj.cam as  kcam
 
-from  stereo_vision.cameraCalibration.utils  import  sig_calibration,stereo_Calibration,LTOrd2AOrd,LTside2VSide
-
+from  stereo_vision.cameraCalibration.utils  import  sig_calibration,stereo_Calibration
+##from  stereo_vision.cameraCalibration.utils  import  LTOrd2AOrd,LTside2VSide  ##还没写
 
 @cameraCalibration.route('/')
 def index():
@@ -252,21 +252,60 @@ def insertComplete():
     B3X = request.args.get('B3X')
     B3Y = request.args.get('B3Y')
     B3Z = request.args.get('B3Z')
-    AP1 = np.mat([A1X,A1Y,A1Z])
-    AP2 = np.mat([A2X,A2Y,A2Z])
-    AP3 = np.mat([A3X,A3Y,A3Z])
-    BP1 = np.mat([B1X,B1Y,B1Z])
-    BP2 = np.mat([B2X,B2Y,B2Z])
-    BP3 = np.mat([B3X,B3Y,B3Z])
-    APO,APH,APW,BPO,BPH,BPW,R_T2A,T_T2A = LTOrd2AOrd(AP1,AP2,AP3,BP1,BP2,BP3)  ##激光跟踪仪下的六点坐标转移到A基准板坐标系下；APO默认（0,0,0），APH与APO同Height，APW与APO同Width
-    APOs,APHs,APWs,BPOs,BPHs,BPWs,T_AS2S,T_BS2S = LTside2VSide(APO,APH,APW,BPO,BPH,BPW)  ##靶球一侧向视觉靶标一侧转换，坐标系仍然是A基准板，解出的六点是视觉靶标在A板坐标系下的坐标
+    AP1 = np.mat([float(A1X),float(A1Y),float(A1Z)])
+    AP2 = np.mat([float(A2X),float(A2Y),float(A2Z)])
+    AP3 = np.mat([float(A3X),float(A3Y),float(A3Z)])
+    BP1 = np.mat([float(B1X),float(B1Y),float(B1Z)])
+    BP2 = np.mat([float(B2X),float(B2Y),float(B2Z)])
+    BP3 = np.mat([float(B3X),float(B3Y),float(B3Z)])
+    # APO,APH,APW,BPO,BPH,BPW,R_T2A,T_T2A = LTOrd2AOrd(AP1,AP2,AP3,BP1,BP2,BP3)  ##激光跟踪仪下的六点坐标转移到A基准板坐标系下；APO默认（0,0,0），APH与APO同Height，APW与APO同Width
+    # APOs,APHs,APWs,BPOs,BPHs,BPWs,T_AS2S,T_BS2S = LTside2VSide(APO,APH,APW,BPO,BPH,BPW)  ##靶球一侧向视觉靶标一侧转换，坐标系仍然是A基准板，解出的六点是视觉靶标在A板坐标系下的坐标
     ## 数据存入global_ord.xml
-    savePath = os.path.dirname(os.path.realpath(__file__)).replace("cameraCalibration","static/global.xml")
-    p_doc = minidom.Document()
-    root = p_doc.createElement('global_info')
+    savePath = os.path.dirname(os.path.realpath(__file__)).replace("cameraCalibration","static/global_info.xml")
+    dom = minidom.parse(savePath)
+    root = dom.documentElement
+    root.removeChild(root.getElementsByTagName("global_time")[0])
+    root.removeChild(root.getElementsByTagName("origin")[0])
+    root.removeChild(root.getElementsByTagName("T2A")[0])
+    root.removeChild(root.getElementsByTagName("S2S")[0])
+    root.appendChild(dom.createElement("global_time"))
+    root.appendChild(dom.createElement("origin"))
+    root.appendChild(dom.createElement("T2A"))
+    root.appendChild(dom.createElement("S2S"))
     ts = time.time()
     st = datetime.datetime.fromtimestamp(ts).strftime('%Y' + '-' + '%m' + '-' + '%d' + '-' + '%H' + ':' + '%M' + ':' + '%S')
+    calibration_time = root.getElementsByTagName("global_time")[0]
+    calibration_time.removeChild(root.getElementsByTagName("time")[1])
+    time1 = dom.createElement("time")
+    calibration_time.appendChild(time1)
+    time1.appendChild(dom.createTextNode(st))
+    origin = root.getElementsByTagName("origin")[0]
+    AP1 = dom.createElement('AP1')
+    X = dom.createElement('X')
+    X.appendChild(dom.createTextNode(A1X))
+    AP1.appendChild(X)
+    Y = dom.createElement('Y')
+    Y.appendChild(dom.createTextNode(A1Y))
+    AP1.appendChild(Y)
+    Z = dom.createElement('Z')
+    Z.appendChild(dom.createTextNode(A1Z))
+    AP1.appendChild(Z)
+    AP2 = dom.createElement('AP2')
 
+
+
+
+    
+    AP3 = dom.createElement('AP3')
+    BP1 = dom.createElement('BP1')
+    BP2 = dom.createElement('BP2')
+    BP3 = dom.createElement('BP3')
+    origin.appendChild(AP1)
+    origin.appendChild(AP2)
+    origin.appendChild(AP3)
+    origin.appendChild(BP1)
+    origin.appendChild(BP2)
+    origin.appendChild(BP3)
 
 
 @cameraCalibration.route('/laserTracker/',methods=['POST','GET'])

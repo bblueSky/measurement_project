@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<global_info>
+		<calibration_time/>
+		<global_time/>
 		<origin>
 			<AP1/>
 			<AP2/>
