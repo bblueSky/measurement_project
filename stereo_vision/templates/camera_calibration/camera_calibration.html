@@ -485,6 +485,9 @@
             var file = document.getElementById("File1");
             file.click();
         }
+        function inputComplete(){
+            var t;
+        }
     </script>
     <script>
         function insertComplete(){
@@ -508,20 +511,14 @@
             var B3Z = document.getElementById("B3Z").value;
             $.ajax({
                 type:'GET',
-                data:{'A1X':A1X;'A1Y':A1Y;'A1Z':A1Z;'A2X':A2X;'A2Y':A2Y;'A2Z':A2Z;'A3X':A3X;'A3Y':A3Y;'A3Z':A3Z;'B1X':B1X;'B1Y':B1Y;'B1Z':B1Z;'B2X':B2X;'B2Y':B2Y;'B2Z':B2Z;'B3X':B3X;'B3Y':B3Y;'B3Z':B3Z},
+                data:{'A1X':A1X,'A1Y':A1Y,'A1Z':A1Z,'A2X':A2X,'A2Y':A2Y,'A2Z':A2Z,'A3X':A3X,'A3Y':A3Y,'A3Z':A3Z,'B1X':B1X,'B1Y':B1Y,'B1Z':B1Z,'B2X':B2X,'B2Y':B2Y,'B2Z':B2Z,'B3X':B3X,'B3Y':B3Y,'B3Z':B3Z},
                 url:"/cameraCalibration/insertComplete",
                 dataType: 'json',
                 success:function(res){
-                    alert(flag+"端双目相机已标定完成！")
-                    document.getElementById("left_img").src="/static/res_pictures/temp/noImage.png";
-                    document.getElementById("right_img").src="/static/res_pictures/temp/noImage.png";
-                    document.getElementById("takePhotos").removeAttribute("disabled");
-                    document.getElementById("pageUp").removeAttribute("disabled");
-                    document.getElementById("pageDown").removeAttribute("disabled");
-                    document.getElementById("deleteThis").removeAttribute("disabled");
-                    document.getElementById("deleteAll").removeAttribute("disabled");
-                    document.getElementById("stereoCalibration").removeAttribute("disabled");
-                    document.getElementById("numPic").innerHTML='已完成'+flag+'端相机组的标定！可进行其他操作！'
+                    alert("数据录入完成！")
+                },
+                error: function (res) {
+                      alert('失败')
                 }
             })
         }

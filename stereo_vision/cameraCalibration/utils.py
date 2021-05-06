@@ -441,6 +441,53 @@ def   creat_disp(left_path,right_path):
        return  disparity
 
 
+def rigid_transform_3D(A, B):
+    assert len(A) == len(B)
+    N = A.shape[0];
+    mu_A = np.mean(A, axis=0)
+    mu_B = np.mean(B, axis=0)
+
+    AA = A - np.tile(mu_A, (N, 1))
+    BB = B - np.tile(mu_B, (N, 1))
+    H = np.transpose(AA) * BB
+
+    U, S, Vt = np.linalg.svd(H)
+    R = Vt.T * U.T
+
+    if np.linalg.det(R) < 0:
+        print("Reflection detected")
+        Vt[2, :] *= -1
+        R = Vt.T * U.T
+
+    t = -R * mu_A.T + mu_B.T
+
+    return R, t
+
+def LTOrd2AOrd(AP1,AP2,AP3,BP1,BP2,BP3):
+    B = np.mat([[0,0,0],[130,0,0],[0,130,0]])  ##数据根据基准板尺寸修改,需要考虑实际加工公差
+    A = np.mat([[AP1[0,0],AP1[0,1],AP1[0,2]],[AP2[0,0],AP2[0,1],AP2[0,2]],[AP3[0,0],AP3[0,1],AP3[0,2]]])
+    R_T2A,T_T2A = rigid_transform_3D(A,B)
+    n = len(A)
+    C = np.mat([[BP1[0,0],BP1[0,1],BP1[0,2]],[BP2[0,0],BP2[0,1],BP2[0,2]],[BP3[0,0],BP3[0,1],BP3[0,2]]])
+    C2 = (R_T2A * C.T) + np.tile(T_T2A, (1, n))
+    C2 = C2.T
+    APO = B[0]
+    APH = B[1]
+    APW = B[2]
+    BPO = C2[0]
+    BPH = C2[1]
+    BPW = C2[2]
+    return APO,APH,APW,BPO,BPH,BPW,R_T2A,T_T2A
+
+
+def LTside2VSide(APO,APH,APW,BPO,BPH,BPW):
+    ##函数没写完
+    
+    mT_AS2S = (APH-APO)*(APW-APO)
+    mT_BS2S = (BPH-BPO)*(BPW-BPO)
+
+
+    return APOs,APHs,APWs,BPOs,BPHs,BPWs,T_AS2S,T_BS2S
 
 
 

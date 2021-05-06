@@ -1,33 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-	<global_info>
-		<calibration_time/>
-		<global_time/>
-		<origin>
-			<AP1/>
-			<AP2/>
-			<AP3/>
-			<BP1/>
-			<BP2/>
-			<BP3/>
-		</origin>
-		<T2A>
-			<APO/>
-			<APH/>
-			<APW/>
-			<BPO/>
-			<BPH/>
-			<BPW/>
-			<R_T2A/>
-			<T_T2A/>
-		</T2A>
-		<S2S>
-			<APOs/>
-			<APHs/>
-			<APWs/>
-			<BPOs/>
-			<BPHs/>
-			<BPWs/>
-			<T_AS2S/>
-			<T_BS2S/>
-		</S2S>
-	</global_info>
+<?xml version="1.0" ?><global_info>
+		<calibration_time>
+			<time/>
+		</calibration_time>
+		<global_time>
+			
+		<time>2021-05-06-15:40:44</time></global_time>
+		
+		
+		
+	<origin><AP1><X>1</X><Y>2</Y><Z>3</Z></AP1><AP2><X>4</X><Y>5</Y><Z>6</Z></AP2><AP3><X>7</X><Y>8</Y><Z>9</Z></AP3><BP1><X>11</X><Y>22</Y><Z>33</Z></BP1><BP2><X>44</X><Y>55</Y><Z>66</Z></BP2><BP3><X>77</X><Y>88</Y><Z>99</Z></BP3></origin><T2A/><S2S/></global_info>
