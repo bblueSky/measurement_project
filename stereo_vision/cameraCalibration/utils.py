@@ -464,7 +464,7 @@ def rigid_transform_3D(A, B):
     return R, t
 
 def LTOrd2AOrd(AP1,AP2,AP3,BP1,BP2,BP3):
-    B = np.mat([[0,0,0],[130,0,0],[0,130,0]])  ##数据根据基准板尺寸修改,需要考虑实际加工公差
+    B = np.mat([[0,0,0],[260.0,0,0],[0,260.0,0]])  ##数据根据基准板尺寸修改,需要考虑实际加工公差
     A = np.mat([[AP1[0,0],AP1[0,1],AP1[0,2]],[AP2[0,0],AP2[0,1],AP2[0,2]],[AP3[0,0],AP3[0,1],AP3[0,2]]])
     R_T2A,T_T2A = rigid_transform_3D(A,B)
     n = len(A)
@@ -481,14 +481,26 @@ def LTOrd2AOrd(AP1,AP2,AP3,BP1,BP2,BP3):
 
 
 def LTside2VSide(APO,APH,APW,BPO,BPH,BPW):
-    ##函数没写完
-    
-    mT_AS2S = (APH-APO)*(APW-APO)
-    mT_BS2S = (BPH-BPO)*(BPW-BPO)
-
-
+    A_x_axial = APH - APO
+    A_y_axial = APW - APO
+    B_x_axial = BPH - BPO
+    B_y_axial = BPW - BPO
+    mT_AS2S = np.cross(A_y_axial,A_x_axial)
+    mT_BS2S = np.cross(B_y_axial,B_x_axial)
+    m = 50.0   ##定长m为实际测量值
+    T_AS2S = mT_AS2S/np.linalg.norm(mT_AS2S)*m
+    T_BS2S = mT_BS2S/np.linalg.norm(mT_BS2S)*m
+    print("T_AS2S:===========")
+    print(T_AS2S)
+    print("T_BS2S:===========")
+    print(T_BS2S)
+    APOs = APO + T_AS2S
+    APHs = APH + T_AS2S
+    APWs = APW + T_AS2S
+    BPOs = BPO + T_BS2S
+    BPHs = BPH + T_BS2S
+    BPWs = BPW + T_BS2S
     return APOs,APHs,APWs,BPOs,BPHs,BPWs,T_AS2S,T_BS2S
-
 
 
 if __name__ =='__main__':

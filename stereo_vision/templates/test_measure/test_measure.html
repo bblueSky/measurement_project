@@ -4,7 +4,7 @@
 <head>
     {% block head_meta %}
     <meta charset="UTF-8">
-    {% block title %}<title>感知测量</title>{% endblock %}
+    {% block title %}<title>大型细长筒类构件位姿原位测量系统</title>{% endblock %}
     {% endblock %}
     <!--CSS标签 -->
 
@@ -103,7 +103,7 @@
                 <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;width:100%;background-color:#1255a2;height:20px">
                     <p align="center" style="color:white">筒段图像拍摄显示及管理区域</p>
                 </div>
-                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px">
+                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px;height:673px">
                     <div>
                         <span>
                             <button type="button" class="btn-success" id="updateList" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="updateList1()"><i class="fa fa-refresh"></i> 更新列表</button>
@@ -116,35 +116,35 @@
                     <div style="height:15px"></div>
                     <span>
                         <div style="float:left;width:120px">
-                            <div style="height:60px">
-                                <button class="btn-primary" style="font-size:18px;width:110px;height:55px;border-radius:8px" type="button" id="takePhotos" onclick="take_pic()"><i class="fa fa-camera"></i> 拍摄</button><!--这里按钮在拍摄与保存之间切换-->
+                            <div style="height:45px">
+                                <button class="btn-primary" style="font-size:18px;width:110px;height:40px;border-radius:8px" type="button" id="takePhotos" onclick="take_pic()"><i class="fa fa-camera"></i> 拍摄</button><!--这里按钮在拍摄与保存之间切换-->
                             </div>
-                            <div style="height:60px">
-                                <button class="btn-info" style="font-size:18px;width:110px;height:55px;border-radius:8px" type="button" id="savePic" onclick="save_pic()" disabled="disabled"><i class="fa fa-floppy-o"></i> 保存</button><!--我放弃了5555-->
+                            <div style="height:45px">
+                                <button class="btn-info" style="font-size:18px;width:110px;height:40px;border-radius:8px" type="button" id="savePic" onclick="save_pic()" disabled="disabled"><i class="fa fa-floppy-o"></i> 保存</button><!--我放弃了5555-->
                             </div>
-                            <div style="height:60px">
-                                <button class="btn-primary" style="font-size:18px;width:110px;height:55px;border-radius:8px" type="button" id="pageUp" onclick="pageUp()"><i class="fa fa-arrow-circle-o-up"></i> 上翻</button>
+                            <div style="height:45px">
+                                <button class="btn-primary" style="font-size:18px;width:110px;height:40px;border-radius:8px" type="button" id="pageUp" onclick="pageUp()"><i class="fa fa-arrow-circle-o-up"></i> 上翻</button>
                             </div>
-                            <div style="height:60px">
-                                <button class="btn-primary" style="font-size:18px;width:110px;height:55px;border-radius:8px" type="button" id="pageDown" onclick="pageDown()"><i class="fa fa-arrow-circle-o-down"></i> 下翻</button>
+                            <div style="height:45px">
+                                <button class="btn-primary" style="font-size:18px;width:110px;height:40px;border-radius:8px" type="button" id="pageDown" onclick="pageDown()"><i class="fa fa-arrow-circle-o-down"></i> 下翻</button>
                             </div>
-                            <div style="height:60px">
-                                <button class="btn-warning" style="font-size:18px;width:110px;height:55px;border-radius:8px" type="button" id="deleteThis" onclick="confirmDelete1()"><i class="fa fa-trash"></i> 删除这组</button>
+                            <div style="height:45px">
+                                <button class="btn-warning" style="font-size:18px;width:110px;height:40px;border-radius:8px" type="button" id="deleteThis" onclick="confirmDelete1()"><i class="fa fa-trash"></i> 删除这组</button>
                             </div>
-                            <div style="height:60px">
-                                <button class="btn-danger" style="font-size:18px;width:110px;height:55px;border-radius:8px" type="button" id="deleteAll" onclick="confirmDelete2()"><i class="fa fa-trash"></i> 删除所有</button>
+                            <div style="height:45px">
+                                <button class="btn-danger" style="font-size:18px;width:110px;height:40px;border-radius:8px" type="button" id="deleteAll" onclick="confirmDelete2()"><i class="fa fa-trash"></i> 删除所有</button>
                             </div>
                         </div>
                         <div style="float:left">
                               <!-- 左右相机照片显示 -->
                             <table border="3" style="border:#5b93d3">
                                 <tr>
-                                    <td><img name='leftcamera_A' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="480" height="350" id="left_img_A"></td>
-                                    <td><img name='rightcamera_A' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="480" height="350" id="right_img_A"></td>
+                                    <td><img name='leftcamera_A' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="300" height="250" id="left_img_A"></td>
+                                    <td><img name='rightcamera_A' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="300" height="250" id="right_img_A"></td>
                                 </tr>
                                 <tr>
-                                    <td><img name='leftcamera_B' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="480" height="350" id="left_img_B"></td>
-                                    <td><img name='rightcamera_B' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="480" height="350" id="right_img_B"></td>
+                                    <td><img name='leftcamera_B' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="300" height="250" id="left_img_B"></td>
+                                    <td><img name='rightcamera_B' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="300" height="250" id="right_img_B"></td>
                                 </tr>
                             </table>
                         </div>
@@ -154,9 +154,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div style="height:10px"></div>
-        <div style="display:flex">
             <div class="container" style="flex:1;padding-right:0px;padding-left:0px">
                 <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;width:100%;background-color:#1255a2;height:20px">
                     <p align="center" style="color:white">安装孔及靶标位置检测区域</p>
@@ -171,70 +168,65 @@
                         <button class="btn-success" type="button" id="targetDetection" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="confirmDelete3()"><i class="fa fa-object-ungroup"></i> 目标检测</button>
                     </span>
                 </div>
-            </div>
-        </div>
-        <div style="height:10px"></div>
-        <div style="display:flex">
-            <div class="container" style="flex:1;padding-right:0px;padding-left:0px">
                 <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;width:100%;background-color:#1255a2;height:20px">
                     <p align="center" style="color:white">安装孔及靶标形心定准结果显示区域</p>
                 </div>
-                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px">
+                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px;height:610px">
                     <button class="btn-success" type="button" style="font-size:18px;width:110px;height:35px;border-radius:8px" id="TargetCentroid" onclick="centreSight()"><i class="fa fa-crosshairs"></i> 形心定准</button>
                     <div style="display:flex">
                         <div class="container" style="width:50%;padding-right:0px;padding-left:0px;border:2px dashed #1255a2">
                             <p style="font-size:16px">A端左相机安装孔形心定准结果</p>
                             <table border="3" style="border:#5b93d3">
                                 <tr>
-                                    <td><img name='AL_hole1' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_hole1"></td>
-                                    <td><img name='AL_hole2' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_hole2"></td>
-                                    <td><img name='AL_hole3' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_hole3"></td>
-                                    <td><img name='AL_hole4' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_hole4"></td>
-                                    <td><img name='AL_hole5' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_hole5"></td>
-                                    <td><img name='AL_hole6' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_hole6"></td>
+                                    <td><img name='AL_hole1' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AL_hole1"></td>
+                                    <td><img name='AL_hole2' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AL_hole2"></td>
+                                    <td><img name='AL_hole3' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AL_hole3"></td>
+                                    <td><img name='AL_hole4' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AL_hole4"></td>
+                                    <td><img name='AL_hole5' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AL_hole5"></td>
+                                    <td><img name='AL_hole6' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AL_hole6"></td>
                                 </tr>
                                 <tr>
-                                    <td><img name='AL_hole7' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_hole7"></td>
-                                    <td><img name='AL_hole8' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_hole8"></td>
-                                    <td><img name='AL_hole9' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_hole9"></td>
-                                    <td><img name='AL_hole10' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_hole10"></td>
-                                    <td><img name='AL_hole11' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_hole11"></td>
-                                    <td><img name='AL_hole12' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_hole12"></td>
+                                    <td><img name='AL_hole7' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AL_hole7"></td>
+                                    <td><img name='AL_hole8' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AL_hole8"></td>
+                                    <td><img name='AL_hole9' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AL_hole9"></td>
+                                    <td><img name='AL_hole10' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AL_hole10"></td>
+                                    <td><img name='AL_hole11' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AL_hole11"></td>
+                                    <td><img name='AL_hole12' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AL_hole12"></td>
                                 </tr>
                             </table>
                             <p style="font-size:16px">A端左相机靶标形心定准结果</p>
                             <table border="3" style="border:#5b93d3">
                                 <tr>
-                                    <td><img name='AL_target1' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_target1"></td>
-                                    <td><img name='AL_target2' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_target2"></td>
-                                    <td><img name='AL_target3' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AL_target3"></td>
+                                    <td><img name='AL_target1' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AL_target1"></td>
+                                    <td><img name='AL_target2' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AL_target2"></td>
+                                    <td><img name='AL_target3' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AL_target3"></td>
                                 </tr>
                             </table>
                             <p style="font-size:16px">A端右相机安装孔形心定准结果</p>
                             <table border="3" style="border:#5b93d3">
                                 <tr>
-                                    <td><img name='AR_hole1' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_hole1"></td>
-                                    <td><img name='AR_hole2' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_hole2"></td>
-                                    <td><img name='AR_hole3' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_hole3"></td>
-                                    <td><img name='AR_hole4' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_hole4"></td>
-                                    <td><img name='AR_hole5' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_hole5"></td>
-                                    <td><img name='AR_hole6' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_hole6"></td>
+                                    <td><img name='AR_hole1' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AR_hole1"></td>
+                                    <td><img name='AR_hole2' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AR_hole2"></td>
+                                    <td><img name='AR_hole3' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AR_hole3"></td>
+                                    <td><img name='AR_hole4' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AR_hole4"></td>
+                                    <td><img name='AR_hole5' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AR_hole5"></td>
+                                    <td><img name='AR_hole6' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AR_hole6"></td>
                                 </tr>
                                 <tr>
-                                    <td><img name='AR_hole7' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_hole7"></td>
-                                    <td><img name='AR_hole8' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_hole8"></td>
-                                    <td><img name='AR_hole9' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_hole9"></td>
-                                    <td><img name='AR_hole10' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_hole10"></td>
-                                    <td><img name='AR_hole11' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_hole11"></td>
-                                    <td><img name='AR_hole12' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_hole12"></td>
+                                    <td><img name='AR_hole7' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AR_hole7"></td>
+                                    <td><img name='AR_hole8' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AR_hole8"></td>
+                                    <td><img name='AR_hole9' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AR_hole9"></td>
+                                    <td><img name='AR_hole10' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AR_hole10"></td>
+                                    <td><img name='AR_hole11' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AR_hole11"></td>
+                                    <td><img name='AR_hole12' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AR_hole12"></td>
                                 </tr>
                             </table>
                             <p style="font-size:16px">A端右相机靶标形心定准结果</p>
                             <table border="3" style="border:#5b93d3">
                                 <tr>
-                                    <td><img name='AR_target1' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_target1"></td>
-                                    <td><img name='AR_target2' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_target2"></td>
-                                    <td><img name='AR_target3' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="AR_target3"></td>
+                                    <td><img name='AR_target1' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AR_target1"></td>
+                                    <td><img name='AR_target2' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AR_target2"></td>
+                                    <td><img name='AR_target3' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AR_target3"></td>
                                 </tr>
                             </table>
                         </div>
@@ -242,55 +234,55 @@
                             <p style="font-size:16px">B端左相机安装孔形心定准结果</p>
                             <table border="3" style="border:#5b93d3">
                                 <tr>
-                                    <td><img name='BL_hole1' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_hole1"></td>
-                                    <td><img name='BL_hole2' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_hole2"></td>
-                                    <td><img name='BL_hole3' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_hole3"></td>
-                                    <td><img name='BL_hole4' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_hole4"></td>
-                                    <td><img name='BL_hole5' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_hole5"></td>
-                                    <td><img name='BL_hole6' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_hole6"></td>
+                                    <td><img name='BL_hole1' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BL_hole1"></td>
+                                    <td><img name='BL_hole2' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BL_hole2"></td>
+                                    <td><img name='BL_hole3' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BL_hole3"></td>
+                                    <td><img name='BL_hole4' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BL_hole4"></td>
+                                    <td><img name='BL_hole5' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BL_hole5"></td>
+                                    <td><img name='BL_hole6' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BL_hole6"></td>
                                 </tr>
                                 <tr>
-                                    <td><img name='BL_hole7' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_hole7"></td>
-                                    <td><img name='BL_hole8' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_hole8"></td>
-                                    <td><img name='BL_hole9' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_hole9"></td>
-                                    <td><img name='BL_hole10' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_hole10"></td>
-                                    <td><img name='BL_hole11' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_hole11"></td>
-                                    <td><img name='BL_hole12' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_hole12"></td>
+                                    <td><img name='BL_hole7' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BL_hole7"></td>
+                                    <td><img name='BL_hole8' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BL_hole8"></td>
+                                    <td><img name='BL_hole9' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BL_hole9"></td>
+                                    <td><img name='BL_hole10' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BL_hole10"></td>
+                                    <td><img name='BL_hole11' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BL_hole11"></td>
+                                    <td><img name='BL_hole12' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BL_hole12"></td>
                                 </tr>
                             </table>
                             <p style="font-size:16px">B端左相机靶标形心定准结果</p>
                             <table border="3" style="border:#5b93d3">
                                 <tr>
-                                    <td><img name='BL_target1' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_target1"></td>
-                                    <td><img name='BL_target2' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_target2"></td>
-                                    <td><img name='BL_target3' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BL_target3"></td>
+                                    <td><img name='BL_target1' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BL_target1"></td>
+                                    <td><img name='BL_target2' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BL_target2"></td>
+                                    <td><img name='BL_target3' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BL_target3"></td>
                                 </tr>
                             </table>
                             <p style="font-size:16px">B端右相机安装孔形心定准结果</p>
                             <table border="3" style="border:#5b93d3">
                                 <tr>
-                                    <td><img name='BR_hole1' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_hole1"></td>
-                                    <td><img name='BR_hole2' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_hole2"></td>
-                                    <td><img name='BR_hole3' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_hole3"></td>
-                                    <td><img name='BR_hole4' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_hole4"></td>
-                                    <td><img name='BR_hole5' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_hole5"></td>
-                                    <td><img name='BR_hole6' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_hole6"></td>
+                                    <td><img name='BR_hole1' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BR_hole1"></td>
+                                    <td><img name='BR_hole2' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BR_hole2"></td>
+                                    <td><img name='BR_hole3' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BR_hole3"></td>
+                                    <td><img name='BR_hole4' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BR_hole4"></td>
+                                    <td><img name='BR_hole5' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BR_hole5"></td>
+                                    <td><img name='BR_hole6' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BR_hole6"></td>
                                 </tr>
                                 <tr>
-                                    <td><img name='BR_hole7' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_hole7"></td>
-                                    <td><img name='BR_hole8' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_hole8"></td>
-                                    <td><img name='BR_hole9' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_hole9"></td>
-                                    <td><img name='BR_hole10' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_hole10"></td>
-                                    <td><img name='BR_hole11' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_hole11"></td>
-                                    <td><img name='BR_hole12' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_hole12"></td>
+                                    <td><img name='BR_hole7' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BR_hole7"></td>
+                                    <td><img name='BR_hole8' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BR_hole8"></td>
+                                    <td><img name='BR_hole9' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BR_hole9"></td>
+                                    <td><img name='BR_hole10' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BR_hole10"></td>
+                                    <td><img name='BR_hole11' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BR_hole11"></td>
+                                    <td><img name='BR_hole12' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BR_hole12"></td>
                                 </tr>
                             </table>
                             <p style="font-size:16px">B端右相机靶标形心定准结果</p>
                             <table border="3" style="border:#5b93d3">
                                 <tr>
-                                    <td><img name='BR_target1' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_target1"></td>
-                                    <td><img name='BR_target2' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_target2"></td>
-                                    <td><img name='BR_target3' src="/static/picture/noimg.png" alt="Pulpit rock" width="110" height="110" id="BR_target3"></td>
+                                    <td><img name='BR_target1' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BR_target1"></td>
+                                    <td><img name='BR_target2' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BR_target2"></td>
+                                    <td><img name='BR_target3' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BR_target3"></td>
                                 </tr>
                             </table>
                         </div>
@@ -306,7 +298,7 @@
                 </div>
                 <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px">
                     <div>
-                        <button class="btn-success" type="button" id="ConstraintCheck" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="Constraint()"><i class="fa fa-question"></i> 条件检查</button>
+                        <button class="btn-success" type="button" id="ConstraintCheck" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="Constraint()"><i class="fa fa-puzzle-piece"></i> 双目重构</button>
                     </div>
                     <div style="border:2px dashed #1255a2;height:50px;display:flex">
                         <p style="font-size:18px;margin:0">相机坐标系下重构结果显示</p>
@@ -749,10 +741,10 @@
     </script>
     <script>
         function Constraint(){
-
+            var flag = $("#selectLog").find("option:selected").text();
             $.ajax({
                 type:'GET',
-                data:{'mydata':type},
+                data:{'flag':flag},
                 url:"/testMeasure/Constraint",
                 dataType: 'json',
                 success:function(res){

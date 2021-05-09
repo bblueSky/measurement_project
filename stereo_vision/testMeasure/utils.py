@@ -1571,4 +1571,5 @@ def  epoch_3Dpoints_show(epoch_name): ##主要函数3
 
 if __name__ == '__main__':
     epoch_name = "2021-01-16-16:03:26"
+    get_epoch_pairs_points(epoch_name)
     epoch_3Dpoints(epoch_name)

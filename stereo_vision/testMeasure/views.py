@@ -16,6 +16,7 @@ from xml.dom import minidom
 
 from  stereo_vision.testMeasure.utils  import  get_img_boxes
 from stereo_vision.testMeasure.utils import img_process
+from stereo_vision.testMeasure.utils import get_epoch_pairs_points,epoch_3Dpoints
 
 
 @testMeasure.route('/')
@@ -485,7 +486,12 @@ def centreSight():
     return {"ALh":result[0],"ALt":result[1],"ARh":result[2],"ARt":result[3],"BLh":result[4],"BLt":result[5],"BRh":result[6],"BRt":result[7]}
 
 
-
+@testMeasure.route('/Constraint/',methods=['POST','GET'])
+def Constraint():
+    epoch_name = request.args.get('flag')
+    get_epoch_pairs_points(epoch_name)
+    epoch_3Dpoints(epoch_name)
+    return str(1)
 
 
 

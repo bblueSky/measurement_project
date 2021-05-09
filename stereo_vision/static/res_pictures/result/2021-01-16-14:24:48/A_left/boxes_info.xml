@@ -7,5 +7,5 @@
 		<imgs>
 			
 			
-		<hole><hole_img0><x>93</x><y>97</y><r>27</r><s>33</s></hole_img0><hole_img1><x>122</x><y>106</y><r>46</r><s>65</s></hole_img1><hole_img2><x>121</x><y>125</y><r>48</r><s>95</s></hole_img2></hole><target/></imgs>
+		<hole><hole_img0><x>121.5</x><y>125.5</y><r>48.5</r><s>95</s></hole_img0><hole_img1><x>122.5</x><y>106.5</y><r>46.9</r><s>65</s></hole_img1><hole_img2><x>93.5</x><y>97.5</y><r>27.4</r><s>33</s></hole_img2></hole><target/></imgs>
 	</boxes_info>
