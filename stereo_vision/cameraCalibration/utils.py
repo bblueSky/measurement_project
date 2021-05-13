@@ -51,7 +51,15 @@ def sig_calibration(flag,camera_):
             """
     print(len(objpoints))
     print(len(imgpoints))
-    ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.shape[::-1], None, None)
+
+    new_ojbs = objpoints
+
+    for i,obj in enumerate(objpoints):
+        new_ojbs[i] = objpoints[i]*40    ##这里改尺寸
+
+
+
+    ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(new_ojbs, imgpoints, gray.shape[::-1], None, None)
     h, w = int(3648), int(5472)
     newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
     dst = cv2.undistort(img, mtx, dist, None, newcameramtx)  ##产生复原图片
