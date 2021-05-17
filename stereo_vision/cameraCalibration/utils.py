@@ -1,11 +1,12 @@
 #-*- coding:utf-8 -*-
 import time
+import datetime
 import  cv2
 import  glob
 import  numpy  as np
 import  os
 import  json
-
+from xml.dom import minidom
 
 #  这个函数是要使用的
 def sig_calibration(flag,camera_):
@@ -13,7 +14,7 @@ def sig_calibration(flag,camera_):
     starttime = time.time()
     cbrow = 9
     cbcol = 13    #纵横角点
-    objp = np.zeros((cbrow * cbcol, 3), np.float32)  ##objp尺寸为（角点总数x3）
+    objp = np.zeros((cbrow * cbcol, 3), np.float32)
     criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 200, 0.0001)  ##迭代50次或者精度达到0.001
     objp[:, :2] = np.mgrid[0:cbrow, 0:cbcol].T.reshape(-1, 2)  ##mgrid处理后尺寸2x9x13（二次元组x9x13），转置后为二次元组x13x9,整体相当于13x9x2顺序数填入objp
     ##print(objp)
@@ -32,23 +33,18 @@ def sig_calibration(flag,camera_):
             print('********************************************************************',os.path.join(source_dir_path, fname))
             gray = cv2.cvtColor(img,cv2.COLOR_RGB2GRAY)
             ret,corners = cv2.findChessboardCorners(gray,(cbrow,cbcol),None)
-            """角点精确化迭代过程的终止条件"""
-            """执行亚像素级角点检测"""
-            ##print('=====================================================================',os.path.join(source_dir_path,fname))
-            corners2 = cv2.cornerSubPix(gray,corners,(11,11),(-1,-1),criteria)  ##亚像素定为11x11
-            objpoints.append(objp)
-            imgpoints.append(corners2)
-            """在棋盘上绘制角点，只是可视化工具"""
-            img= cv2.drawChessboardCorners(gray,(13,9),corners2,ret)
-            corner_img_dir = os.path.dirname(os.path.realpath(__file__)).replace('cameraCalibration','corner_img_dir/')
-            corner_img_dir_path = os.path.dirname(os.path.realpath(__file__)).replace('cameraCalibration','corner_img_dir/'+str(corner_image_name)+'test'+fname+'.jpg')
-            cv2.imwrite(corner_img_dir_path,img)
-            corner_image_name = corner_image_name+1
-            """
-            传入所有图片各自角点的三维，二维坐标，相机标定
-            每个图片都有自己的旋转和平移矩阵，但是相机内参和畸变系数只有一组
-            mtx,相机内参；dist，畸变系数；revcs，旋转矩阵；tveces，平移矩阵
-            """
+            if ret:
+                ##print('=====================================================================',os.path.join(source_dir_path,fname))
+                corners2 = cv2.cornerSubPix(gray,corners,(11,11),(-1,-1),criteria)  ##亚像素定为11x11
+                objpoints.append(objp)
+                imgpoints.append(corners2)
+
+                img= cv2.drawChessboardCorners(gray,(13,9),corners2,ret)
+                corner_img_dir = os.path.dirname(os.path.realpath(__file__)).replace('cameraCalibration','corner_img_dir/')
+                corner_img_dir_path = os.path.dirname(os.path.realpath(__file__)).replace('cameraCalibration','corner_img_dir/'+str(corner_image_name)+'test'+fname+'.jpg')
+                cv2.imwrite(corner_img_dir_path,img)
+                corner_image_name = corner_image_name+1
+
     print(len(objpoints))
     print(len(imgpoints))
 
@@ -182,13 +178,16 @@ def stereo_Calibration(flag):
     criteria_stereo = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 200, 0.0001)
     # Prepare object points
     # todo  修改点的数量
-    objp = np.zeros((13 * 9, 3), np.float32)
-    objp[:, :2] = np.mgrid[0:13, 0:9].T.reshape(-1, 2)
+    cbrow = 9
+    cbcol = 13  # 纵横角点
+    objp = np.zeros((cbcol * cbrow, 3), np.float32)  ##
+    objp[:, :2] = np.mgrid[0:cbcol, 0:cbrow].T.reshape(-1, 2)
 
     # Arrays to  store object points and image points from all images
-    objpoints = []
-    imgpointsR = []
-    imgpointsL = []
+    objpoints_l = []
+    objpoints_r = []
+    imgpoints_l = []
+    imgpoints_r = []
 
     # Start calibration from the camera
     left_camera_path = os.path.dirname(os.path.realpath(__file__)).replace('cameraCalibration','static/checkboard_img_dir/')
@@ -197,113 +196,133 @@ def stereo_Calibration(flag):
     right_camera_path = os.path.dirname(os.path.realpath(__file__)).replace('cameraCalibration','static/checkboard_img_dir/')
     rightCamera = right_camera_path+flag+"_rightCamera_img_dir/"
     #right_camera_path = "/home/monkiki/PycharmProjects/stereo_vision/stereo_vision/checkboard_img_dir/rightCamera_img_dir/"
-    for i in os.listdir(rightCamera):
+    left_pictures = os.listdir(leftCamera)
+    left_pictures.sort()
 
-        if i.endswith('.jpg') or i.endswith('.png'):
-            img_path = os.path.join(rightCamera, i)
-            print(img_path)
-            ChessImaR = cv2.imread(img_path)
-            ChessImaR = cv2.cvtColor(ChessImaR, cv2.COLOR_BGR2GRAY)
-            # todo  修改点的数量
-            retR, cornersR = cv2.findChessboardCorners(ChessImaR, (13, 9), None)
-            # objpoints.append(objp)
-            cornersR = cv2.cornerSubPix(ChessImaR, cornersR, (11, 11), (-1, -1), criteria)
-            imgpointsR.append(cornersR)
+    right_pictures = os.listdir(rightCamera)
+    right_pictures.sort()
 
-    for i in os.listdir(leftCamera):
+    for fname_l, fname_r in zip(left_pictures, right_pictures):
+        print(fname_l, fname_r)
+        if fname_l.endswith('.jpg') and fname_r.endswith('.jpg'):
+            left_path = os.path.join(leftCamera, fname_l)
+            print(left_path)
+            img_l = cv2.imread(left_path)
+            gray_l = cv2.cvtColor(img_l, cv2.COLOR_BGR2GRAY)
 
-        if i.endswith('.jpg') or i.endswith('.png'):
-            img_path = os.path.join(leftCamera, i)
-            print(img_path)
-            ChessImaL = cv2.imread(img_path)
-            ChessImaL = cv2.cvtColor(ChessImaL, cv2.COLOR_BGR2GRAY)
-            retL, cornersL = cv2.findChessboardCorners(ChessImaL, (13, 9), None)
-            objpoints.append(objp)
-            cornersL = cv2.cornerSubPix(ChessImaL, cornersL, (11, 11), (-1, -1), criteria)
-            imgpointsL.append(cornersL)
+            right_path = os.path.join(rightCamera, fname_r)
+            print(right_path)
+            img_r = cv2.imread(right_path)
+            gray_r = cv2.cvtColor(img_r, cv2.COLOR_BGR2GRAY)
 
-    # determine the new values for different parameters
-    # Right Side
+            # Find the chess board corners
+            ret_l, corners_l = cv2.findChessboardCorners(gray_l, (cbcol, cbrow), None)
+            ret_r, corners_r = cv2.findChessboardCorners(gray_r, (cbcol, cbrow), None)
 
-    retR, mtxR, distR, rvecsR, tvecsR = cv2.calibrateCamera(objpoints, imgpointsR, ChessImaR.shape[::-1], None, None)
+            # ret_l, corners_l = cv2.findChessboardCorners(gray_l, (8, 8), None)
+            # ret_r, corners_r = cv2.findChessboardCorners(gray_r, (8, 8), None)
 
-    hR, wR = ChessImaR.shape[:2]
+            if ret_l and ret_r:
+                objpoints_l.append(objp)
+                objpoints_r.append(objp)
 
-    # todo  消除畸变后的新相机矩阵
-    OmtxR, roiR = cv2.getOptimalNewCameraMatrix(mtxR, distR, (wR, hR), 1, (wR, hR))
+                corners2_l = cv2.cornerSubPix(gray_l, corners_l, (11, 11), (-1, -1),
+                                              criteria)
+                corners2_r = cv2.cornerSubPix(gray_r, corners_r, (11, 11), (-1, -1),
+                                              criteria)
+                # imgpoints_l.append(corners2_l)
+                # imgpoints_r.append(corners2_r)
 
-    # Letf Side
+                if (corners2_l[0][0][0] > corners2_l[1][0][0]) and (corners2_r[0][0][0] > corners2_r[1][0][0]):
 
-    retL, mtxL, distL, rvecsL, tvecsL = cv2.calibrateCamera(objpoints, imgpointsL, ChessImaL.shape[::-1], None, None)
+                    print('corners2_r', corners2_r[0][0][0], corners2_r[1][0][0])
 
-    hL, wL = ChessImaL.shape[:2]
+                elif (corners2_l[0][0][0] < corners2_l[1][0][0]):
+                    corners2_l = corners2_l[::-1]
+                    if (corners2_r[0][0][0] < corners2_r[1][0][0]):
+                        corners2_r = corners2_r[::-1]
 
-    OmtxL, roiL = cv2.getOptimalNewCameraMatrix(mtxL, distL, (wL, hL), 1, (wL, hL))
+                elif (corners2_r[0][0][0] < corners2_r[1][0][0]):
+                    corners2_r = corners2_r[::-1]
 
-    print('--------------开始进行双目标定--------------')
+                imgpoints_l.append(corners2_l)
+                imgpoints_r.append(corners2_r)
 
-    """
-    calibrate the Cameras for Stereo
+    new_objsl = objpoints_l
+    new_objsr = objpoints_r
+    for i, obj in enumerate(objpoints_l):
+        new_objsl[i] = new_objsl[i] * 40    ##这里调节棋盘格的尺寸
+    for i, obj in enumerate(objpoints_r):
+        new_objsr[i] = new_objsr[i] * 40    ##这里调节棋盘格的尺寸
 
-    """
-    flags = 0
-    flags |= cv2.CALIB_FIX_INTRINSIC
+    ret, mtx_l, dist_l, rvecs, tvecs = cv2.calibrateCamera(new_objsl, imgpoints_l,
+                                                           gray_l.shape[::-1], None,
+                                                           None)
+    h, w = int(3648), int(5472)
 
-    # TODO  M is  inner matrix   d is distorted
+    newcameramtx_l, roi = cv2.getOptimalNewCameraMatrix(mtx_l, dist_l, (w, h), 1,
+                                                        (w, h))
+    ret, mtx_r, dist_r, rvecs, tvecs = cv2.calibrateCamera(new_objsr,
+                                                           imgpoints_r,
+                                                           gray_r.shape[::-1],
+                                                           None, None)
 
-    retS, MLS, dLS, MRS, dRS, R, T, E, F = cv2.stereoCalibrate(objpoints,
-                                                               imgpointsL,
-                                                               imgpointsR,
-                                                               OmtxL,
-                                                               distL,
-                                                               OmtxR,
-                                                               distR,
-                                                               ChessImaR.shape[::-1],
-                                                               criteria_stereo,
-                                                               flags)
-    rectify_scale = 0
-    """
-    R is rotation matrix  P is projection matrix 
-    """
+    newcameramtx_r, roi = cv2.getOptimalNewCameraMatrix(mtx_r, dist_r, (w, h),
+                                                        1, (w, h))
 
-    RL, RR, PL, PR, Q, roiL, roiR = cv2.stereoRectify(MLS, dLS, MRS, dRS, ChessImaR.shape[::-1], R, T, rectify_scale,
-                                                      (0, 0))
-    """
-    create the pixel projection matrix of the rectified picture 生成像素映射矩阵
-    cv2.CV_16SC2 this format enables us the programme to work faster 
-    """
-    # TODO  需要存储此数据 save  this  map to  object file
-    # Left_Stereo_Map= cv2.initUndistortRectifyMap(MLS,dLS,RL,PL,ChessImaR.shape[::-1],cv2.CV_16SC2)
+    retval, cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2, R, T, E, F = cv2.stereoCalibrate(new_objsl,
+                                                                                                     imgpoints_l,
+                                                                                                     imgpoints_r, mtx_l,
+                                                                                                     dist_l, mtx_r,
+                                                                                                     dist_r,
+                                                                                                     gray_l.shape[::-1])
 
-    # Right_Stereo_Map = cv2.initUndistortRectifyMap(MRS, dRS, RR, PR, ChessImaR.shape[::-1], cv2.CV_16SC2)
+    R1, R2, P1, P2, Q, validPixROI1, validPixROI2 = cv2.stereoRectify(cameraMatrix1, distCoeffs1, cameraMatrix2,
+                                                                      distCoeffs2, gray_l.shape[::-1], R, T)
 
-    Left_Stereo_Map_0, Left_Stereo_Map_1 = cv2.initUndistortRectifyMap(MLS, dLS, RL, PL, ChessImaR.shape[::-1],
-                                                                       cv2.CV_16SC2)
+    left_map1, left_map2 = cv2.initUndistortRectifyMap(cameraMatrix1,
+                                                       distCoeffs1, R1, P1,
+                                                       gray_l.shape[::-1],
+                                                       cv2.INTER_NEAREST)
+    right_map1, right_map2 = cv2.initUndistortRectifyMap(cameraMatrix2,
+                                                         distCoeffs2, R2,
+                                                         P2, gray_l.shape[::-1],
+                                                         cv2.INTER_NEAREST)
 
-    Right_Stereo_Map_0, Right_Stereo_Map_1 = cv2.initUndistortRectifyMap(MRS, dRS, RR, PR, ChessImaR.shape[::-1],
-                                                                         cv2.CV_16SC2)
+    calibration_path = os.path.dirname(os.path.realpath(__file__)).replace('cameraCalibration',
+                                                                           'static/checkboard_img_dir/'+flag+'_'+'stereo_calibration.xml')
 
-    calibration_path = os.path.dirname(os.path.realpath(__file__)).replace('cameraCalibration','static/checkboard_img_dir/' +flag+'_'+'stereo_calibration.xml')
-    #calibration_path = "/home/monkiki/PycharmProjects/try/stereo_calibration.xml"
-    stereo_calibration_fs = cv2.FileStorage(calibration_path,cv2.FileStorage_WRITE)
-    stereo_calibration_fs.write('mtx_stereo', MLS)
-    stereo_calibration_fs.write('dts_stereo', dLS)
+    stereo_calibration_fs = cv2.FileStorage(
+        calibration_path,
+        cv2.FileStorage_WRITE)
+
+    # stereo_calibration_fs.write('mtx_stereo', MLS)
+    # stereo_calibration_fs.write('dts_stereo', dLS)
     stereo_calibration_fs.write('rective_stereo', Q)
-    # stereo_calibration_fs.write('left_stereo_map0', Left_Stereo_Map[0])
-    # stereo_calibration_fs.write('left_stereo_map1', Left_Stereo_Map[1])
-    # stereo_calibration_fs.write('right_stereo_map0', Right_Stereo_Map[0])
-    # stereo_calibration_fs.write('right_stereo_map1', Right_Stereo_Map[1])
-
-    stereo_calibration_fs.write('left_stereo_map0', Left_Stereo_Map_0)  ##
-    stereo_calibration_fs.write('left_stereo_map1', Left_Stereo_Map_1)  ##
-    stereo_calibration_fs.write('right_stereo_map0', Right_Stereo_Map_0)  ##
-    stereo_calibration_fs.write('right_stereo_map1',Right_Stereo_Map_1)  ##这里存了一堆图片值，是矫正后的x、y映射,需要注意的是，map0负责横向映射，map1负责纵向映射
+    stereo_calibration_fs.write('fundamental_matrix', F)
+    stereo_calibration_fs.write('left_stereo_map0', left_map1)
+    stereo_calibration_fs.write('left_stereo_map1', left_map2)
+    stereo_calibration_fs.write('right_stereo_map0', right_map1)
+    stereo_calibration_fs.write('right_stereo_map1', right_map2)
     stereo_calibration_fs.write('R_matrix', R)
     stereo_calibration_fs.write('T_matrix', T)
-    stereo_calibration_fs.write('fundamental_matrix', F)
-
+    stereo_calibration_fs.write('P1', P1)
+    stereo_calibration_fs.write('P2', P2)
+    print('R', R)
+    print('T', T)
     stereo_calibration_fs.release()
     endtime = time.time()
+    st = datetime.datetime.fromtimestamp(endtime).strftime('%Y' + '-' + '%m' + '-' + '%d' + '-' + '%H' + ':' + '%M' + ':' + '%S')
+    global_path = os.path.dirname(os.path.realpath(__file__)).replace("cameraCalibration","static/global_info.xml")
+    dom = minidom.parse(global_path)
+    root = dom.documentElement
+    calibration_time = root.getElementsByTagName("calibration_time")[0]
+    calibration_time.removeChild(root.getElementsByTagName("time")[0])
+    time1 = dom.createElement("time")
+    calibration_time.appendChild(time1)
+    time1.appendChild(dom.createTextNode(st))
+    with open(global_path, 'w') as fp:
+        dom.writexml(fp)
     times = endtime - starttime
     print("双目标定完成！用时" + str(times) + "秒")
 
