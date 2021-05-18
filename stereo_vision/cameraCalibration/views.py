@@ -2,7 +2,6 @@
 
 from flask  import render_template, request
 from stereo_vision.cameraCalibration import  cameraCalibration
-import time
 import json
 import cv2
 import numpy as np
@@ -323,7 +322,7 @@ def insertComplete():
     ts = time.time()
     st = datetime.datetime.fromtimestamp(ts).strftime('%Y' + '-' + '%m' + '-' + '%d' + '-' + '%H' + ':' + '%M' + ':' + '%S')
     calibration_time = root.getElementsByTagName("global_time")[0]
-    calibration_time.removeChild(root.getElementsByTagName("time")[1])
+    calibration_time.removeChild(root.getElementsByTagName("time")[2])
     time1 = dom.createElement("time")
     calibration_time.appendChild(time1)
     time1.appendChild(dom.createTextNode(st))

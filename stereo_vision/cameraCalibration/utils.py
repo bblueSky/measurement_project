@@ -314,15 +314,26 @@ def stereo_Calibration(flag):
     endtime = time.time()
     st = datetime.datetime.fromtimestamp(endtime).strftime('%Y' + '-' + '%m' + '-' + '%d' + '-' + '%H' + ':' + '%M' + ':' + '%S')
     global_path = os.path.dirname(os.path.realpath(__file__)).replace("cameraCalibration","static/global_info.xml")
-    dom = minidom.parse(global_path)
-    root = dom.documentElement
-    calibration_time = root.getElementsByTagName("calibration_time")[0]
-    calibration_time.removeChild(root.getElementsByTagName("time")[0])
-    time1 = dom.createElement("time")
-    calibration_time.appendChild(time1)
-    time1.appendChild(dom.createTextNode(st))
-    with open(global_path, 'w') as fp:
-        dom.writexml(fp)
+    if flag=="A":
+        dom = minidom.parse(global_path)
+        root = dom.documentElement
+        calibration_time = root.getElementsByTagName("A_calibration_time")[0]
+        calibration_time.removeChild(root.getElementsByTagName("time")[0])
+        time1 = dom.createElement("time")
+        calibration_time.appendChild(time1)
+        time1.appendChild(dom.createTextNode(st))
+        with open(global_path, 'w') as fp:
+            dom.writexml(fp)
+    elif flag=="B":
+        dom = minidom.parse(global_path)
+        root = dom.documentElement
+        calibration_time = root.getElementsByTagName("B_calibration_time")[0]
+        calibration_time.removeChild(root.getElementsByTagName("time")[1])
+        time1 = dom.createElement("time")
+        calibration_time.appendChild(time1)
+        time1.appendChild(dom.createTextNode(st))
+        with open(global_path, 'w') as fp:
+            dom.writexml(fp)
     times = endtime - starttime
     print("双目标定完成！用时" + str(times) + "秒")
 
@@ -493,11 +504,18 @@ def rigid_transform_3D(A, B):
 def LTOrd2AOrd(AP1,AP2,AP3,BP1,BP2,BP3):
     B = np.mat([[0,0,0],[260.0,0,0],[0,260.0,0]])  ##数据根据基准板尺寸修改,需要考虑实际加工公差
     A = np.mat([[AP1[0,0],AP1[0,1],AP1[0,2]],[AP2[0,0],AP2[0,1],AP2[0,2]],[AP3[0,0],AP3[0,1],AP3[0,2]]])
+
     R_T2A,T_T2A = rigid_transform_3D(A,B)
     n = len(A)
+    # B2 = (R_T2A * A.T) + np.tile(T_T2A, (1, n))
+    # B2 = B2.T
+    # print("B2\n")
+    # print(B2)
     C = np.mat([[BP1[0,0],BP1[0,1],BP1[0,2]],[BP2[0,0],BP2[0,1],BP2[0,2]],[BP3[0,0],BP3[0,1],BP3[0,2]]])
     C2 = (R_T2A * C.T) + np.tile(T_T2A, (1, n))
     C2 = C2.T
+    # print("C2\n")
+    # print(C2)
     APO = B[0]
     APH = B[1]
     APW = B[2]
