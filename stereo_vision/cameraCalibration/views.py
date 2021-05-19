@@ -66,8 +66,8 @@ def take_pic():
 
     image_left = cam.read(0)  # 从相机0读取一个图像，这个image就是oenpcv的图像  # todo  需要找出哪个是相机0 哪个是相机1
     image_right = cam.read(1)
-    frame_left = image_left
-    frame_right = image_right
+    frame_left = image_left[::-1]
+    frame_right = image_right[::-1]
 
     # TODO  注释掉写入帧的操作
     dirPath = os.path.dirname(os.path.realpath(__file__)).replace('cameraCalibration', 'static/res_pictures/temp/')

@@ -91,10 +91,10 @@ def take_pic():
 
     image_left_B = image_left_A
     image_right_B = image_right_A
-    frame_left_A = image_left_A
-    frame_right_A = image_right_A
-    frame_left_B = image_left_B
-    frame_right_B = image_right_B
+    frame_left_A = image_left_A[::-1]
+    frame_right_A = image_right_A[::-1]
+    frame_left_B = image_left_B[::-1]
+    frame_right_B = image_right_B[::-1]
     # TODO  注释掉写入帧的操作
     dirPath = os.path.dirname(os.path.realpath(__file__)).replace('testMeasure', 'static/res_pictures/temp/')
     type = request.args.get('mydata')
