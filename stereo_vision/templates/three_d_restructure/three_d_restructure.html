@@ -39,7 +39,7 @@
                 <li class="nav-item"><a href="../cameraCalibration/" class="nav-link">测量场标定及日志管理</a></li>
                 <li class="nav-item"><a href="../prioriImport/" class="nav-link">先验加工数据导入及管理</a></li>
             </ul>
-            <a href="#" class="sl-menu-link">
+            <a href="#" class="sl-menu-link active">
             <div class="sl-menu-item">
                 <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
                 <span class="menu-item-label">视觉测量及位姿计算</span>
@@ -51,7 +51,7 @@
                 <li class="nav-item"><a href="../threeDRestructure/" class="nav-link">关键特征点三维重构</a></li>
                 <li class="nav-item"><a href="../poseCalculate/" class="nav-link">筒段构件关键位姿计算</a></li>
             </ul>
-            <a href="#" class="sl-menu-link active">
+            <a href="#" class="sl-menu-link">
                 <div class="sl-menu-item">
                     <i class="menu-item-icon ion-ios-pie-outline tx-20"></i>
                     <span class="menu-item-label">测量系统结果输出</span>
@@ -97,24 +97,46 @@
     <!-- ########## START: MAIN PANEL ########## -->
     {% block main %}
     <div class="sl-mainpanel">
-        <label>选择待检测日志</label>
-        <select id="selectLog">
-            <option value ="1">0000</option>
-            <option value ="2">0001</option>
-        </select>
-        <button type="button" id="import">导入</button>
-        <div class="card pd-20 pd-sm-25 mg-t-20" align="center">
-            <iframe width=640 height=480 src="https://www.ddd.online/jq/webEdit/project/embedProject/YQR68MBF-Gm9gePL3-dIatiuH9-snoqjxQI" frameborder="0" allowvr allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>
+        <div style="display:flex">
+            <div class="container" style="flex:1;padding-right:0px;padding-left:0px">
+                <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;width:100%;background-color:#1255a2;height:20px">
+                    <p align="center" style="color:white">安装孔及靶标位置检测区域</p>
+                </div>
+                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px">
+                    <span>
+                        <button class="btn-success" type="button" id="updateList2" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="updateList2()"><i class="fa fa-refresh"></i> 更新列表</button>
+                        <label style="font-size:18px">选择待检测日志</label>
+                        <select id="selectLog" style="font-size:18px;background:rgba(0,0,0,0.08);width:250px;height:35px;border-radius:8px" onchange="selectLog()">
+                            <option value ="0">请先点击左侧“更新列表”</option>
+                        </select>
+                        <button class="btn-success" type="button" id="ConstraintCheck" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="Constraint()"><i class="fa fa-puzzle-piece"></i> 双目重构</button>
+                    </span>
+                </div>
+                <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;width:100%;background-color:#1255a2;height:20px">
+                    <p align="center" style="color:white">安装孔及靶标三维重构结果显示区域</p>
+                </div>
+                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px">
+                    <div style="border:2px dashed #1255a2;height:50px;display:flex">
+                        <p style="font-size:18px;margin:0">相机坐标系下重构结果显示</p>
+                    </div>
+                    <div style="border:2px dashed #1255a2;height:50px;display:flex">
+                        <p style="font-size:18px;margin:0">全局坐标系下重构结果显示</p>
+                    </div>
+                    <div style="border:2px dashed #1255a2;height:50px;display:flex">
+                        <p style="font-size:18px;margin:0">A、B端筒段形心拟合结果显示</p>
+                    </div>
+                    <div style="border:2px dashed #1255a2;height:50px;display:flex">
+                        <p style="font-size:18px;margin:0">筒段轴线拟合结果显示</p>
+                    </div>
+                    <div style="border:2px dashed #1255a2;height:100px;display:flex">
+                        <p style="font-size:18px;margin:0">已完成重构的日志列表</p>
+                    </div>
+                    <div>
+                        <button class="btn-success" type="button" id="Restruction" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="Restruction()"><i class="fa fa-check"></i> 全局重构</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="card pd-20 pd-sm-25 mg-t-20" align="center">
-
-        </div>
-        <div class="card pd-20 pd-sm-25 mg-t-20" align="center">
-            <p></p>
-        </div>
-        <button type="button" id="derivedResult">导出测量结果</button><br>
-        <button type="button" id="analysisReport">生成测量分析报告</button>
-
         <div style="height:40px"></div>
         <div>
             <footer class="sl-footer" style="background-color:#044b8c;height:40px">
@@ -134,7 +156,81 @@
 
 
     {% block write_js %}
+    <script>
+        function updateList2() {
+            $("#selectLog").html("");
+            $.ajax({
+                type:'GET',
+                data:{'mydata':1},
+                url:"/threeDRestructure/updateList2",
+                dataType: 'json',
+                success:function(res){
+                    //console.log("第一步");
+                    var options = "<option value=0>请选择待检测日志</option>";
+                    for (var key in res) {
+                        //console.log("第二步");
+                        options += "<option value='"+key+"'>"+res[key]+"</option>";
+                    }
+                    $("#selectLog").append(options);
+                    //console.log("第三步");
+                    //window.location.reload();
+                    //alert('已选择'+type+'类筒端');
 
+                    //window.location.reload();
+
+                },
+                error: function (res) {
+                    alert('失败！')
+                }
+            });
+        }
+        function selectLog(){
+            var type = $("#selectLog").val();
+            var type1 = $("#selectLog").find("option:selected").text();
+            $.ajax({
+                type:'GET',
+                data:{'mydata':type},
+                url:"/threeDRestructure/selectLog",
+                dataType: 'json',
+                success:function(res){
+                    //window.location.reload();
+                    if(type==0){
+                        alert('误操作！请选择待检测日志！')
+                    }
+                    else{
+                        alert('已选择'+type1+'日志');
+                        document.getElementById("left_img_A").src='/static/res_pictures/A_left/'+type1+'_left.jpg';
+                        document.getElementById("right_img_A").src='/static/res_pictures/A_right/'+type1+'_right.jpg';
+                        document.getElementById("left_img_B").src='/static/res_pictures/B_left/'+type1+'_left.jpg';
+                        document.getElementById("right_img_B").src='/static/res_pictures/B_right/'+type1+'_right.jpg';
+                        document.getElementById("numPic").innerHTML='当前照片组标签为'+tube_name+";"+time+"第"+id+"组/共"+num+"组"
+                    }
+
+                    //window.location.reload();
+                },
+                error: function (res) {
+                      alert('失败！')
+                }
+            })
+        }
+    </script>
+    <script>
+        function Constraint(){
+            var flag = $("#selectLog").find("option:selected").text();
+            $.ajax({
+                type:'GET',
+                data:{'flag':flag},
+                url:"/threeDRestructure/Constraint",
+                dataType: 'json',
+                success:function(res){
+                    alert('成功！')
+                },
+                error: function (res) {
+                    alert('失败！')
+                }
+            })
+        }
+    </script>
     {% endblock %}
 
     <!-- ######### END: MAIN PANEL ########## -->

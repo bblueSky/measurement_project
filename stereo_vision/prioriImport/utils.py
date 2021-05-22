@@ -97,6 +97,10 @@ def prioriDataInput(res):  ##函数作用：1、把初始列表的数据写进xm
         Aquadrant.appendChild(p)
         i+=1
         result["Aquadrant"].append([x, y])
+    center = p_doc.createElement("center")
+    A_end.appendChild(center)
+    sequence = p_doc.createElement("sequence")
+    A_end.appendChild(sequence)
     result["BouterD"] = res[6][0]
     BouterD = p_doc.createElement("BouterD")
     diameter = p_doc.createElement("diameter")
@@ -157,13 +161,19 @@ def prioriDataInput(res):  ##函数作用：1、把初始列表的数据写进xm
         Bquadrant.appendChild(p)
         i += 1
         result["Bquadrant"].append([x, y])
-
+    center = p_doc.createElement("center")
+    B_end.appendChild(center)
+    sequence = p_doc.createElement("sequence")
+    B_end.appendChild(sequence)
     fp = open(savePath, 'w')
     p_doc.writexml(fp, indent='\t', addindent='\t', newl='\n', encoding="utf-8")
     return result
 
 
 def dataFitCircle():  ##函数作用：1、读取xml里的数据 2、根据这些数据拟合圆，计算各种孔位序列 3、用json返回圆心坐标 4、把圆心坐标、孔位序列写入xml
+    ## 法兰有四种情况： 1、安装孔、螺纹孔、象限孔 2、安装孔、螺纹孔 3、安装孔、象限孔 4、安装孔
+    ## 对应解决办法： 一、靶标装在象限孔上：1、3 二、靶标装在安装孔上：2、4,因此该函数应该分两种情况讨论
+
 
 
     return 0

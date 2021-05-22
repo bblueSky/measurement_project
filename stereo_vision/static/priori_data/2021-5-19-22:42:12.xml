@@ -88,6 +88,8 @@
 					<y>397.04</y>
 				</p0>
 			</Aquadrant>
+			<center/>
+			<sequence/>
 		</A_end>
 		<B_end>
 			<BouterD>
@@ -172,5 +174,7 @@
 			</Bmouting>
 			<Btapped/>
 			<Bquadrant/>
+			<center/>
+			<sequence/>
 		</B_end>
 	</priori_data>

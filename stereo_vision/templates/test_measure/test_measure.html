@@ -28,7 +28,7 @@
     <div class="sl-sideleft">
         <label class="sidebar-label">功能模块</label>
         <div class="sl-sideleft-menu">
-            <a href="index.html" class="sl-menu-link active">
+            <a href="index.html" class="sl-menu-link">
                 <div class="sl-menu-item">
                     <i class="menu-item-icon icon ion-ios-home-outline tx-22"></i>
                     <span class="menu-item-label">测量系统初始化</span>
@@ -39,7 +39,7 @@
                 <li class="nav-item"><a href="../cameraCalibration/" class="nav-link">测量场标定及日志管理</a></li>
                 <li class="nav-item"><a href="../prioriImport/" class="nav-link">先验加工数据导入及管理</a></li>
             </ul>
-            <a href="#" class="sl-menu-link">
+            <a href="#" class="sl-menu-link active">
             <div class="sl-menu-item">
                 <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
                 <span class="menu-item-label">视觉测量及位姿计算</span>
@@ -47,7 +47,8 @@
             </div><!-- menu-item -->
             </a>
             <ul class="sl-menu-sub nav flex-column">
-                <li class="nav-item"><a href="../testMeasure/" class="nav-link">图像检测及三维重构</a></li>
+                <li class="nav-item"><a href="../testMeasure/" class="nav-link">目标识别检测及定位</a></li>
+                <li class="nav-item"><a href="../threeDRestructure/" class="nav-link">关键特征点三维重构</a></li>
                 <li class="nav-item"><a href="../poseCalculate/" class="nav-link">筒段构件关键位姿计算</a></li>
             </ul>
             <a href="#" class="sl-menu-link">
@@ -288,37 +289,6 @@
                 </div>
             </div>
         </div>
-        <div style="height:10px"></div>
-        <div style="display:flex">
-            <div class="container" style="flex:1;padding-right:0px;padding-left:0px">
-                <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;width:100%;background-color:#1255a2;height:20px">
-                    <p align="center" style="color:white">安装孔及靶标三维重构结果显示区域</p>
-                </div>
-                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px">
-                    <div>
-                        <button class="btn-success" type="button" id="ConstraintCheck" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="Constraint()"><i class="fa fa-puzzle-piece"></i> 双目重构</button>
-                    </div>
-                    <div style="border:2px dashed #1255a2;height:50px;display:flex">
-                        <p style="font-size:18px;margin:0">相机坐标系下重构结果显示</p>
-                    </div>
-                    <div style="border:2px dashed #1255a2;height:50px;display:flex">
-                        <p style="font-size:18px;margin:0">全局坐标系下重构结果显示</p>
-                    </div>
-                    <div style="border:2px dashed #1255a2;height:50px;display:flex">
-                        <p style="font-size:18px;margin:0">A、B端筒段形心拟合结果显示</p>
-                    </div>
-                    <div style="border:2px dashed #1255a2;height:50px;display:flex">
-                        <p style="font-size:18px;margin:0">筒段轴线拟合结果显示</p>
-                    </div>
-                    <div style="border:2px dashed #1255a2;height:100px;display:flex">
-                        <p style="font-size:18px;margin:0">已完成重构的日志列表</p>
-                    </div>
-                    <div>
-                        <button class="btn-success" type="button" id="Restruction" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="Restruction()"><i class="fa fa-check"></i> 全局重构</button>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div style="height:40px"></div>
         <div>
             <footer class="sl-footer" style="background-color:#044b8c;height:40px">
@@ -347,7 +317,7 @@
                 dataType: 'json',
                 success:function(res){
                     //console.log("第一步");
-                    var options = "<option value=0>请选择待拍摄筒端类型</option>";
+                    var options = "<option value=0>请选择先验加工数据日志</option>";
                     for (var key in res) {
                         //console.log("第二步");
                         options += "<option value='"+key+"'>"+res[key]+"</option>";
@@ -355,7 +325,7 @@
                     $("#selectType").append(options);
                     //console.log("第三步");
                     //window.location.reload();
-                    //alert('已选择'+type+'类筒端');
+                    //alert('已选择'+type+'先验数据日志');
 
                     //window.location.reload();
 
@@ -376,10 +346,10 @@
                 success:function(res){
                     //window.location.reload();
                     if(type==0){
-                        alert('误操作！请选择待拍摄的筒端类型！')
+                        alert('误操作！请选择待拍摄的筒先验加工数据日志！')
                     }
                     else{
-                        alert('已选择'+type1+'类筒端');
+                        alert('已选择'+type1+'先验数据日志');
                     }
 
                     //window.location.reload();
@@ -403,7 +373,7 @@
                     time = res["key"]
                     alert('拍照完成');
                     document.getElementById("savePic").removeAttribute("disabled");
-                    document.getElementById("numPic").innerHTML='当前拍摄筒段型号为'+type1+';拍摄时间为'+time;
+                    document.getElementById("numPic").innerHTML='当前拍摄筒段的先验数据日志为'+type1+';拍摄时间为'+time;
 
                     document.getElementById("left_img_A").src='/static/res_pictures/temp/left_A.jpg?<%=Math.random()%>';
                     console.log('/static/res_pictures/temp/left_A.jpg?<%=Math.random()%>')
@@ -451,7 +421,7 @@
                     id = res["id"]
                     num = res["num"]
                     tube_name = res["tube_name"]
-                    document.getElementById("numPic").innerHTML='当前照片组标签为'+tube_name+";"+time+"第"+id+"组/共"+num+"组"
+                    document.getElementById("numPic").innerHTML='先验数据时间：'+tube_name+";拍摄时间："+time+"第"+id+"组/共"+num+"组"
                 }
             })
         }
@@ -474,7 +444,7 @@
                     id = res["id"]
                     num = res["num"]
                     tube_name = res["tube_name"]
-                    document.getElementById("numPic").innerHTML='当前照片组标签为'+tube_name+";"+time+"第"+id+"组/共"+num+"组"
+                    document.getElementById("numPic").innerHTML='先验数据时间：'+tube_name+";拍摄时间："+time+"第"+id+"组/共"+num+"组"
                 }
             })
         }
@@ -504,7 +474,7 @@
                     id = res["id"]
                     num = res["num"]
                     tube_name = res["tube_name"]
-                    document.getElementById("numPic").innerHTML='当前照片组标签为'+tube_name+";"+time+"第"+id+"组/共"+num+"组"
+                    document.getElementById("numPic").innerHTML='先验数据时间：'+tube_name+";拍摄时间："+time+"第"+id+"组/共"+num+"组"
                 }
             })
         }
@@ -582,7 +552,7 @@
                         document.getElementById("right_img_A").src='/static/res_pictures/A_right/'+type1+'_right.jpg';
                         document.getElementById("left_img_B").src='/static/res_pictures/B_left/'+type1+'_left.jpg';
                         document.getElementById("right_img_B").src='/static/res_pictures/B_right/'+type1+'_right.jpg';
-                        document.getElementById("numPic").innerHTML='当前照片组标签为'+tube_name+";"+time+"第"+id+"组/共"+num+"组"
+                        document.getElementById("numPic").innerHTML='先验数据时间：'+tube_name+";拍摄时间："+time+"第"+id+"组/共"+num+"组"
                     }
 
                     //window.location.reload();

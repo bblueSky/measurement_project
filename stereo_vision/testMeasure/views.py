@@ -16,7 +16,6 @@ from xml.dom import minidom
 
 from  stereo_vision.testMeasure.utils  import  get_img_boxes
 from stereo_vision.testMeasure.utils import img_process
-from stereo_vision.testMeasure.utils import get_epoch_pairs_points,epoch_3Dpoints
 
 
 @testMeasure.route('/')
@@ -29,7 +28,7 @@ def index():
 def  updateList1():
     #这里需要加检索筒端类型文件，把检索结果返回到字典里
     result = dict()
-    type_path = os.path.dirname(os.path.realpath(__file__)).replace("testMeasure","static/res_pictures/type")
+    type_path = os.path.dirname(os.path.realpath(__file__)).replace("testMeasure","static/priori_data")
     type_list_f = os.listdir(type_path)
     type_list = list()
     for file in type_list_f:
@@ -37,7 +36,7 @@ def  updateList1():
             type_list.append(file)
     for i in range(1,len(type_list)+1):
         doc = minidom.parse(type_path+"/"+type_list[i-1])
-        tube_name = doc.documentElement.getElementsByTagName("type")[0].childNodes[0].data
+        tube_name = doc.documentElement.getElementsByTagName("time")[0].childNodes[0].data
         result[i]=tube_name
     return result
 
@@ -486,12 +485,6 @@ def centreSight():
     return {"ALh":result[0],"ALt":result[1],"ARh":result[2],"ARt":result[3],"BLh":result[4],"BLt":result[5],"BRh":result[6],"BRt":result[7]}
 
 
-@testMeasure.route('/Constraint/',methods=['POST','GET'])
-def Constraint():
-    epoch_name = request.args.get('flag')
-    get_epoch_pairs_points(epoch_name)
-    epoch_3Dpoints(epoch_name)
-    return str(1)
 
 
 
