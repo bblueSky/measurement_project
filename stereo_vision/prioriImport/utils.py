@@ -3,6 +3,7 @@ import os
 import time
 import json
 from xml.dom import minidom
+from scipy import optimize
 """
 [['2021-5-19-22:42:12'],
  ['850.00'], 
@@ -169,11 +170,65 @@ def prioriDataInput(res):  ##函数作用：1、把初始列表的数据写进xm
     p_doc.writexml(fp, indent='\t', addindent='\t', newl='\n', encoding="utf-8")
     return result
 
+def fitCircle(x,y):  ##最小二乘法拟合圆
+    x_m = np.mean(x)
+    y_m = np.mean(y)
+    def calc_R(xc, yc):
+        return np.sqrt((x - xc) ** 2 + (y - yc) ** 2)
 
-def dataFitCircle():  ##函数作用：1、读取xml里的数据 2、根据这些数据拟合圆，计算各种孔位序列 3、用json返回圆心坐标 4、把圆心坐标、孔位序列写入xml
+    def f_2(c):
+        """ 计算半径残余"""
+        Ri = calc_R(*c)
+        return Ri - Ri.mean()
+
+    center_estimate = x_m, y_m
+    center_2, ier = optimize.leastsq(f_2, center_estimate)
+
+    xc_2, yc_2 = center_2
+    Ri_2 = calc_R(*center_2)
+    R_2 = Ri_2.mean()
+    residu_2 = sum((Ri_2 - R_2) ** 2)
+    return xc_2,yc_2,R_2,residu_2
+
+
+
+def dataFitCircle(res):  ##函数作用：1、读取xml里的数据 2、根据这些数据拟合圆，计算各种孔位序列 3、用json返回圆心坐标 4、把圆心坐标、孔位序列写入xml
     ## 法兰有四种情况： 1、安装孔、螺纹孔、象限孔 2、安装孔、螺纹孔 3、安装孔、象限孔 4、安装孔
-    ## 对应解决办法： 一、靶标装在象限孔上：1、3 二、靶标装在安装孔上：2、4,因此该函数应该分两种情况讨论
+    ## 对应解决办法： 一、靶标装在象限孔上：1、3（有象限孔） 二、靶标装在安装孔上：2、4（无象限孔）,因此该函数应该分两种情况讨论
+    datatime = res[0][0]
+    firmPath = os.path.dirname(os.path.realpath(__file__)).replace("prioriImport","static/priori_data/")
+    filePath = firmPath + datatime + ".xml"
+    p_doc = minidom.parse(filePath)
+    root = p_doc.documentElement
+    numsOfAmouting = len(root.getElementsByTagName('Amouting')[0].childNodes)//2
+    numsOfAtapped = len(root.getElementsByTagName('Atapped')[0].childNodes)//2
+    numsOfAquadrant = len(root.getElementsByTagName('Aquadrant')[0].childNodes)//2
+    numsOfBmouting = len(root.getElementsByTagName('Bmouting')[0].childNodes)//2
+    numsOfBtapped = len(root.getElementsByTagName('Btapped')[0].childNodes)//2
+    numsOfBquadrant = len(root.getElementsByTagName('Bquadrant')[0].childNodes)//2
+    A_x = np.zeros(numsOfAmouting)
+    A_y = np.zeros(numsOfAmouting)
+    B_x = np.zeros(numsOfBmouting)
+    B_y = np.zeros(numsOfBmouting)
+    for i in range(numsOfAmouting):
+        A_x[i] = float(root.getElementsByTagName("Amouting")[0].childNodes[2*i+1].childNodes[1].childNodes[0].data)
+        A_y[i] = float(root.getElementsByTagName("Amouting")[0].childNodes[2*i+1].childNodes[3].childNodes[0].data)
+    for i in range(numsOfBmouting):
+        B_x[i] = float(root.getElementsByTagName("Bmouting")[0].childNodes[2*i+1].childNodes[1].childNodes[0].data)
+        B_y[i] = float(root.getElementsByTagName("Bmouting")[0].childNodes[2*i+1].childNodes[3].childNodes[0].data)
+    xc_A, yc_A, R_A, residu_A = fitCircle(A_x, A_y)
+    xc_B, yc_B, R_B, residu_B = fitCircle(B_x, B_y)
+    print(xc_A, yc_A, R_A)
+    print(xc_B, yc_B, R_B)
+
+    # if numsOfAquadrant!=0 and numsOfBquadrant!=0:
+    #
+    # elif numsOfAquadrant!=0 and numsOfBquadrant==0:
+    #
+    # elif numsOfAquadrant==0 and numsOfBquadrant!=0:
+    #
+    # elif numsOfAquadrant==0 and numsOfBquadrant==0:
 
 
 
-    return 0
+    return str(1)
