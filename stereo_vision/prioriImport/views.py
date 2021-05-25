@@ -55,7 +55,8 @@ def fitCircle():
             cur.append(line)
         res.append(cur)
     # print(res)
-    result = dataFitCircle(res)  ##函数作用：1、读取xml里的数据 2、根据这些数据拟合圆 3、用json返回圆心坐标 4、把圆心坐标写入xml
+    result = dataFitCircle(res)  ##函数作用：1、读取xml里的数据 2、根据这些数据拟合圆 3、用json返回圆心坐标、圆的半径、拟合偏差 4、把圆心坐标写入xml
+    print(result)
     return result
 
 ##还差一个函数

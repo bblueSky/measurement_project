@@ -1,7 +1,7 @@
 #encoding:utf-8
 
 from flask  import render_template, request
-from stereo_vision.threeDRestructure import  threeDRestructure
+from stereo_vision.threeDRestructure import threeDRestructure
 import time
 import json
 import datetime

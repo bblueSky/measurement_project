@@ -100,8 +100,6 @@ def prioriDataInput(res):  ##函数作用：1、把初始列表的数据写进xm
         result["Aquadrant"].append([x, y])
     center = p_doc.createElement("center")
     A_end.appendChild(center)
-    sequence = p_doc.createElement("sequence")
-    A_end.appendChild(sequence)
     result["BouterD"] = res[6][0]
     BouterD = p_doc.createElement("BouterD")
     diameter = p_doc.createElement("diameter")
@@ -164,8 +162,6 @@ def prioriDataInput(res):  ##函数作用：1、把初始列表的数据写进xm
         result["Bquadrant"].append([x, y])
     center = p_doc.createElement("center")
     B_end.appendChild(center)
-    sequence = p_doc.createElement("sequence")
-    B_end.appendChild(sequence)
     fp = open(savePath, 'w')
     p_doc.writexml(fp, indent='\t', addindent='\t', newl='\n', encoding="utf-8")
     return result
@@ -192,7 +188,7 @@ def fitCircle(x,y):  ##最小二乘法拟合圆
 
 
 
-def dataFitCircle(res):  ##函数作用：1、读取xml里的数据 2、根据这些数据拟合圆，计算各种孔位序列 3、用json返回圆心坐标 4、把圆心坐标、孔位序列写入xml
+def dataFitCircle(res):  ##函数作用：1、读取xml里的数据 2、根据这些数据拟合圆，计算各种孔位序列 3、用json返回圆心坐标 4、把圆心坐标写入xml
     ## 法兰有四种情况： 1、安装孔、螺纹孔、象限孔 2、安装孔、螺纹孔 3、安装孔、象限孔 4、安装孔
     ## 对应解决办法： 一、靶标装在象限孔上：1、3（有象限孔） 二、靶标装在安装孔上：2、4（无象限孔）,因此该函数应该分两种情况讨论
     datatime = res[0][0]
@@ -218,17 +214,41 @@ def dataFitCircle(res):  ##函数作用：1、读取xml里的数据 2、根据�
         B_y[i] = float(root.getElementsByTagName("Bmouting")[0].childNodes[2*i+1].childNodes[3].childNodes[0].data)
     xc_A, yc_A, R_A, residu_A = fitCircle(A_x, A_y)
     xc_B, yc_B, R_B, residu_B = fitCircle(B_x, B_y)
-    print(xc_A, yc_A, R_A)
-    print(xc_B, yc_B, R_B)
-
-    # if numsOfAquadrant!=0 and numsOfBquadrant!=0:
-    #
-    # elif numsOfAquadrant!=0 and numsOfBquadrant==0:
-    #
-    # elif numsOfAquadrant==0 and numsOfBquadrant!=0:
-    #
-    # elif numsOfAquadrant==0 and numsOfBquadrant==0:
+    print(xc_A, yc_A, R_A, residu_A)
+    print(xc_B, yc_B, R_B, residu_B)
+    result = dict()
+    result["A"] = [[xc_A,yc_A],R_A,residu_A]
+    result["B"] = [[xc_B,yc_B],R_B,residu_B]
 
 
+    center = root.getElementsByTagName("center")[0]
+    axis_x = p_doc.createElement("x")
+    axis_y = p_doc.createElement("y")
+    R = p_doc.createElement("r")
+    residu = p_doc.createElement("residu")
+    axis_x.appendChild(p_doc.createTextNode(str(xc_A)))
+    axis_y.appendChild(p_doc.createTextNode(str(yc_A)))
+    R.appendChild(p_doc.createTextNode(str(R_A)))
+    residu.appendChild(p_doc.createTextNode(str(residu_A)))
+    center.appendChild(axis_x)
+    center.appendChild(axis_y)
+    center.appendChild(R)
+    center.appendChild(residu)
 
-    return str(1)
+    center = root.getElementsByTagName("center")[1]
+    axis_x = p_doc.createElement("x")
+    axis_y = p_doc.createElement("y")
+    R = p_doc.createElement("r")
+    residu = p_doc.createElement("residu")
+    axis_x.appendChild(p_doc.createTextNode(str(xc_B)))
+    axis_y.appendChild(p_doc.createTextNode(str(yc_B)))
+    R.appendChild(p_doc.createTextNode(str(R_B)))
+    residu.appendChild(p_doc.createTextNode(str(residu_B)))
+    center.appendChild(axis_x)
+    center.appendChild(axis_y)
+    center.appendChild(R)
+    center.appendChild(residu)
+
+    fp = open(filePath, 'w')
+    p_doc.writexml(fp, indent='\t', addindent='\t', newl='\n', encoding="utf-8")
+    return result
