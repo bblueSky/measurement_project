@@ -162,8 +162,8 @@ def prioriDataInput(res):  ##函数作用：1、把初始列表的数据写进xm
         result["Bquadrant"].append([x, y])
     center = p_doc.createElement("center")
     B_end.appendChild(center)
-    fp = open(savePath, 'w')
-    p_doc.writexml(fp, indent='\t', addindent='\t', newl='\n', encoding="utf-8")
+    with open(savePath, 'w') as fp:
+        p_doc.writexml(fp)
     return result
 
 def fitCircle(x,y):  ##最小二乘法拟合圆
@@ -196,22 +196,22 @@ def dataFitCircle(res):  ##函数作用：1、读取xml里的数据 2、根据�
     filePath = firmPath + datatime + ".xml"
     p_doc = minidom.parse(filePath)
     root = p_doc.documentElement
-    numsOfAmouting = len(root.getElementsByTagName('Amouting')[0].childNodes)//2
-    numsOfAtapped = len(root.getElementsByTagName('Atapped')[0].childNodes)//2
-    numsOfAquadrant = len(root.getElementsByTagName('Aquadrant')[0].childNodes)//2
-    numsOfBmouting = len(root.getElementsByTagName('Bmouting')[0].childNodes)//2
-    numsOfBtapped = len(root.getElementsByTagName('Btapped')[0].childNodes)//2
-    numsOfBquadrant = len(root.getElementsByTagName('Bquadrant')[0].childNodes)//2
+    numsOfAmouting = len(root.getElementsByTagName('Amouting')[0].childNodes)
+    numsOfAtapped = len(root.getElementsByTagName('Atapped')[0].childNodes)
+    numsOfAquadrant = len(root.getElementsByTagName('Aquadrant')[0].childNodes)
+    numsOfBmouting = len(root.getElementsByTagName('Bmouting')[0].childNodes)
+    numsOfBtapped = len(root.getElementsByTagName('Btapped')[0].childNodes)
+    numsOfBquadrant = len(root.getElementsByTagName('Bquadrant')[0].childNodes)
     A_x = np.zeros(numsOfAmouting)
     A_y = np.zeros(numsOfAmouting)
     B_x = np.zeros(numsOfBmouting)
     B_y = np.zeros(numsOfBmouting)
     for i in range(numsOfAmouting):
-        A_x[i] = float(root.getElementsByTagName("Amouting")[0].childNodes[2*i+1].childNodes[1].childNodes[0].data)
-        A_y[i] = float(root.getElementsByTagName("Amouting")[0].childNodes[2*i+1].childNodes[3].childNodes[0].data)
+        A_x[i] = float(root.getElementsByTagName("Amouting")[0].childNodes[i].childNodes[0].childNodes[0].data)
+        A_y[i] = float(root.getElementsByTagName("Amouting")[0].childNodes[i].childNodes[1].childNodes[0].data)
     for i in range(numsOfBmouting):
-        B_x[i] = float(root.getElementsByTagName("Bmouting")[0].childNodes[2*i+1].childNodes[1].childNodes[0].data)
-        B_y[i] = float(root.getElementsByTagName("Bmouting")[0].childNodes[2*i+1].childNodes[3].childNodes[0].data)
+        B_x[i] = float(root.getElementsByTagName("Bmouting")[0].childNodes[i].childNodes[0].childNodes[0].data)
+        B_y[i] = float(root.getElementsByTagName("Bmouting")[0].childNodes[i].childNodes[1].childNodes[0].data)
     xc_A, yc_A, R_A, residu_A = fitCircle(A_x, A_y)
     xc_B, yc_B, R_B, residu_B = fitCircle(B_x, B_y)
     print(xc_A, yc_A, R_A, residu_A)
@@ -249,6 +249,6 @@ def dataFitCircle(res):  ##函数作用：1、读取xml里的数据 2、根据�
     center.appendChild(R)
     center.appendChild(residu)
 
-    fp = open(filePath, 'w')
-    p_doc.writexml(fp, indent='\t', addindent='\t', newl='\n', encoding="utf-8")
+    with open(filePath, 'w') as fp:
+        p_doc.writexml(fp)
     return result

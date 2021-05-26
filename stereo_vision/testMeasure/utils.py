@@ -249,22 +249,6 @@ def boxes_saveInfo(flag,boxes_list):
             dom.writexml(fp)
 
 
-def isqrt(n):
-    if n <= 1:
-        return n
-    lo = 0
-    hi = n >> 1
-    while lo <= hi:
-        mid = (lo + hi) >> 1
-        sq = mid * mid
-        if sq == n:
-            return mid
-        elif sq < n:
-            lo = mid + 1
-            result = mid
-        else:
-            hi = mid - 1
-    return result
 ##图像处理函数
 ##输入：某一图像路径；图像类别
 ##输出：保存处理后的图像；保存处理后的形心坐标点数据

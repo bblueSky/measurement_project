@@ -1,10 +1,10 @@
 <?xml version="1.0" ?><points_info 数据时间="2021-01-11-17:15:21">
-		<type>筒径810安装孔11</type>
+		<type>2021-5-19-22:42:12</type>
 		<A_end>
 			<hole>
 				
 				
-			<pairs><pair0><left_x>1385.0</left_x><left_y>2739.0</left_y><right_x>2271.0</right_x><right_y>591.0</right_y><radius>35.0</radius><score>37.0</score></pair0><pair1><left_x>1511.0</left_x><left_y>1243.0</left_y><right_x>2591.0</right_x><right_y>2116.0</right_y><radius>44.0</radius><score>45.0</score></pair1><pair2><left_x>1600.0</left_x><left_y>2039.0</left_y><right_x>2417.0</right_x><right_y>2882.0</right_y><radius>47.0</radius><score>49.0</score></pair2><pair3><left_x>1013.0</left_x><left_y>116.0</left_y><right_x>2028.0</right_x><right_y>3517.0</right_y><radius>46.0</radius><score>46.0</score></pair3></pairs><threeD/></hole>
+			<pairs><pair0><left_x>1385.0</left_x><left_y>2739.0</left_y><right_x>2591.0</right_x><right_y>2116.0</right_y><radius>39.0</radius><score>42.0</score></pair0><pair1><left_x>1511.0</left_x><left_y>1243.0</left_y><right_x>2271.0</right_x><right_y>591.0</right_y><radius>39.0</radius><score>39.0</score></pair1><pair2><left_x>1600.0</left_x><left_y>2039.0</left_y><right_x>2417.0</right_x><right_y>2882.0</right_y><radius>47.0</radius><score>49.0</score></pair2><pair3><left_x>1013.0</left_x><left_y>116.0</left_y><right_x>2028.0</right_x><right_y>3517.0</right_y><radius>46.0</radius><score>46.0</score></pair3></pairs><threeD><point0><X>-1378.4380166840826</X><Y>821.5390925245676</Y><Z>4895.530417513418</Z><R>39.0</R><S>42.0</S></point0><point1><X>-642.1656693471418</X><Y>-386.5291735631722</Y><Z>2498.5650784332706</Z><R>39.0</R><S>39.0</S></point1><point2><X>-475.7971520263014</X><Y>375.91247019434303</Y><Z>2170.372374976628</Z><R>47.0</R><S>49.0</S></point2><point3><X>-1291.6284113654415</X><Y>196.87323079252403</Y><Z>3306.352258971458</Z><R>46.0</R><S>46.0</S></point3></threeD></hole>
 			<target>
 				
 				
@@ -14,7 +14,7 @@
 			<hole>
 				
 				
-			<pairs><pair0><left_x>1385.0</left_x><left_y>2739.0</left_y><right_x>2271.0</right_x><right_y>591.0</right_y><radius>35.0</radius><score>37.0</score></pair0><pair1><left_x>1511.0</left_x><left_y>1243.0</left_y><right_x>2591.0</right_x><right_y>2116.0</right_y><radius>44.0</radius><score>45.0</score></pair1><pair2><left_x>1600.0</left_x><left_y>2039.0</left_y><right_x>2417.0</right_x><right_y>2882.0</right_y><radius>47.0</radius><score>49.0</score></pair2><pair3><left_x>1013.0</left_x><left_y>116.0</left_y><right_x>2028.0</right_x><right_y>3517.0</right_y><radius>46.0</radius><score>46.0</score></pair3></pairs><threeD/></hole>
+			<pairs><pair0><left_x>1385.0</left_x><left_y>2739.0</left_y><right_x>2417.0</right_x><right_y>2882.0</right_y><radius>42.0</radius><score>43.0</score></pair0><pair1><left_x>1511.0</left_x><left_y>1243.0</left_y><right_x>2271.0</right_x><right_y>591.0</right_y><radius>39.0</radius><score>39.0</score></pair1><pair2><left_x>1600.0</left_x><left_y>2039.0</left_y><right_x>2591.0</right_x><right_y>2116.0</right_y><radius>45.0</radius><score>48.0</score></pair2><pair3><left_x>1013.0</left_x><left_y>116.0</left_y><right_x>2028.0</right_x><right_y>3517.0</right_y><radius>46.0</radius><score>46.0</score></pair3></pairs><threeD><point0><X>-832.7024194970348</X><Y>660.2186999184006</Y><Z>3028.060531977447</Z><R>42.0</R><S>43.0</S></point0><point1><X>-549.7955386073195</X><Y>-392.08650124174034</Y><Z>2192.1597937506804</Z><R>39.0</R><S>39.0</S></point1><point2><X>-674.5252878946355</X><Y>186.63677693239765</Y><Z>2910.64147250045</Z><R>45.0</R><S>48.0</S></point2><point3><X>-1742.4647391309663</X><Y>135.58155460762768</Y><Z>4293.700747442484</Z><R>46.0</R><S>46.0</S></point3></threeD></hole>
 			<target>
 				
 				

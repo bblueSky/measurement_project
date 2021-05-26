@@ -2,11 +2,12 @@
 
 from flask  import render_template, request
 from stereo_vision.poseCalculate import poseCalculate
+from stereo_vision.poseCalculate.utils import tubePoseCalculate
 import time
 import json
 import datetime
 import os
-
+from xml.dom import minidom
 
 
 
@@ -39,8 +40,14 @@ def Calculate():
     flag = request.args.get('flag')
     firmPath = os.path.dirname(os.path.realpath(__file__)).replace("poseCalculate","static/res_pictures/result/")
     filePath = firmPath+flag+'/points_info.xml'
-    print(filePath)
-    return str(1)
+    p_doc = minidom.parse(filePath)
+    p_root = p_doc.documentElement
+    datatime = p_root.getElementsByTagName("type")[0].childNodes[0].data
+    firmPath = os.path.dirname(os.path.realpath(__file__)).replace("poseCalculate","static/priori_data/")
+    dataPath = firmPath+datatime+".xml"
+    result = tubePoseCalculate(filePath,dataPath)
+    ##result具体格式根据函数的计算结果再定
+    return result
 
 
 
