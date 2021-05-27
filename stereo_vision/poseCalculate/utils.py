@@ -1,6 +1,7 @@
 import numpy as np
 import os
 import time
+import math
 from xml.dom import minidom
 
 from stereo_vision.cameraCalibration.utils import rigid_transform_3D ##这里要改回来
@@ -40,11 +41,11 @@ def tubePoseCalculate(filePath,dataPath):
     B：
         略
     """
-    ##注意这块只处理A端:
     p_doc = minidom.parse(filePath)
     d_doc = minidom.parse(dataPath)
     p_root = p_doc.documentElement
     d_root = d_doc.documentElement
+    ##注意这块只处理A端:
     ##处理理论值
     Amouting = d_root.getElementsByTagName('Amouting')[0]
     Atapped = d_root.getElementsByTagName('Atapped')[0]
@@ -57,7 +58,9 @@ def tubePoseCalculate(filePath,dataPath):
     print("numsOfAquadrant:"+str(numsOfAquadrant))
     ##处理计算值
     Ahole = p_root.getElementsByTagName("threeD")[0]
+    Atarget = p_root.getElementsByTagName("threeD")[1]
     numsOfAhole = len(Ahole.childNodes)
+    numsOfAtarget = len(Atarget.childNodes)## 此处默认检测到的靶标数量为4(3个板上1个筒上)
     print("numsOfAhole:"+str(numsOfAhole))
     data_list = list()
     data_index_list = list()
@@ -67,36 +70,68 @@ def tubePoseCalculate(filePath,dataPath):
         data_list.append([float(x),float(y)])
         data_index_list.append(i)
 
-    point_list = list()
-    point_index_list = list()
-    point_r_list = list()
+    hole_list = list()
+    hole_index_list = list()
+    hole_r_list = list()
     for i in range(numsOfAhole):
         x = Ahole.getElementsByTagName('point' + str(i))[0].childNodes[0].childNodes[0].data
         y = Ahole.getElementsByTagName('point' + str(i))[0].childNodes[1].childNodes[0].data
         z = Ahole.getElementsByTagName('point' + str(i))[0].childNodes[2].childNodes[0].data
         r = Ahole.getElementsByTagName('point' + str(i))[0].childNodes[3].childNodes[0].data
-        point_list.append([float(x),float(y),float(z)])
-        point_index_list.append(i)
-        point_r_list.append(float(r))
+        hole_list.append([float(x),float(y),float(z)])
+        hole_index_list.append(i)
+        hole_r_list.append(float(r))
     print(data_list)
     print(data_index_list)
-    print(point_list)
-    print(point_index_list)
-    print(point_r_list)
+    print(hole_list)
+    print(hole_index_list)
+    print(hole_r_list)
+    target_list = list()
+    target_index_list = list()
+    ##生成靶标列表的同时找出离群靶标即外靶标
+    record_i = 0
+    max_y = float('-inf')
+    for i in range(numsOfAtarget):
+        x = Atarget.getElementsByTagName('point' + str(i))[0].childNodes[0].childNodes[0].data
+        y = Atarget.getElementsByTagName('point' + str(i))[0].childNodes[1].childNodes[0].data
+        z = Atarget.getElementsByTagName('point' + str(i))[0].childNodes[2].childNodes[0].data
+        target_list.append([float(x), float(y), float(z)])
+        target_index_list.append(i)
+        if y>max_y:
+            max_y = y
+            record_i = i
+    print(target_list)
+    print(target_index_list)
+    distence = d = 0
+    Outlier_i = 0
+    for i in range(numsOfAtarget):
+        d = (target_list[i][0]-target_list[record_i][0])**2+(target_list[i][1]-target_list[record_i][1])**2+(target_list[i][2]-target_list[record_i][2])**2
+        if d>distence:
+            Outlier_i = i
+            distence = d
+    print("离群点与板上最下靶标距离："+str(math.sqrt(d)))
+    print("外标在index中id"+str(Outlier_i))
     ##分情况讨论
+    if numsOfAquadrant!=0:
+        ##有象限孔
+        if numsOfAmouting+numsOfAtapped+numsOfAquadrant!=numsOfAhole+1:
+            return False
+        ##根据孔径估算排名得出安装孔实测列表
+        hole_index_list = np.argsort(hole_r_list)[::-1]
+        hole_index_list = hole_index_list[:numsOfAmouting]
+        p_Amouting = list()
+        p_Amouting_mat = np.mat(np.zeros([numsOfAmouting,3]))
+        for i in hole_index_list:
+            p_Amouting.append(hole_list[i]) ##得出计算值中的安装孔列表
+            p_Amouting_mat[i, 0] = hole_list[i][0]
+            p_Amouting_mat[i, 1] = hole_list[i][1]
+            p_Amouting_mat[i, 2] = hole_list[i][2]
+        mu_p_Amouting = np.mean(p_Amouting_mat,axis=0)
+        print(mu_p_Amouting)
 
-
-
-
-
+    else:
+        ##无象限孔
+        if numsOfAmouting+numsOfAtapped+numsOfAquadrant!=numsOfAhole+1:
+            return False
 
     return str(1)
-
-
-
-
-
-if __name__=="__main__":
-    filePath = "/home/monkiki/PycharmProjects/measurement_project/stereo_vision/static/res_pictures/result/2021-01-16-16:03:26/points_info.xml"
-    dataPath = "/home/monkiki/PycharmProjects/measurement_project/stereo_vision/static/priori_data/2021-5-19-22:42:12.xml"
-    tubePoseCalculate(filePath, dataPath)

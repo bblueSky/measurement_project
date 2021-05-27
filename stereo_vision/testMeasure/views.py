@@ -79,6 +79,12 @@ def take_pic():
     cam.SetExptime(1, exp_time)  # 设置曝光150MS
     cam.SetTriggerMode(1, 2)  # 设置成固定帧率模式
 
+    cam.SetExptime(2, exp_time)  # 设置曝光150MS
+    cam.SetTriggerMode(2, 2)  # 设置成固定帧率模式
+
+    cam.SetExptime(3, exp_time)  # 设置曝光150MS
+    cam.SetTriggerMode(3, 2)  # 设置成固定帧率模式
+
     #cam.SetFixedFrameRateEx(0, 1)  # 设置固定帧率是5fs
 
     ts = time.time()
@@ -87,9 +93,8 @@ def take_pic():
     image_left_A = cam.read(0)  # 从相机0读取一个图像，这个image就是oenpcv的图像 先插的是相机1
     image_right_A = cam.read(1)
     #注意！！！这里以后要换成相机组！！！！暂时B端借用0\1
-
-    image_left_B = image_left_A
-    image_right_B = image_right_A
+    image_left_B = cam.read(2)
+    image_right_B = cam.read(3)
     frame_left_A = image_left_A[::-1]
     frame_right_A = image_right_A[::-1]
     frame_left_B = image_left_B[::-1]

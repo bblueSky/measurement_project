@@ -45,6 +45,7 @@ def  imageDisplay():
 
 @cameraCalibration.route('/take_pic/', methods =['POST','GET'] )
 def take_pic():
+    flag = request.args.get('mydata')
     print("相机开始运行")
     #os.system('sh /home/cx/PycharmProjects/stereo_vision/stereo_vision/cameraCalibration/run.sh')
     exp_time = 100
@@ -59,19 +60,29 @@ def take_pic():
     cam.SetExptime(1, exp_time)  # 设置曝光150MS
     cam.SetTriggerMode(1, 2)  # 设置成固定帧率模式
 
+    cam.SetExptime(2, exp_time)  # 设置曝光150MS
+    cam.SetTriggerMode(2, 2)  # 设置成固定帧率模式
+
+    cam.SetExptime(3, exp_time)  # 设置曝光150MS
+    cam.SetTriggerMode(3, 2)  # 设置成固定帧率模式
+
     #cam.SetFixedFrameRateEx(0, 1)  # 设置固定帧率是5fs
 
     ts = time.time()
     st = datetime.datetime.fromtimestamp(ts).strftime( '%Y'+ '-' + '%m' + '-' + '%d' + '-' + '%H' + ':' + '%M' + ':' + '%S')
-
-    image_left = cam.read(0)  # 从相机0读取一个图像，这个image就是oenpcv的图像  # todo  需要找出哪个是相机0 哪个是相机1
-    image_right = cam.read(1)
+    ##默认A端0\1 B端2\3
+    if flag=='A':
+        image_left = cam.read(0)  # 从相机0读取一个图像，这个image就是oenpcv的图像  # todo  需要找出哪个是相机0 哪个是相机1
+        image_right = cam.read(1)
+    else:
+        image_left = cam.read(2)  # 从相机0读取一个图像，这个image就是oenpcv的图像  # todo  需要找出哪个是相机2 哪个是相机3
+        image_right = cam.read(3)
     frame_left = image_left[::-1]
     frame_right = image_right[::-1]
 
     # TODO  注释掉写入帧的操作
     dirPath = os.path.dirname(os.path.realpath(__file__)).replace('cameraCalibration', 'static/res_pictures/temp/')
-    flag = request.args.get('mydata')
+
     print("标定的是"+flag+"端相机")
 
 
