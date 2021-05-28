@@ -39,7 +39,7 @@ def sig_calibration(flag,camera_):
                 objpoints.append(objp)
                 imgpoints.append(corners2)
 
-                img= cv2.drawChessboardCorners(gray,(13,9),corners2,ret)
+                img= cv2.drawChessboardCorners(gray,(cbcol,cbrow),corners2,ret)
                 corner_img_dir = os.path.dirname(os.path.realpath(__file__)).replace('cameraCalibration','corner_img_dir/')
                 corner_img_dir_path = os.path.dirname(os.path.realpath(__file__)).replace('cameraCalibration','corner_img_dir/'+str(corner_image_name)+'test'+fname+'.jpg')
                 cv2.imwrite(corner_img_dir_path,img)

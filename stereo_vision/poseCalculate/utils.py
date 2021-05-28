@@ -6,7 +6,17 @@ from xml.dom import minidom
 
 from stereo_vision.cameraCalibration.utils import rigid_transform_3D ##这里要改回来
 
-
+def GetClockAngle(v1, v2):  ##求v2到v1顺时针旋转角度
+    # 2个向量模的乘积
+    TheNorm = np.linalg.norm(v1)*np.linalg.norm(v2)
+    # 叉乘
+    rho =  np.rad2deg(np.arcsin(np.cross(v1, v2)/TheNorm))
+    # 点乘
+    theta = np.rad2deg(np.arccos(np.dot(v1,v2)/TheNorm))
+    if rho < 0:
+        return 360 - theta
+    else:
+        return theta
 
 
 def tubePoseCalculate(filePath,dataPath):
@@ -110,7 +120,8 @@ def tubePoseCalculate(filePath,dataPath):
             Outlier_i = i
             distence = d
     print("离群点与板上最下靶标距离："+str(math.sqrt(d)))
-    print("外标在index中id"+str(Outlier_i))
+    print("外标在index中id："+str(Outlier_i))
+    print("外标坐标："+str(target_list[Outlier_i]))
     ##分情况讨论
     if numsOfAquadrant!=0:
         ##有象限孔
@@ -128,6 +139,7 @@ def tubePoseCalculate(filePath,dataPath):
             p_Amouting_mat[i, 2] = hole_list[i][2]
         mu_p_Amouting = np.mean(p_Amouting_mat,axis=0)
         print(mu_p_Amouting)
+        fir_vector = target_list[Outlier_i]-mu_p_Amouting
 
     else:
         ##无象限孔
