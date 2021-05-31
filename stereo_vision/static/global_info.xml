@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-	<global_info>
+<?xml version="1.0" ?><global_info>
 		<A_calibration_time>
 			<time/>
 		</A_calibration_time>
@@ -7,34 +6,9 @@
 			<time/>
 		</B_calibration_time>
 		<global_time>
-			<time/>
-		</global_time>
-		<origin>
-			<AP1/>
-			<AP2/>
-			<AP3/>
-			<BP1/>
-			<BP2/>
-			<BP3/>
-		</origin>
-		<T2A>
-			<APO/>
-			<APH/>
-			<APW/>
-			<BPO/>
-			<BPH/>
-			<BPW/>
-			<R_T2A/>
-			<T_T2A/>
-		</T2A>
-		<S2S>
-			<APOs/>
-			<APHs/>
-			<APWs/>
-			<BPOs/>
-			<BPHs/>
-			<BPWs/>
-			<T_AS2S/>
-			<T_BS2S/>
-		</S2S>
-	</global_info>
+			
+		<time>2021-05-31-19:42:57</time></global_time>
+		
+		
+		
+	<origin><AP1><X>1000</X><Y>1000</Y><Z>500</Z></AP1><AP2><X>1000</X><Y>1260</Y><Z>500</Z></AP2><AP3><X>1000</X><Y>1000</Y><Z>240</Z></AP3><BP1><X>-1000</X><Y>1260</Y><Z>500</Z></BP1><BP2><X>-1260</X><Y>1260</Y><Z>500</Z></BP2><BP3><X>-1000</X><Y>1260</Y><Z>240</Z></BP3></origin><T2A><APO><X>0.0</X><Y>0.0</Y><Z>0.0</Z></APO><APH><X>260.0</X><Y>0.0</Y><Z>0.0</Z></APH><APW><X>0.0</X><Y>260.0</Y><Z>0.0</Z></APW><BPO><X>259.99999999999943</X><Y>-2.2737367544323206e-13</Y><Z>2000.0</Z></BPO><BPH><X>259.99999999999943</X><Y>-2.8421709430404007e-13</Y><Z>2260.0</Z></BPH><BPW><X>259.99999999999943</X><Y>259.9999999999998</Y><Z>2000.0</Z></BPW></T2A><S2S><T_AS2S><X>0.0</X><Y>0.0</Y><Z>-50.0</Z></T_AS2S><T_BS2S><X>50.0</X><Y>0.0</Y><Z>-0.0</Z></T_BS2S><APOs><X>0.0</X><Y>0.0</Y><Z>-50.0</Z></APOs><APHs><X>260.0</X><Y>0.0</Y><Z>-50.0</Z></APHs><APWs><X>0.0</X><Y>260.0</Y><Z>-50.0</Z></APWs><BPOs><X>309.99999999999943</X><Y>-2.2737367544323206e-13</Y><Z>2000.0</Z></BPOs><BPHs><X>309.99999999999943</X><Y>-2.8421709430404007e-13</Y><Z>2260.0</Z></BPHs><BPWs><X>309.99999999999943</X><Y>259.9999999999998</Y><Z>2000.0</Z></BPWs></S2S></global_info>

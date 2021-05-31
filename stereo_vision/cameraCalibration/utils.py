@@ -548,21 +548,6 @@ def LTside2VSide(APO,APH,APW,BPO,BPH,BPW):
     return APOs,APHs,APWs,BPOs,BPHs,BPWs,T_AS2S,T_BS2S
 
 
-if __name__ =='__main__':
-
-    #path = '/home/cx/PycharmProjects/stereo_vision/stereo_vision/checkboard_img_dir/leftCamera_img_dir/'
-    #test_json = sig_calibration(path)
-    #print(test_json)
-    #find_camera_calibration_file(path)
-    #check_up_txt_file(path)
-
-    left_name  =  '/home/cx/PycharmProjects/stereo_vision/stereo_vision/static/zj_pictures/5.21/2019-05-21-17-27-23/left.jpg'
-
-    right_name = '/home/cx/PycharmProjects/stereo_vision/stereo_vision/static/zj_pictures/5.21/2019-05-21-17-27-23/right.jpg'
-
-    #stereo_Calibration()
-    stereo_Calibration_for_use(left_name, right_name)
-
 
 
 
