@@ -240,17 +240,16 @@ def tubePoseCalculate(filePath,dataPath):
         # print(aft_d_Amouting_mat)
         ##已检验
         ##下一步求d2p转换关系
-
-
-
-
-
-
-
         centerAndAngle[0, 0] = d_center_X
         centerAndAngle[0, 1] = d_center_Y
-
-
+        centerAndAngle[1, 0] = aft_d_Amouting_mat[-1,0]
+        centerAndAngle[1, 1] = aft_d_Amouting_mat[-1,1]
+        print(centerAndAngle)
+        R_d2p, T_d2p = rigid_transform_3D(aft_d_Amouting_mat,aft_p_Amouting_mat2)
+        n = 2
+        centerAndAngle2 = (R_d2p * centerAndAngle.T) + np.tile(T_d2p, (1, n))
+        centerAndAngle2 = centerAndAngle2.T
+        print(centerAndAngle2) ## 包含A端形心点与象限孔全局坐标的2x3矩阵
     else:
         ##无象限孔
         if numsOfAmouting+numsOfAtapped+numsOfAquadrant!=numsOfAhole+1:
