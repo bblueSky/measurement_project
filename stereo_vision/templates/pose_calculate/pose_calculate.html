@@ -116,13 +116,18 @@
                     </div>
                     <div style="height:15px"></div>
                     <div style="border:2px dashed #1255a2;height:350px;width:100%">
+                        <p align="left" id="poseText" style="font-size:18px">筒端位姿：</p><!--这里更换文本-->
+                        <p align="left" id="Axis" style="font-size:18px">轴线向量：</p><!--这里更换文本-->
+                        <p align="left" id="Angle" style="font-size:18px">象限偏角：</p><!--这里更换文本-->
+                        <p align="left" id="A_center" style="font-size:18px">A端形心坐标：</p><!--这里更换文本-->
+                        <p align="left" id="B_center" style="font-size:18px">B端形心坐标：</p><!--这里更换文本-->
                         <!--这里以后放导入后绘图效果-->
                     </div>
                 </div>
             </div>
             <div class="container" style="flex:1;padding-right:0px;padding-left:0px">
                 <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;background-color:#1255a2;height:20px;width:100%">
-                    <p align="center" style="color:white">先验加工数据管理区域</p>
+                    <p align="center" style="color:white">位姿计算数据管理区域</p>
                 </div>
                 <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px;width:100%;height:250px">
                     <div style="border:2px dashed #1255a2;height:150px;width:100%">
@@ -226,7 +231,11 @@
                 url:"/poseCalculate/Calculate",
                 dataType: 'json',
                 success:function(res){
-                    alert('成功！')
+                    alert('位姿计算完成！')
+                    document.getElementById("Axis").innerHTML='轴线向量：'+res["Axis"];
+                    document.getElementById("Angle").innerHTML='象限偏角：'+res["Angle"]+'°';
+                    document.getElementById("A_center").innerHTML='A端形心坐标：'+res["A_center"];
+                    document.getElementById("B_center").innerHTML='B端形心坐标：'+res["B_center"];
                 },
                 error: function (res) {
                     alert('失败！')

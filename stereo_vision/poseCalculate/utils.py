@@ -22,6 +22,22 @@ def GetClockAngle(v1, v2):  ##求v2到v1顺时针旋转角度
     else:
         return theta
 
+def GetClockAngle1(v1, v2):  ##求v2到v1顺时针旋转角度
+    # print(v1)
+    # print(v2)
+    # 2个向量模的乘积
+    TheNorm = np.linalg.norm(v1)*np.linalg.norm(v2)
+    # 叉乘
+    rho =  np.rad2deg(np.arcsin(np.cross(v1, v2)/TheNorm))
+    # print(rho)
+    # 点乘
+    theta = np.rad2deg(np.arccos(np.dot(v1,v2)/TheNorm))
+    # print(theta)
+    if rho[2] < 0:
+        return -theta
+    else:
+        return theta
+
 
 def tubePoseCalculate(filePath,dataPath):
     """
@@ -729,6 +745,16 @@ def tubePoseCalculate(filePath,dataPath):
         B_centerAndAngle2 = (R_d2p * centerAndAngle.T) + np.tile(T_d2p, (1, n))
         B_centerAndAngle2 = B_centerAndAngle2.T
         print(B_centerAndAngle2)  ## 包含A端形心点与象限孔全局坐标的2x3矩阵
-
-
-    return str(1)
+    Axis = np.delete(B_centerAndAngle2, 1, axis=0) - np.delete(A_centerAndAngle2, 1, axis=0)
+    X_Axis = np.array([-1,0,0])
+    A_center = [A_centerAndAngle2[0, 0], A_centerAndAngle2[0, 1],A_centerAndAngle2[0, 2]]
+    A_angle = np.delete(A_centerAndAngle2,0,axis=0)
+    angle_vector = A_angle-A_center
+    firm_vector = np.cross(Axis,X_Axis)
+    Angle = GetClockAngle1(np.squeeze(np.asarray(angle_vector)),np.squeeze(np.asarray(firm_vector)))
+    B_center = [B_centerAndAngle2[0, 0], B_centerAndAngle2[0, 1], B_centerAndAngle2[0, 2]]
+    ##要传的值：轴线、偏角、A端形心、B端形心
+    Axis1 = [Axis[0,0],Axis[0,1],Axis[0,2]]
+    print(Axis)
+    print(Angle)
+    return {"Axis":Axis1,"Angle":Angle,"A_center":A_center,"B_center":B_center}

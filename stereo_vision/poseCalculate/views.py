@@ -42,11 +42,36 @@ def Calculate():
     filePath = firmPath+flag+'/points_info.xml'
     p_doc = minidom.parse(filePath)
     p_root = p_doc.documentElement
-    datatime = p_root.getElementsByTagName("type")[0].childNodes[0].data
+    tube_type = p_root.getElementsByTagName("type")[0].childNodes[0].data
     firmPath = os.path.dirname(os.path.realpath(__file__)).replace("poseCalculate","static/priori_data/")
-    dataPath = firmPath+datatime+".xml"
+    dataPath = firmPath+tube_type+".xml"
     result = tubePoseCalculate(filePath,dataPath)
-    ##result具体格式根据函数的计算结果再定
+    firmPath = os.path.dirname(os.path.realpath(__file__)).replace("poseCalculate", "static/res_pictures/pose_result/")
+    posePath = firmPath+flag+".xml"
+    ts = time.time()
+    dtime = datetime.datetime.fromtimestamp(ts).strftime('%Y' + '-' + '%m' + '-' + '%d' + '-' + '%H' + ':' + '%M' + ':' + '%S')
+    pose_doc = minidom.Document()
+    pose_root = pose_doc.createElement('poseCaculate_data')
+    pose_root.setAttribute('数据时间', dtime)
+    pose_doc.appendChild(pose_root)
+    tube_t = pose_doc.createElement("type")
+    tube_t.appendChild(pose_doc.createTextNode(tube_type))
+    pose_root.appendChild(tube_t)
+    A_end = pose_doc.createElement("A_end")
+    B_end = pose_doc.createElement("B_end")
+    pose_root.appendChild(A_end)
+    pose_root.appendChild(B_end)
+    A_center = pose_doc.createElement("center")
+    A_angle_pt = pose_doc.createElement("angle_point")
+    B_center = pose_doc.createElement("center")
+    B_angle_pt = pose_doc.createElement("angle_point")
+    A_end.appendChild(A_center)
+    A_end.appendChild(A_angle_pt)
+    B_end.appendChild(B_center)
+    B_end.appendChild(B_angle_pt)
+    with open(posePath, 'w') as fp:
+        pose_doc.writexml(fp)
+
     return result
 
 
