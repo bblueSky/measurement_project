@@ -5,14 +5,10 @@ from modbus_tk import modbus_tcp
 import random
 import time
 
-def main() :
-
+def main():
 	"""main"""
-
 	logger = modbus_tk.utils.create_logger(name = "console", record_format = "%(message)s")
-
-	try :
-
+	try:
 		#Create the server
 		server = modbus_tcp.TcpServer(address="0.0.0.0", port=502)
 		#server.set_timeout(5.0)
@@ -25,21 +21,14 @@ def main() :
 		while True:
 			slave_1.set_values('A', 0, 10*[random.randint(0,200)])  # 改变在地址0处的寄存器的值
 			time.sleep(1)
-
 		while True:
 			cmd = sys.stdin.readline()
 			args = cmd.split(' ')
-
 			if cmd.find('quit') == 0 :
-
 				sys.stdout.write('bye-bye\r\n')
-
 				break
-
 			elif args[0] == 'add_slave':
-
 				slave_id = int(args[1])
-
 				server.add_slave(slave_id)
 
 				sys.stdout.write('done: slave %d added\r\n' % slave_id)

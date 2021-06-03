@@ -198,11 +198,6 @@
                     }
                     else{
                         alert('已选择'+type1+'日志');
-                        document.getElementById("left_img_A").src='/static/res_pictures/A_left/'+type1+'_left.jpg';
-                        document.getElementById("right_img_A").src='/static/res_pictures/A_right/'+type1+'_right.jpg';
-                        document.getElementById("left_img_B").src='/static/res_pictures/B_left/'+type1+'_left.jpg';
-                        document.getElementById("right_img_B").src='/static/res_pictures/B_right/'+type1+'_right.jpg';
-                        document.getElementById("numPic").innerHTML='当前照片组标签为'+tube_name+";"+time+"第"+id+"组/共"+num+"组"
                     }
 
                     //window.location.reload();
@@ -233,7 +228,7 @@
                 success:function(res){
                     alert('位姿计算完成！')
                     document.getElementById("Axis").innerHTML='轴线向量：'+res["Axis"];
-                    document.getElementById("Angle").innerHTML='象限偏角：'+res["Angle"]+'°';
+                    document.getElementById("Angle").innerHTML='象限偏角：'+res["Angle"]+'deg(顺时针为正，逆时针为负)';
                     document.getElementById("A_center").innerHTML='A端形心坐标：'+res["A_center"];
                     document.getElementById("B_center").innerHTML='B端形心坐标：'+res["B_center"];
                 },

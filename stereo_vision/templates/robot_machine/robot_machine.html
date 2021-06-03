@@ -97,7 +97,31 @@
     <!-- ########## START: MAIN PANEL ########## -->
     {% block main %}
     <div class="sl-mainpanel">
-
+        <div style="height:15px"></div>
+        <div style="display:flex">
+            <div class="container" style="flex:1;padding-right:0px;padding-left:0px">
+                <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;background-color:#1255a2;height:20px;width:100%">
+                    <p align="center" style="color:white">筒段关键位姿计算结果显示区域</p>
+                </div>
+                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px;width:100%;height:470px">
+                    <div>
+                        <span>
+                            <button type="button" class="btn-success" id="updateList" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="updateList()"><i class="fa fa-refresh"></i> 更新列表</button>
+                            <label style="font-size:18px">选择需要传输给机器人的测量日志</label>
+                            <select id="selectLog" style="font-size:18px;background:rgba(0,0,0,0.08);width:250px;height:35px;border-radius:8px" onchange="selectLog()">
+                                <option value ="0">请先点击左侧“更新列表”</option>
+                            </select>
+                            <button type="button" class="btn-success" id="Calculate" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="confirmDelete()"><i class="fa fa-compress"></i> 数据传输</button>
+                        </span>
+                    </div>
+                    <div style="height:15px"></div>
+                    <div style="border:2px dashed #1255a2;height:350px;width:100%">
+                        <p align="left" id="Text" style="font-size:18px">无连接</p><!--这里更换文本-->
+                        <!--这里以后放导入后绘图效果-->
+                    </div>
+                </div>
+            </div>
+        </div>
         <div style="height:40px"></div>
         <div>
             <footer class="sl-footer" style="background-color:#044b8c;height:40px">
@@ -117,7 +141,87 @@
 
 
     {% block write_js %}
+    <script>
+        function updateList() {
+            $("#selectLog").html("");
+            $.ajax({
+                type:'GET',
+                data:{'mydata':1},
+                url:"/robotMachine/updateList",
+                dataType: 'json',
+                success:function(res){
+                    //console.log("第一步");
+                    var options = "<option value=0>请选择待检测日志</option>";
+                    for (var key in res) {
+                        //console.log("第二步");
+                        options += "<option value='"+key+"'>"+res[key]+"</option>";
+                    }
+                    $("#selectLog").append(options);
+                    //console.log("第三步");
+                    //window.location.reload();
+                    //alert('已选择'+type+'类筒端');
 
+                    //window.location.reload();
+
+                },
+                error: function (res) {
+                    alert('失败！')
+                }
+            });
+        }
+        function selectLog(){
+            var type = $("#selectLog").val();
+            var type1 = $("#selectLog").find("option:selected").text();
+            $.ajax({
+                type:'GET',
+                data:{'mydata':type},
+                url:"/robotMachine/selectLog",
+                dataType: 'json',
+                success:function(res){
+                    //window.location.reload();
+                    if(type==0){
+                        alert('误操作！请选择待检测日志！')
+                    }
+                    else{
+                        alert('已选择'+type1+'日志');
+                    }
+
+                    //window.location.reload();
+                },
+                error: function (res) {
+                      alert('失败！')
+                }
+            })
+        }
+    </script>
+    <script>
+        function confirmDelete(){
+            var flag = $("#selectLog").find("option:selected").text();
+            var r = confirm("确定要发送"+flag+"日志到机器人加工系统吗？")
+		    if (r == true) {
+		        robotCommunicate();
+		    }
+		    else {
+		    }
+        }
+        function robotCommunicate(){
+            var flag = $("#selectLog").find("option:selected").text();
+            alert('发送测量数据成功！')
+            document.getElementById("Text").innerHTML="与机器人加工系统通讯已连接";
+            $.ajax({
+                type:'GET',
+                data:{'flag':flag},
+                url:"/robotMachine/robotCommunicate",
+                dataType: 'json',
+                success:function(res){
+
+                },
+                error: function (res) {
+
+                }
+            })
+        }
+    </script>
     {% endblock %}
 
     <!-- ######### END: MAIN PANEL ########## -->

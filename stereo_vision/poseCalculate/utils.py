@@ -753,8 +753,10 @@ def tubePoseCalculate(filePath,dataPath):
     firm_vector = np.cross(Axis,X_Axis)
     Angle = GetClockAngle1(np.squeeze(np.asarray(angle_vector)),np.squeeze(np.asarray(firm_vector)))
     B_center = [B_centerAndAngle2[0, 0], B_centerAndAngle2[0, 1], B_centerAndAngle2[0, 2]]
-    ##要传的值：轴线、偏角、A端形心、B端形心
+    ##要传的值：轴线、偏角、A端形心、A端正孔、B端形心、B端正孔
     Axis1 = [Axis[0,0],Axis[0,1],Axis[0,2]]
+    A_angle = [A_centerAndAngle2[1, 0], A_centerAndAngle2[1, 1],A_centerAndAngle2[1, 2]]
+    B_angle = [B_centerAndAngle2[1, 0], B_centerAndAngle2[1, 1],B_centerAndAngle2[1, 2]]
     print(Axis)
     print(Angle)
-    return {"Axis":Axis1,"Angle":Angle,"A_center":A_center,"B_center":B_center}
+    return {"Axis":Axis1,"Angle":Angle,"A_center":A_center,"A_angle":A_angle,"B_center":B_center,"B_angle":B_angle}
