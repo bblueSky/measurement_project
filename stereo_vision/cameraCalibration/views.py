@@ -233,13 +233,22 @@ def deletAll():
 
 @cameraCalibration.route('/stereoCalibration/',methods=['POST','GET'])
 def  stereo_calibration():
+    res = dict()
     flag = request.args.get('mydata')
-    sig_calibration(flag,"left")
-    sig_calibration(flag,"right")
-    stereo_Calibration(flag)
+    resultl = sig_calibration(flag,"left")
+    resultr = sig_calibration(flag,"right")
+    results = stereo_Calibration(flag)
+
+    res["ltime"] = resultl[0]
+    res["lterror"] = resultl[1]
+
+    res["rtime"] = resultr[0]
+    res["rterror"] = resultr[1]
+
+    res["stime"] = results[0]
 
 
-    return str(1)
+    return res
 
 
 @cameraCalibration.route('/insertComplete/',methods=['POST','GET'])

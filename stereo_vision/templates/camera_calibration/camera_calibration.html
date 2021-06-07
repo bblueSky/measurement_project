@@ -109,12 +109,16 @@
                 <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;background-color:#1255a2;height:20px;width:100%">
                     <p align="center" style="color:white">标定结果显示区域</p>
                 </div>
-                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px;width:100%;height:258px">
+                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px;width:100%;height:278px">
                     <div>
                         <button class="btn-success" style="font-size:18px;width:110px;height:35px;border-radius:8px" type="button" id="stereoCalibration" onclick="confirmDelete3()"><i class="fa fa-binoculars"></i> 立体标定</button>
                     </div>
-                    <div style="border:2px dashed #1255a2;height:170px;display:flex">
-                        <p align="center" style="font-size:18px;margin:0">...</p>
+                    <div style="border:2px solid #1255a2;height:215px">
+                        <p align="left" id="ltime" style="font-size:9px">left标定时长:</p>
+                        <p align="left" id="lterror" style="font-size:9px">left标定偏差:</p>
+                        <p align="left" id="rtime" style="font-size:9px">right标定时长:</p>
+                        <p align="left" id="rterror" style="font-size:9px">right标定偏差:</p>
+                        <p align="left" id="stime" style="font-size:9px">双目标定时长:</p>
                     </div>
                 </div>
             </div>
@@ -463,7 +467,13 @@
                     document.getElementById("deleteThis").removeAttribute("disabled");
                     document.getElementById("deleteAll").removeAttribute("disabled");
                     document.getElementById("stereoCalibration").removeAttribute("disabled");
-                    document.getElementById("numPic").innerHTML='已完成'+flag+'端相机组的标定！可进行其他操作！'
+                    document.getElementById("ltime").innerHTML='left标定时长:'+res["ltime"]+'秒';
+                    document.getElementById("lterror").innerHTML='left标定偏差:'+res["lterror"];
+
+                    document.getElementById("rtime").innerHTML='right标定时长:'+res["rtime"]+'秒';
+                    document.getElementById("rterror").innerHTML='right标定偏差:'+res["rterror"];
+
+                    document.getElementById("stime").innerHTML='双目标定时长:'+res["stime"]+'秒';
                 }
             })
         }

@@ -10,6 +10,7 @@ from xml.dom import minidom
 
 #  这个函数是要使用的
 def sig_calibration(flag,camera_):
+    result = list()
     source_dir_path = os.path.dirname(os.path.realpath(__file__)).replace("cameraCalibration","static/checkboard_img_dir/"+flag+"_"+camera_+"Camera_img_dir/")
     starttime = time.time()
     cbrow = 9
@@ -134,33 +135,26 @@ def sig_calibration(flag,camera_):
     single_calibration_fs_test = cv2.FileStorage(calibration_path, cv2.FileStorage_READ)
     endtime = time.time()
     times = endtime - starttime
+    result.append(times)
     print(camera_+'标定完成！总用时'+str(times)+'秒')
     print("===========================================")
     print('ret:', single_calibration_fs_test.getNode('ret').real())  # 正确
-    print(camera_+'相机内参:', single_calibration_fs_test.getNode('mtx').mat())  # 正确  相机内参
-    print(camera_+'相机畸变:', single_calibration_fs_test.getNode('dist').mat())  # 正确  畸变系数
+    matrix = single_calibration_fs_test.getNode('mtx').mat()
+    print(camera_+'相机内参:', matrix)  # 正确  相机内参
+    distort = single_calibration_fs_test.getNode('dist').mat()
+    print(camera_+'相机畸变:', distort)  # 正确  畸变系数
     print(camera_+'旋转矩阵1:', single_calibration_fs_test.getNode('rvecs_1').mat())
     print(camera_+'平移矩阵1:', single_calibration_fs_test.getNode('tvecs_1').mat())
-    print('===========================================')
-    print(camera_+'标定效果评估:', single_calibration_fs_test.getNode('tot_error').real())
+    t_error = single_calibration_fs_test.getNode('tot_error').real()
+    print(camera_+'标定效果评估:', t_error)
+    result.append(t_error)
     print('compute_distance_path:', single_calibration_fs_test.getNode('compute_distance_path').string())
     print('corner_img_dir:', single_calibration_fs_test.getNode('corner_img_dir').string())
 
-    ##file_names = check_up_txt_file(source_dir_path);  ##后续函数
-    print('===========================================')
 
-    ##print(file_names)
 
-    print('===========================================')
-
-    ##for file_name in file_names:
-        ##input_name = file_name.split('/')[8].split('.')[0]
-
-        # final_object[input_name]  has  list  , float ,  numpy.ndarray and  str  type
-        #  we  must  according  the type  use  different  ways  to save the  object
-        # todo 最后的存储的东西有很多数据类型，我们需要根据数据类型存储
-        ##save_object(final_object[input_name], file_name)  ##后续函数
-    ##return 1
+    print(result)
+    return result
 
 """
 camera inner parameters
@@ -172,6 +166,7 @@ stereo calibration processing
 
 
 def stereo_Calibration(flag):
+    result = list()
     starttime = time.time()
     # Termination criteria
     criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 200, 0.0001)
@@ -336,6 +331,11 @@ def stereo_Calibration(flag):
             dom.writexml(fp)
     times = endtime - starttime
     print("双目标定完成！用时" + str(times) + "秒")
+    result.append(times)
+
+
+    print(result)
+    return result
 
 
 def stereo_Calibration_for_use(left_name, right_name):
