@@ -116,20 +116,11 @@
                     <p align="center" style="color:white">三维重构历史分析区域</p>
                 </div>
                 <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px">
-                    <div style="border:2px dashed #1255a2;height:50px;display:flex">
-                        <p style="font-size:18px;margin:0">相机坐标系下重构结果显示</p>
-                    </div>
-                    <div style="border:2px dashed #1255a2;height:50px;display:flex">
-                        <p style="font-size:18px;margin:0">全局坐标系下重构结果显示</p>
-                    </div>
-                    <div style="border:2px dashed #1255a2;height:50px;display:flex">
-                        <p style="font-size:18px;margin:0">A、B端筒段形心拟合结果显示</p>
-                    </div>
-                    <div style="border:2px dashed #1255a2;height:50px;display:flex">
-                        <p style="font-size:18px;margin:0">筒段轴线拟合结果显示</p>
-                    </div>
-                    <div style="border:2px dashed #1255a2;height:100px;display:flex">
-                        <p style="font-size:18px;margin:0">已完成重构的日志列表</p>
+                    <div style="border:2px dashed #1255a2;height:150px">
+                        <p id="Ahole" style="font-size:9px;margin:0">A端安装孔三维坐标:</p>
+                        <p id="Atarget" style="font-size:9px;margin:0">A端视觉靶标三维坐标:</p>
+                        <p id="Bhole" style="font-size:9px;margin:0">B端安装孔三维坐标:</p>
+                        <p id="Btarget" style="font-size:9px;margin:0">B端视觉靶标三维坐标:</p>
                     </div>
                     <div>
                         <button class="btn-success" type="button" id="Restruction" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="Restruction()"><i class="fa fa-check"></i> 全局重构</button>

@@ -251,6 +251,13 @@ def  stereo_calibration():
     return res
 
 
+@cameraCalibration.route('/inputComplete/',methods=['POST','GET'])
+def inputComplete():
+
+
+    return str(1)
+
+
 @cameraCalibration.route('/insertComplete/',methods=['POST','GET'])
 def insertComplete():
     A1X = request.args.get('A1X')
@@ -278,24 +285,31 @@ def insertComplete():
     BP2 = np.mat([float(B2X),float(B2Y),float(B2Z)])
     BP3 = np.mat([float(B3X),float(B3Y),float(B3Z)])
     APO,APH,APW,BPO,BPH,BPW,R_T2A,T_T2A = LTOrd2AOrd(AP1,AP2,AP3,BP1,BP2,BP3)  ##激光跟踪仪下的六点坐标转移到A基准板坐标系下；APO默认（0,0,0），APH与APO同Height，APW与APO同Width
+    result = dict()
     AOX = APO[0, 0]
     AOY = APO[0, 1]
     AOZ = APO[0, 2]
+    result["APO"] = [AOX,AOY,AOZ]
     AHX = APH[0, 0]
     AHY = APH[0, 1]
     AHZ = APH[0, 2]
+    result["APH"] = [AHX,AHY,AHZ]
     AWX = APW[0, 0]
     AWY = APW[0, 1]
     AWZ = APW[0, 2]
+    result["APW"] = [AWX,AWY,AWZ]
     BOX = BPO[0, 0]
     BOY = BPO[0, 1]
     BOZ = BPO[0, 2]
+    result["BPO"] = [BOX,BOY,BOZ]
     BHX = BPH[0, 0]
     BHY = BPH[0, 1]
     BHZ = BPH[0, 2]
+    result["BPH"] = [BHX,BHY,BHZ]
     BWX = BPW[0, 0]
     BWY = BPW[0, 1]
     BWZ = BPW[0, 2]
+    result["BPW"] = [BWX,BWY,BWZ]
     print("LT转至A板的R为:===============\n")
     print(R_T2A)
     print("LT转至A板的T为:===============\n")
@@ -304,21 +318,27 @@ def insertComplete():
     AOsX = APOs[0, 0]
     AOsY = APOs[0, 1]
     AOsZ = APOs[0, 2]
+    result["APOs"] = [AOsX,AOsY,AOsZ]
     AHsX = APHs[0, 0]
     AHsY = APHs[0, 1]
     AHsZ = APHs[0, 2]
+    result["APHs"] = [AHsX,AHsY,AHsZ]
     AWsX = APWs[0, 0]
     AWsY = APWs[0, 1]
     AWsZ = APWs[0, 2]
+    result["APWs"] = [AWsX,AWsY,AWsZ]
     BOsX = BPOs[0, 0]
     BOsY = BPOs[0, 1]
     BOsZ = BPOs[0, 2]
+    result["BPOs"] = [BOsX,BOsY,BOsZ]
     BHsX = BPHs[0, 0]
     BHsY = BPHs[0, 1]
     BHsZ = BPHs[0, 2]
+    result["BPHs"] = [BHsX,BHsY,BHsZ]
     BWsX = BPWs[0, 0]
     BWsY = BPWs[0, 1]
     BWsZ = BPWs[0, 2]
+    result["BPWs"] = [BWsX,BWsY,BWsZ]
     ATX = T_AS2S[0, 0]
     ATY = T_AS2S[0, 1]
     ATZ = T_AS2S[0, 2]
@@ -579,14 +599,7 @@ def insertComplete():
     with open(savePath, 'w') as fp:
         dom.writexml(fp)
 
-    return str(1)
-
-
-@cameraCalibration.route('/laserTracker/',methods=['POST','GET'])
-def laserTracker():
-
-
-    return str(1)
+    return result
 
 
 @cameraCalibration.route('/constructMeasureField/',methods=['POST','GET'])

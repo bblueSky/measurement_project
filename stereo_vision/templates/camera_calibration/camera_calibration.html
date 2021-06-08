@@ -109,16 +109,16 @@
                 <div class="card container" style="border-radius:10px 10px 0px 0px;border:2px solid #1255a2;margin-left:0px;background-color:#1255a2;height:20px;width:100%">
                     <p align="center" style="color:white">标定结果显示区域</p>
                 </div>
-                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px;width:100%;height:278px">
+                <div class="card container" style="border-radius:0px 0px 15px 15px;border:2px solid #1255a2;margin-left:0px;width:100%;height:258px">
                     <div>
                         <button class="btn-success" style="font-size:18px;width:110px;height:35px;border-radius:8px" type="button" id="stereoCalibration" onclick="confirmDelete3()"><i class="fa fa-binoculars"></i> 立体标定</button>
                     </div>
-                    <div style="border:2px solid #1255a2;height:215px">
-                        <p align="left" id="ltime" style="font-size:9px">left标定时长:</p>
-                        <p align="left" id="lterror" style="font-size:9px">left标定偏差:</p>
-                        <p align="left" id="rtime" style="font-size:9px">right标定时长:</p>
-                        <p align="left" id="rterror" style="font-size:9px">right标定偏差:</p>
-                        <p align="left" id="stime" style="font-size:9px">双目标定时长:</p>
+                    <div style="border:2px solid #1255a2;height:195px">
+                        <p align="left" id="ltime" style="font-size:9px;margin:0">left标定时长:</p>
+                        <p align="left" id="lterror" style="font-size:9px;margin:0">left标定偏差:</p>
+                        <p align="left" id="rtime" style="font-size:9px;margin:0">right标定时长:</p>
+                        <p align="left" id="rterror" style="font-size:9px;margin:0">right标定偏差:</p>
+                        <p align="left" id="stime" style="font-size:9px;margin:0">双目标定时长:</p>
                     </div>
                 </div>
             </div>
@@ -175,8 +175,19 @@
                         <button class="btn-success" style="font-size:18px;width:130px;height:35px;border-radius:8px" type="button" id="constructMeasureField" onclick="constructMeasureField()"><i class="fa fa-codepen"></i> 构建测量场</button>
                     </div>
                     <div style="display:flex">
-                        <div style="border:2px dashed #1255a2;display:flex;width:100%">
-                            <p align="center" style="font-size:18px;margin:0">...</p>
+                        <div style="border:2px dashed #1255a2;width:100%">
+                            <p align="left" id="APO" style="font-size:9px;margin:0">A端靶球1全局坐标:</p>
+                            <p align="left" id="APH" style="font-size:9px;margin:0">A端靶球2全局坐标:</p>
+                            <p align="left" id="APW" style="font-size:9px;margin:0">A端靶球3全局坐标:</p>
+                            <p align="left" id="BPO" style="font-size:9px;margin:0">B端靶球1全局坐标:</p>
+                            <p align="left" id="BPH" style="font-size:9px;margin:0">B端靶球2全局坐标:</p>
+                            <p align="left" id="BPW" style="font-size:9px;margin:0">B端靶球3全局坐标:</p>
+                            <p align="left" id="APOs" style="font-size:9px;margin:0">A端靶标1全局坐标:</p>
+                            <p align="left" id="APHs" style="font-size:9px;margin:0">A端靶标2全局坐标:</p>
+                            <p align="left" id="APWs" style="font-size:9px;margin:0">A端靶标3全局坐标:</p>
+                            <p align="left" id="BPOs" style="font-size:9px;margin:0">B端靶标1全局坐标:</p>
+                            <p align="left" id="BPHs" style="font-size:9px;margin:0">B端靶标2全局坐标:</p>
+                            <p align="left" id="BPWs" style="font-size:9px;margin:0">B端靶标3全局坐标:</p>
                         </div>
                         <div>
                             <table border="3" style="border:#5b93d3">
@@ -484,7 +495,15 @@
             file.click();
         }
         function inputComplete(){
-            var t;
+            $.ajax({
+                type:'GET',
+                data:{'mydata':flag},
+                url:"/cameraCalibration/inputComplete",
+                dataType: 'json',
+                success:function(res){
+                    alert("")
+                }
+            })
         }
     </script>
     <script>
@@ -513,7 +532,19 @@
                 url:"/cameraCalibration/insertComplete",
                 dataType: 'json',
                 success:function(res){
-                    alert("数据录入完成！")
+                    alert("数据录入完成！");
+                    document.getElementById("APO").innerHTML="A端靶球1全局坐标:"+res["APO"];
+                    document.getElementById("APH").innerHTML="A端靶球2全局坐标:"+res["APH"];
+                    document.getElementById("APW").innerHTML="A端靶球3全局坐标:"+res["APW"];
+                    document.getElementById("BPO").innerHTML="B端靶球1全局坐标:"+res["BPO"];
+                    document.getElementById("BPH").innerHTML="B端靶球2全局坐标:"+res["BPH"];
+                    document.getElementById("BPW").innerHTML="B端靶球3全局坐标:"+res["BPW"];
+                    document.getElementById("APOs").innerHTML="A端靶标1全局坐标:"+res["APOs"];
+                    document.getElementById("APHs").innerHTML="A端靶标2全局坐标:"+res["APHs"];
+                    document.getElementById("APWs").innerHTML="A端靶标3全局坐标:"+res["APWs"];
+                    document.getElementById("BPOs").innerHTML="B端靶标1全局坐标:"+res["BPOs"];
+                    document.getElementById("BPHs").innerHTML="B端靶标2全局坐标:"+res["BPHs"];
+                    document.getElementById("BPWs").innerHTML="B端靶标3全局坐标:"+res["BPWs"];
                 },
                 error: function (res) {
                       alert('失败')
