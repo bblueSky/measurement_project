@@ -253,9 +253,354 @@ def  stereo_calibration():
 
 @cameraCalibration.route('/inputComplete/',methods=['POST','GET'])
 def inputComplete():
+    result = dict()
+    filePath = os.path.dirname(os.path.realpath(__file__)).replace("cameraCalibration","exteriorFile/LT.txt")
+    res = list()
+    with open(filePath, "r") as f:
+        for i,line in enumerate(f.readlines()):
+            if i>=6:
+                break
+            line = line.strip("\n")
+            x,y,z = line[1:-1].split(',')
+            res.append([x,y,z])
+    # print(res)
+    result["A1X"] = A1X = res[0][0]
+    result["A1Y"] = A1Y = res[0][1]
+    result["A1Z"] = A1Z = res[0][2]
+    result["A2X"] = A2X = res[1][0]
+    result["A2Y"] = A2Y = res[1][1]
+    result["A2Z"] = A2Z = res[1][2]
+    result["A3X"] = A3X = res[2][0]
+    result["A3Y"] = A3Y = res[2][1]
+    result["A3Z"] = A3Z = res[2][2]
+    result["B1X"] = B1X = res[3][0]
+    result["B1Y"] = B1Y = res[3][1]
+    result["B1Z"] = B1Z = res[3][2]
+    result["B2X"] = B2X = res[4][0]
+    result["B2Y"] = B2Y = res[4][1]
+    result["B2Z"] = B2Z = res[4][2]
+    result["B3X"] = B3X = res[5][0]
+    result["B3Y"] = B3Y = res[5][1]
+    result["B3Z"] = B3Z = res[5][2]
+    AP1 = np.mat([float(A1X), float(A1Y), float(A1Z)])
+    AP2 = np.mat([float(A2X), float(A2Y), float(A2Z)])
+    AP3 = np.mat([float(A3X), float(A3Y), float(A3Z)])
+    BP1 = np.mat([float(B1X), float(B1Y), float(B1Z)])
+    BP2 = np.mat([float(B2X), float(B2Y), float(B2Z)])
+    BP3 = np.mat([float(B3X), float(B3Y), float(B3Z)])
+    APO, APH, APW, BPO, BPH, BPW, R_T2A, T_T2A = LTOrd2AOrd(AP1, AP2, AP3, BP1, BP2,
+                                                            BP3)  ##激光跟踪仪下的六点坐标转移到A基准板坐标系下；APO默认（0,0,0），APH与APO同Height，APW与APO同Width
+    AOX = APO[0, 0]
+    AOY = APO[0, 1]
+    AOZ = APO[0, 2]
+    result["APO"] = [AOX, AOY, AOZ]
+    AHX = APH[0, 0]
+    AHY = APH[0, 1]
+    AHZ = APH[0, 2]
+    result["APH"] = [AHX, AHY, AHZ]
+    AWX = APW[0, 0]
+    AWY = APW[0, 1]
+    AWZ = APW[0, 2]
+    result["APW"] = [AWX, AWY, AWZ]
+    BOX = BPO[0, 0]
+    BOY = BPO[0, 1]
+    BOZ = BPO[0, 2]
+    result["BPO"] = [BOX, BOY, BOZ]
+    BHX = BPH[0, 0]
+    BHY = BPH[0, 1]
+    BHZ = BPH[0, 2]
+    result["BPH"] = [BHX, BHY, BHZ]
+    BWX = BPW[0, 0]
+    BWY = BPW[0, 1]
+    BWZ = BPW[0, 2]
+    result["BPW"] = [BWX, BWY, BWZ]
+    print("LT转至A板的R为:===============\n")
+    print(R_T2A)
+    print("LT转至A板的T为:===============\n")
+    print(T_T2A)
+    APOs, APHs, APWs, BPOs, BPHs, BPWs, T_AS2S, T_BS2S = LTside2VSide(APO, APH, APW, BPO, BPH,
+                                                                      BPW)  ##靶球一侧向视觉靶标一侧转换，坐标系仍然是A基准板，解出的六点是视觉靶标在A板坐标系下的坐标
+    AOsX = APOs[0, 0]
+    AOsY = APOs[0, 1]
+    AOsZ = APOs[0, 2]
+    result["APOs"] = [AOsX, AOsY, AOsZ]
+    AHsX = APHs[0, 0]
+    AHsY = APHs[0, 1]
+    AHsZ = APHs[0, 2]
+    result["APHs"] = [AHsX, AHsY, AHsZ]
+    AWsX = APWs[0, 0]
+    AWsY = APWs[0, 1]
+    AWsZ = APWs[0, 2]
+    result["APWs"] = [AWsX, AWsY, AWsZ]
+    BOsX = BPOs[0, 0]
+    BOsY = BPOs[0, 1]
+    BOsZ = BPOs[0, 2]
+    result["BPOs"] = [BOsX, BOsY, BOsZ]
+    BHsX = BPHs[0, 0]
+    BHsY = BPHs[0, 1]
+    BHsZ = BPHs[0, 2]
+    result["BPHs"] = [BHsX, BHsY, BHsZ]
+    BWsX = BPWs[0, 0]
+    BWsY = BPWs[0, 1]
+    BWsZ = BPWs[0, 2]
+    result["BPWs"] = [BWsX, BWsY, BWsZ]
+    ATX = T_AS2S[0, 0]
+    ATY = T_AS2S[0, 1]
+    ATZ = T_AS2S[0, 2]
+    BTX = T_BS2S[0, 0]
+    BTY = T_BS2S[0, 1]
+    BTZ = T_BS2S[0, 2]
+    print("A板一侧转至另一侧的T为:=========\n")
+    print(T_AS2S)
+    print("A板一侧转至另一侧的T为:=========\n")
+    print(T_BS2S)
+    ## 数据存入global_ord.xml
+    savePath = os.path.dirname(os.path.realpath(__file__)).replace("cameraCalibration", "static/global_info.xml")
+    dom = minidom.parse(savePath)
+    root = dom.documentElement
+    root.removeChild(root.getElementsByTagName("origin")[0])
+    root.removeChild(root.getElementsByTagName("T2A")[0])
+    root.removeChild(root.getElementsByTagName("S2S")[0])
+    root.appendChild(dom.createElement("origin"))
+    root.appendChild(dom.createElement("T2A"))
+    root.appendChild(dom.createElement("S2S"))
+    ts = time.time()
+    st = datetime.datetime.fromtimestamp(ts).strftime(
+        '%Y' + '-' + '%m' + '-' + '%d' + '-' + '%H' + ':' + '%M' + ':' + '%S')
+    calibration_time = root.getElementsByTagName("global_time")[0]
+    calibration_time.removeChild(root.getElementsByTagName("time")[2])
+    time1 = dom.createElement("time")
+    calibration_time.appendChild(time1)
+    time1.appendChild(dom.createTextNode(st))
+    origin = root.getElementsByTagName("origin")[0]
+    AP1 = dom.createElement('AP1')
+    X = dom.createElement('X')
+    X.appendChild(dom.createTextNode(A1X))
+    AP1.appendChild(X)
+    Y = dom.createElement('Y')
+    Y.appendChild(dom.createTextNode(A1Y))
+    AP1.appendChild(Y)
+    Z = dom.createElement('Z')
+    Z.appendChild(dom.createTextNode(A1Z))
+    AP1.appendChild(Z)
+    AP2 = dom.createElement('AP2')
+    X = dom.createElement('X')
+    X.appendChild(dom.createTextNode(A2X))
+    AP2.appendChild(X)
+    Y = dom.createElement('Y')
+    Y.appendChild(dom.createTextNode(A2Y))
+    AP2.appendChild(Y)
+    Z = dom.createElement('Z')
+    Z.appendChild(dom.createTextNode(A2Z))
+    AP2.appendChild(Z)
+    AP3 = dom.createElement('AP3')
+    X = dom.createElement('X')
+    X.appendChild(dom.createTextNode(A3X))
+    AP3.appendChild(X)
+    Y = dom.createElement('Y')
+    Y.appendChild(dom.createTextNode(A3Y))
+    AP3.appendChild(Y)
+    Z = dom.createElement('Z')
+    Z.appendChild(dom.createTextNode(A3Z))
+    AP3.appendChild(Z)
+    BP1 = dom.createElement('BP1')
+    X = dom.createElement('X')
+    X.appendChild(dom.createTextNode(B1X))
+    BP1.appendChild(X)
+    Y = dom.createElement('Y')
+    Y.appendChild(dom.createTextNode(B1Y))
+    BP1.appendChild(Y)
+    Z = dom.createElement('Z')
+    Z.appendChild(dom.createTextNode(B1Z))
+    BP1.appendChild(Z)
+    BP2 = dom.createElement('BP2')
+    X = dom.createElement('X')
+    X.appendChild(dom.createTextNode(B2X))
+    BP2.appendChild(X)
+    Y = dom.createElement('Y')
+    Y.appendChild(dom.createTextNode(B2Y))
+    BP2.appendChild(Y)
+    Z = dom.createElement('Z')
+    Z.appendChild(dom.createTextNode(B2Z))
+    BP2.appendChild(Z)
+    BP3 = dom.createElement('BP3')
+    X = dom.createElement('X')
+    X.appendChild(dom.createTextNode(B3X))
+    BP3.appendChild(X)
+    Y = dom.createElement('Y')
+    Y.appendChild(dom.createTextNode(B3Y))
+    BP3.appendChild(Y)
+    Z = dom.createElement('Z')
+    Z.appendChild(dom.createTextNode(B3Z))
+    BP3.appendChild(Z)
+    origin.appendChild(AP1)
+    origin.appendChild(AP2)
+    origin.appendChild(AP3)
+    origin.appendChild(BP1)
+    origin.appendChild(BP2)
+    origin.appendChild(BP3)
 
+    T2A = root.getElementsByTagName("T2A")[0]
+    APO = dom.createElement('APO')
+    X = dom.createElement('X')
+    X.appendChild(dom.createTextNode(str(AOX)))
+    APO.appendChild(X)
+    Y = dom.createElement('Y')
+    Y.appendChild(dom.createTextNode(str(AOY)))
+    APO.appendChild(Y)
+    Z = dom.createElement('Z')
+    Z.appendChild(dom.createTextNode(str(AOZ)))
+    APO.appendChild(Z)
+    APH = dom.createElement('APH')
+    X = dom.createElement('X')
+    X.appendChild(dom.createTextNode(str(AHX)))
+    APH.appendChild(X)
+    Y = dom.createElement('Y')
+    Y.appendChild(dom.createTextNode(str(AHY)))
+    APH.appendChild(Y)
+    Z = dom.createElement('Z')
+    Z.appendChild(dom.createTextNode(str(AHZ)))
+    APH.appendChild(Z)
+    APW = dom.createElement('APW')
+    X = dom.createElement('X')
+    X.appendChild(dom.createTextNode(str(AWX)))
+    APW.appendChild(X)
+    Y = dom.createElement('Y')
+    Y.appendChild(dom.createTextNode(str(AWY)))
+    APW.appendChild(Y)
+    Z = dom.createElement('Z')
+    Z.appendChild(dom.createTextNode(str(AWZ)))
+    APW.appendChild(Z)
+    BPO = dom.createElement('BPO')
+    X = dom.createElement('X')
+    X.appendChild(dom.createTextNode(str(BOX)))
+    BPO.appendChild(X)
+    Y = dom.createElement('Y')
+    Y.appendChild(dom.createTextNode(str(BOY)))
+    BPO.appendChild(Y)
+    Z = dom.createElement('Z')
+    Z.appendChild(dom.createTextNode(str(BOZ)))
+    BPO.appendChild(Z)
+    BPH = dom.createElement('BPH')
+    X = dom.createElement('X')
+    X.appendChild(dom.createTextNode(str(BHX)))
+    BPH.appendChild(X)
+    Y = dom.createElement('Y')
+    Y.appendChild(dom.createTextNode(str(BHY)))
+    BPH.appendChild(Y)
+    Z = dom.createElement('Z')
+    Z.appendChild(dom.createTextNode(str(BHZ)))
+    BPH.appendChild(Z)
+    BPW = dom.createElement('BPW')
+    X = dom.createElement('X')
+    X.appendChild(dom.createTextNode(str(BWX)))
+    BPW.appendChild(X)
+    Y = dom.createElement('Y')
+    Y.appendChild(dom.createTextNode(str(BWY)))
+    BPW.appendChild(Y)
+    Z = dom.createElement('Z')
+    Z.appendChild(dom.createTextNode(str(BWZ)))
+    BPW.appendChild(Z)
+    T2A.appendChild(APO)
+    T2A.appendChild(APH)
+    T2A.appendChild(APW)
+    T2A.appendChild(BPO)
+    T2A.appendChild(BPH)
+    T2A.appendChild(BPW)
 
-    return str(1)
+    S2S = root.getElementsByTagName("S2S")[0]
+    APOs = dom.createElement('APOs')
+    X = dom.createElement('X')
+    X.appendChild(dom.createTextNode(str(AOsX)))
+    APOs.appendChild(X)
+    Y = dom.createElement('Y')
+    Y.appendChild(dom.createTextNode(str(AOsY)))
+    APOs.appendChild(Y)
+    Z = dom.createElement('Z')
+    Z.appendChild(dom.createTextNode(str(AOsZ)))
+    APOs.appendChild(Z)
+    APHs = dom.createElement('APHs')
+    X = dom.createElement('X')
+    X.appendChild(dom.createTextNode(str(AHsX)))
+    APHs.appendChild(X)
+    Y = dom.createElement('Y')
+    Y.appendChild(dom.createTextNode(str(AHsY)))
+    APHs.appendChild(Y)
+    Z = dom.createElement('Z')
+    Z.appendChild(dom.createTextNode(str(AHsZ)))
+    APHs.appendChild(Z)
+    APWs = dom.createElement('APWs')
+    X = dom.createElement('X')
+    X.appendChild(dom.createTextNode(str(AWsX)))
+    APWs.appendChild(X)
+    Y = dom.createElement('Y')
+    Y.appendChild(dom.createTextNode(str(AWsY)))
+    APWs.appendChild(Y)
+    Z = dom.createElement('Z')
+    Z.appendChild(dom.createTextNode(str(AWsZ)))
+    APWs.appendChild(Z)
+    BPOs = dom.createElement('BPOs')
+    X = dom.createElement('X')
+    X.appendChild(dom.createTextNode(str(BOsX)))
+    BPOs.appendChild(X)
+    Y = dom.createElement('Y')
+    Y.appendChild(dom.createTextNode(str(BOsY)))
+    BPOs.appendChild(Y)
+    Z = dom.createElement('Z')
+    Z.appendChild(dom.createTextNode(str(BOsZ)))
+    BPOs.appendChild(Z)
+    BPHs = dom.createElement('BPHs')
+    X = dom.createElement('X')
+    X.appendChild(dom.createTextNode(str(BHsX)))
+    BPHs.appendChild(X)
+    Y = dom.createElement('Y')
+    Y.appendChild(dom.createTextNode(str(BHsY)))
+    BPHs.appendChild(Y)
+    Z = dom.createElement('Z')
+    Z.appendChild(dom.createTextNode(str(BHsZ)))
+    BPHs.appendChild(Z)
+    BPWs = dom.createElement('BPWs')
+    X = dom.createElement('X')
+    X.appendChild(dom.createTextNode(str(BWsX)))
+    BPWs.appendChild(X)
+    Y = dom.createElement('Y')
+    Y.appendChild(dom.createTextNode(str(BWsY)))
+    BPWs.appendChild(Y)
+    Z = dom.createElement('Z')
+    Z.appendChild(dom.createTextNode(str(BWsZ)))
+    BPWs.appendChild(Z)
+    T_AS2S = dom.createElement('T_AS2S')
+    X = dom.createElement('X')
+    X.appendChild(dom.createTextNode(str(ATX)))
+    T_AS2S.appendChild(X)
+    Y = dom.createElement('Y')
+    Y.appendChild(dom.createTextNode(str(ATY)))
+    T_AS2S.appendChild(Y)
+    Z = dom.createElement('Z')
+    Z.appendChild(dom.createTextNode(str(ATZ)))
+    T_AS2S.appendChild(Z)
+    T_BS2S = dom.createElement('T_BS2S')
+    X = dom.createElement('X')
+    X.appendChild(dom.createTextNode(str(BTX)))
+    T_BS2S.appendChild(X)
+    Y = dom.createElement('Y')
+    Y.appendChild(dom.createTextNode(str(BTY)))
+    T_BS2S.appendChild(Y)
+    Z = dom.createElement('Z')
+    Z.appendChild(dom.createTextNode(str(BTZ)))
+    T_BS2S.appendChild(Z)
+    S2S.appendChild(T_AS2S)
+    S2S.appendChild(T_BS2S)
+    S2S.appendChild(APOs)
+    S2S.appendChild(APHs)
+    S2S.appendChild(APWs)
+    S2S.appendChild(BPOs)
+    S2S.appendChild(BPHs)
+    S2S.appendChild(BPWs)
+    with open(savePath, 'w') as fp:
+        dom.writexml(fp)
+
+    return result
 
 
 @cameraCalibration.route('/insertComplete/',methods=['POST','GET'])
@@ -604,9 +949,17 @@ def insertComplete():
 
 @cameraCalibration.route('/constructMeasureField/',methods=['POST','GET'])
 def constructMeasureField():
-
-
-    return str(1)
+    filePath = os.path.dirname(os.path.realpath(__file__)).replace("cameraCalibration","static/global_info.xml")
+    doc = minidom.parse(filePath)
+    root = doc.documentElement
+    AcameraTime = root.getElementsByTagName("time")[0].childNodes[0].data
+    BcameraTime = root.getElementsByTagName("time")[1].childNodes[0].data
+    globalTime = root.getElementsByTagName("time")[2].childNodes[0].data
+    res = dict()
+    res["AcameraTime"] = AcameraTime
+    res["BcameraTime"] = BcameraTime
+    res["globalTime"] = globalTime
+    return res
 
 
 
