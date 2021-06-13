@@ -29,7 +29,7 @@ from xml.dom import minidom
 
 CLASSES = ('__background__','hole','target')
 
-NETS = {'vgg16': ('vgg16_faster_rcnn_iter_70000.ckpt',),'res101': ('res101_faster_rcnn_iter_55000.ckpt',)}
+NETS = {'vgg16': ('vgg16_faster_rcnn_iter_70000.ckpt',),'res101': ('res101_faster_rcnn_iter_100000.ckpt',)}
 DATASETS= {'pascal_voc': ('voc_2007_trainval',),'pascal_voc_0712': ('voc_2007_trainval+voc_2012_trainval',)}
 
 def vis_detections(im, class_name, dets, thresh=0.5):
@@ -82,7 +82,7 @@ def demo(sess, net, image_name):
     print('Detection took {:.3f}s for {:d} object proposals'.format(timer.total_time, boxes.shape[0]))
 
     # Visualize detections for each class
-    CONF_THRESH = 0.8
+    CONF_THRESH = 0.4
     NMS_THRESH = 0.3
     classes_list = list()
     for cls_ind, cls in enumerate(CLASSES[1:]):
@@ -111,7 +111,7 @@ def get_img_boxes(flag):
     check = False  # 用来返回检测到的数据是否合乎标准
     cfg.TEST.HAS_RPN = True  # Use RPN for proposals
     tfmodel = os.path.dirname(os.path.realpath(__file__)).replace("testMeasure","tf-faster-rcnn/output/res101/voc_2007_trainval/"
-                                                                                "default/res101_faster_rcnn_iter_110000.ckpt")
+                                                                                "default/res101_faster_rcnn_iter_100000.ckpt")
     if not os.path.isfile(tfmodel + '.meta'):
         raise IOError(('{:s} not found.\n请检查output路径设置').format(tfmodel + '.meta'))
     tfconfig = tf.ConfigProto(allow_soft_placement=True)
@@ -198,7 +198,7 @@ def boxes_saveInfo(flag,boxes_list):
         item_h = itemlist_h[0]
         item_t = itemlist_t[0]
         numsOf_holes = len(boxes_list[i][0])
-        # numsOf_targets = len(boxes_list[i][1]) ## 基准板上不一定三个靶标
+        numsOf_targets = len(boxes_list[i][1]) ## 基准板上不一定三个靶标
         for j in range(numsOf_holes):
             hole_box = dom.createElement('hole_box'+str(j))
             x = dom.createElement('x')
@@ -222,31 +222,67 @@ def boxes_saveInfo(flag,boxes_list):
             save_img_path = os.path.dirname(os.path.realpath(__file__)).replace("testMeasure",
                                                                         "static/res_pictures/result/") + flag + "/" + im_names[i] + "/boxes_img/hole" + str(j) + ".jpg"
             cv2.imwrite(save_img_path,hole_box_img)
-        # for j in range(numsOf_targets):
-        #     target_box = dom.createElement('target_box'+str(j))
-        #     x = dom.createElement('x')
-        #     roi_x = int(boxes_list[i][1][j][0])
-        #     x.appendChild(dom.createTextNode(str(roi_x)))
-        #     target_box.appendChild(x)
-        #     y = dom.createElement('y')
-        #     roi_y = int(boxes_list[i][1][j][1])
-        #     y.appendChild(dom.createTextNode(str(roi_y)))
-        #     target_box.appendChild(y)
-        #     w = dom.createElement('w')
-        #     roi_w = int(boxes_list[i][1][j][2])
-        #     w.appendChild(dom.createTextNode(str(roi_w)))
-        #     target_box.appendChild(w)
-        #     h = dom.createElement('h')
-        #     roi_h = int(boxes_list[i][1][j][3])
-        #     h.appendChild(dom.createTextNode(str(roi_h)))
-        #     target_box.appendChild(h)
-        #     item_t.appendChild(target_box)
-        #     target_box_img = img[roi_y:roi_y+roi_h,roi_x:roi_x+roi_w]
-        #     save_img_path = os.path.dirname(os.path.realpath(__file__)).replace("testMeasure",
-        #                                                                 "static/res_pictures/result/") + flag + "/" + im_names[i] + "/boxes_img/target" + str(j) + ".jpg"
-        #     cv2.imwrite(save_img_path,target_box_img)
+        for j in range(numsOf_targets):
+            target_box = dom.createElement('target_box'+str(j))
+            x = dom.createElement('x')
+            roi_x = int(boxes_list[i][1][j][0])
+            x.appendChild(dom.createTextNode(str(roi_x)))
+            target_box.appendChild(x)
+            y = dom.createElement('y')
+            roi_y = int(boxes_list[i][1][j][1])
+            y.appendChild(dom.createTextNode(str(roi_y)))
+            target_box.appendChild(y)
+            w = dom.createElement('w')
+            roi_w = int(boxes_list[i][1][j][2])
+            w.appendChild(dom.createTextNode(str(roi_w)))
+            target_box.appendChild(w)
+            h = dom.createElement('h')
+            roi_h = int(boxes_list[i][1][j][3])
+            h.appendChild(dom.createTextNode(str(roi_h)))
+            target_box.appendChild(h)
+            item_t.appendChild(target_box)
+            target_box_img = img[roi_y:roi_y+roi_h,roi_x:roi_x+roi_w]
+            save_img_path = os.path.dirname(os.path.realpath(__file__)).replace("testMeasure",
+                                                                        "static/res_pictures/result/") + flag + "/" + im_names[i] + "/boxes_img/target" + str(j) + ".jpg"
+            cv2.imwrite(save_img_path,target_box_img)
         with open(save_path,'w') as fp:
             dom.writexml(fp)
+
+
+def changePname(strr,cls="hole"):
+    if cls=="hole":
+        tax = "hole"
+        i = 0
+        j = 0
+        while i<len(strr):
+            if strr[i]==tax[j]:
+                i+=1
+                j+=1
+                if i<=len(strr) and j==len(tax):
+                    break
+            else:
+                j=0
+                i+=1
+        i -= 4
+        sttr = strr[:i]+"p_"+strr[i:]
+        return sttr
+
+    elif cls=="target":
+        tax = "target"
+        i = 0
+        j = 0
+        while i < len(strr):
+            if strr[i] == tax[j]:
+                i += 1
+                j += 1
+                if i <= len(strr) and j == len(tax):
+                    break
+            else:
+                j = 0
+                i += 1
+        i -= 6
+        sttr = strr[:i] + "p_" + strr[i:]
+        return sttr
 
 
 ##图像处理函数
@@ -299,7 +335,7 @@ def img_process(imgPath,class_of_img="hole"):
             res[1] = circles[0,0,1]
             res[2] = circles[0,0,2]
             res[3] = score
-        savePath = imgPath[:-9]+"p_"+imgPath[-9:]
+        savePath = changePname(imgPath,cls="hole")
         saveImg = cv2.line(img,(x,y+20),(x,y-20),(0,255,0),thickness=2)
         saveImg = cv2.line(saveImg,(x+20,y),(x-20,y),(0,255,0),thickness=2)
         saveImg = cv2.circle(saveImg,(x,y),3,(0,0,255),thickness=-1)
@@ -310,6 +346,52 @@ def img_process(imgPath,class_of_img="hole"):
 
 
     ##待定准对象为视觉靶标时
-    # elif class_of_img=="target":
-
+    elif class_of_img=="target":
+        max_NMS = 50  ##高低阈值可能以后需要调试
+        TL = max_NMS / 2
+        TH = max_NMS
+        imedge = cv2.Canny(imgray, TL, TH)
+        param1 = TH  ##跟着上面的高低阈值
+        param2 = 35
+        maxRadius = 90  ##后期调试
+        circles = cv2.HoughCircles(imgray, cv2.HOUGH_GRADIENT, 1, 20, param1=param1, param2=param2, minRadius=0,
+                                   maxRadius=maxRadius)
+        while circles is None:
+            param2 += -1
+            circles = cv2.HoughCircles(imgray, cv2.HOUGH_GRADIENT, 1, 20, param1=param1, param2=param2, minRadius=0,
+                                       maxRadius=maxRadius)
+        while circles.shape[1] > 1:
+            param2 += 1
+            circles = cv2.HoughCircles(imgray, cv2.HOUGH_GRADIENT, 1, 20, param1=param1, param2=param2, minRadius=0,
+                                       maxRadius=maxRadius)
+        if circles is not None:
+            x = int(circles[0, 0, 0])
+            y = int(circles[0, 0, 1])
+            r = int(circles[0, 0, 2])
+            # print(x)
+            # print(y)
+            # print(r)
+            score = 0
+            if imedge[y, x - r] != 0:
+                score += 1
+            if imedge[y, x + r] != 0:
+                score += 1
+            for i in range(x - r + 1, x + r):
+                w = abs(x - i)
+                h = round((r ** 2 - w ** 2) ** 0.5)
+                if imedge[y + h, i] != 0:
+                    score += 1
+                if imedge[y - h, i] != 0:
+                    score += 1
+            res[0] = circles[0, 0, 0]
+            res[1] = circles[0, 0, 1]
+            res[2] = circles[0, 0, 2]
+            res[3] = score
+        savePath = changePname(imgPath,cls="target")
+        saveImg = cv2.line(img, (x, y + 20), (x, y - 20), (0, 255, 0), thickness=2)
+        saveImg = cv2.line(saveImg, (x + 20, y), (x - 20, y), (0, 255, 0), thickness=2)
+        saveImg = cv2.circle(saveImg, (x, y), 3, (0, 0, 255), thickness=-1)
+        # print("===="+str(x))
+        # print("===="+str(y))
+        cv2.imwrite(savePath, saveImg)
     return res

@@ -92,6 +92,8 @@ def take_pic():
 
     image_left_A = cam.read(0)  # 从相机0读取一个图像，这个image就是oenpcv的图像 先插的是相机1
     image_right_A = cam.read(1)
+    # image_left_B = image_left_A
+    # image_right_B = image_right_A
     #注意！！！这里以后要换成相机组！！！！暂时B端借用0\1
     image_left_B = cam.read(2)
     image_right_B = cam.read(3)
