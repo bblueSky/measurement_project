@@ -61,6 +61,38 @@ def vis_detections(im, class_name, dets, thresh=0.5):
     #               'p({} | box) >= {:.1f}').format(class_name, class_name,
     #                                               thresh),
     #               fontsize=14)
+    # plt.axis('off')
+    # plt.tight_layout()
+    # plt.draw()
+    return coordinates_list,ax
+
+
+def vis_detections_target(ax, class_name, dets, thresh=0.5):
+    """Draw detected bounding boxes."""
+    inds = np.where(dets[:, -1] >= thresh)[0]
+    if len(inds) == 0:
+        return []
+
+    coordinates_list = list()
+    for i in inds:
+        bbox = dets[i, :4]
+        score = dets[i, -1]
+        coordinates_list.append([bbox[0],bbox[1],bbox[2]-bbox[0],bbox[3]-bbox[1]])
+        ax.add_patch(
+            plt.Rectangle((bbox[0], bbox[1]),
+                          bbox[2] - bbox[0],
+                          bbox[3] - bbox[1], fill=False,
+                          edgecolor='yellow', linewidth=9)
+            )
+        ax.text(bbox[0], bbox[1] - 2,
+                '{:s} {:.3f}'.format(class_name, score),
+                bbox=dict(facecolor='blue', alpha=0.5),
+                fontsize=30, color='white')
+
+    # ax.set_title(('{} detections with '
+    #               'p({} | box) >= {:.1f}').format(class_name, class_name,
+    #                                               thresh),
+    #               fontsize=14)
     plt.axis('off')
     plt.tight_layout()
     plt.draw()
@@ -93,7 +125,11 @@ def demo(sess, net, image_name):
                           cls_scores[:, np.newaxis])).astype(np.float32)
         keep = nms(dets, NMS_THRESH)
         dets = dets[keep, :]
-        classes_list.append(vis_detections(im, cls, dets, thresh=CONF_THRESH))
+        if cls_ind==1:
+            coordinates_list,ax = vis_detections(im, cls, dets, thresh=CONF_THRESH)
+            classes_list.append(coordinates_list)
+        else:
+            classes_list.append(vis_detections_target(ax, cls, dets, thresh=CONF_THRESH))
     return classes_list
 
 def parse_args():
