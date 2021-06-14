@@ -40,8 +40,8 @@ def  selectLog():
 def Constraint():
     epoch_name = request.args.get('flag')
     get_epoch_pairs_points(epoch_name)
-    epoch_3Dpoints(epoch_name)
-    return str(1)
+    result = epoch_3Dpoints(epoch_name)
+    return result
 
 
 

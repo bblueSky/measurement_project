@@ -522,6 +522,7 @@ def  epoch_3Dpoints(epoch_name): ##主要函数2
     2、确定最左点，去除畸变(具体还没看懂)
     3、将参数传入xy2xyz计算
     """
+    result = dict()
     data_root_path = os.path.dirname(os.path.realpath(__file__)).replace('threeDRestructure', 'static/res_pictures/result/')
     pairs_3D_path = os.path.join(data_root_path,epoch_name+'/points_info.xml')  ##匹配点与三维点保存在同一个文件
 
@@ -547,6 +548,7 @@ def  epoch_3Dpoints(epoch_name): ##主要函数2
     theNode3.appendChild(dom.createElement("threeD"))
     ## 计算A端孔的三维坐标并存入文件
     threeD = root.getElementsByTagName("threeD")[0]
+    res = list()
     for i in range(AH_numsOfPairs):
         td = dom.createElement("point"+str(i))
         left_point = [0,0]
@@ -579,7 +581,10 @@ def  epoch_3Dpoints(epoch_name): ##主要函数2
         S.appendChild(dom.createTextNode(score))
         td.appendChild(S)
         threeD.appendChild(td)
+        res.append([xyz[0][0],xyz[1][0],xyz[2][0]])
+    result["AH"] = res
     ## 计算A端标的三维坐标
+    res = list()
     threeD = root.getElementsByTagName("threeD")[1]
     for i in range(AT_numsOfPairs):
         td = dom.createElement("point"+str(i))
@@ -613,7 +618,10 @@ def  epoch_3Dpoints(epoch_name): ##主要函数2
         S.appendChild(dom.createTextNode(score))
         td.appendChild(S)
         threeD.appendChild(td)
+        res.append([xyz[0][0],xyz[1][0],xyz[2][0]])
+    result["AT"] = res
     ## 计算B端孔的三维坐标
+    res = list()
     threeD = root.getElementsByTagName("threeD")[2]
     for i in range(BH_numsOfPairs):
         td = dom.createElement("point"+str(i))
@@ -647,7 +655,10 @@ def  epoch_3Dpoints(epoch_name): ##主要函数2
         S.appendChild(dom.createTextNode(score))
         td.appendChild(S)
         threeD.appendChild(td)
+        res.append([xyz[0][0],xyz[1][0],xyz[2][0]])
+    result["BH"] = res
     ## 计算B端标的三维坐标
+    res = list()
     threeD = root.getElementsByTagName("threeD")[3]
     for i in range(BT_numsOfPairs):
         td = dom.createElement("point"+str(i))
@@ -681,7 +692,10 @@ def  epoch_3Dpoints(epoch_name): ##主要函数2
         S.appendChild(dom.createTextNode(score))
         td.appendChild(S)
         threeD.appendChild(td)
+        res.append([xyz[0][0],xyz[1][0],xyz[2][0]])
+    result["BT"] = res
 
     with open(pairs_3D_path,'w') as fp:
         dom.writexml(fp)
 
+    return result
