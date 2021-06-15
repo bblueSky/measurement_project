@@ -581,7 +581,7 @@ def  epoch_3Dpoints(epoch_name): ##主要函数2
         S.appendChild(dom.createTextNode(score))
         td.appendChild(S)
         threeD.appendChild(td)
-        res.append([xyz[0][0],xyz[1][0],xyz[2][0]])
+        res.append([round(xyz[0][0],3),round(xyz[1][0],3),round(xyz[2][0],3)])
     result["AH"] = res
     ## 计算A端标的三维坐标
     res = list()
@@ -618,7 +618,7 @@ def  epoch_3Dpoints(epoch_name): ##主要函数2
         S.appendChild(dom.createTextNode(score))
         td.appendChild(S)
         threeD.appendChild(td)
-        res.append([xyz[0][0],xyz[1][0],xyz[2][0]])
+        res.append([round(xyz[0][0],3),round(xyz[1][0],3),round(xyz[2][0],3)])
     result["AT"] = res
     ## 计算B端孔的三维坐标
     res = list()
@@ -655,7 +655,7 @@ def  epoch_3Dpoints(epoch_name): ##主要函数2
         S.appendChild(dom.createTextNode(score))
         td.appendChild(S)
         threeD.appendChild(td)
-        res.append([xyz[0][0],xyz[1][0],xyz[2][0]])
+        res.append([round(xyz[0][0],3),round(xyz[1][0],3),round(xyz[2][0],3)])
     result["BH"] = res
     ## 计算B端标的三维坐标
     res = list()
@@ -692,7 +692,7 @@ def  epoch_3Dpoints(epoch_name): ##主要函数2
         S.appendChild(dom.createTextNode(score))
         td.appendChild(S)
         threeD.appendChild(td)
-        res.append([xyz[0][0],xyz[1][0],xyz[2][0]])
+        res.append([round(xyz[0][0],3),round(xyz[1][0],3),round(xyz[2][0],3)])
     result["BT"] = res
 
     with open(pairs_3D_path,'w') as fp:
