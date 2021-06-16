@@ -113,39 +113,40 @@
                     <div style="height:10px"></div>
                     <HR align=center width=775 color=#987cb9>
                     <div style="height:15px"></div>
-                    <div style="border:2px solid #1255a2;background:#f2f2f2">
-
+                    <div style="display:flex">
+                        <div style="border:2px solid #1255a2;background:#f2f2f2;width:210px">
                             <div style="width:190px">
                                 <p style="height:1px"></p>
-                                <p style="font-size:9px;margin:0;color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;筒端位姿:</p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="poseText" style="font-size:9px;margin-left:0px;width:170px">
                                 <p style="font-size:9px;margin:0;color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;轴线向量:</p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="Axis" style="font-size:9px;margin-left:0px;width:170px">
                                 <p style="font-size:9px;margin:0;color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;象限偏角:</p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="Angle" style="font-size:9px;margin-left:0px;width:170px">
                                 <p style="font-size:9px;margin:0;color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A端形心坐标:</p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="A_center" style="font-size:9px;margin-left:0px;width:170px">
                                 <p style="font-size:9px;margin:0;color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B端形心坐标:</p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="B_center" style="font-size:9px;margin-left:0px;width:170px">
                                 <p style="height:1px"></p>
                             </div>
-
+                        </div>
+                        <div style="width:20px"></div>
+                        <div style="width:15px"></div>
+                        <div id="history1" style="width:540px;border:2px solid #1255a2">
+                            <!--这里面放位姿计算历史-->
+                        </div>
+                        <div style="width:20px"></div>
                     </div>
+                    <div style="height:30px"></div>
                 </div>
                 <div style="height:15px"></div>
-                <div class="card container" style="margin-left:0px;height:230px">
-                    <div style="border:1px solid black;height:200px;width:100%">
-                        <!--这里以后放三维点求解日志历史-->
-                    </div>
+                <div class="card container" style="margin-left:0px;height:377px">
+                    <div id="theChart1" style="width:100%;height:100%"></div>
                 </div>
             </div>
             <div style="border:3px solid;float:left;height:400px;color:#d8dce3"></div>
             <div class="container" style="flex:1;padding-right:0px;padding-left:0px">
                 <div style="height:15px"></div>
-                <div class="card container" style="margin-left:0px;height:860px">
+                <div class="card container" style="margin-left:0px">
                     <div style="height:20px"></div>
-                    <div id="ACylinder" style="height:400px;width:770px">
-                            <!--这里面放A端三维模型-->
+                    <div id="wholeCylinder" style="height:700px;width:700px">
+                            <!--这里面放全筒端三维模型-->
                     </div>
                     <div style="height:20px"></div>
-                    <div id="BCylinder" style="height:400px;width:770px">
-                            <!--这里面放B端三维模型-->
-                    </div>
                 </div>
             </div>
         </div>
@@ -250,6 +251,103 @@
                 }
             })
         }
+    </script>
+    <script src="/static/js/echarts.min.js"></script>
+    <script src="/static/js/three.js"></script>
+    <script src="/static/js/OrbitControls.js"></script>
+    <script>
+        var myChart1 = echarts.init(document.getElementById("theChart1"));
+
+        // 指定图表的配置项和数据
+        var option1 = {
+            title: {
+                text: '测量系统误差统计'
+            },
+            tooltip: {},
+            legend: {
+                data:['双目标定误差']
+            },
+            xAxis: {
+                data: ["1","2","3","4","5","6"]
+            },
+            yAxis: {},
+            series: [{
+                name: '双目标定误差',
+                type: 'line',
+                data: [5, 20, 36, 10, 10, 20]
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart1.setOption(option1);
+    </script>
+    <script>
+        /**
+        * 创建场景对象Scene
+        */
+        var scene = new THREE.Scene();
+        var axes = new THREE.AxisHelper(200);
+        var geometry1 = new THREE.BoxGeometry(30, 30, 2); //基准板B
+        var geometry2 = new THREE.CylinderGeometry(40,40,600);
+        var geometry3 = new THREE.BoxGeometry(30, 30, 2); //基准板A
+        var ground = new THREE.BoxGeometry(300, 5, 600); //创建一个立方体几何对象Geometry
+        var material1 = new THREE.MeshLambertMaterial({color: 0xF4A460}); //材质对象Material
+        var material2 = new THREE.MeshLambertMaterial({color: 0x1C86EE}); //材质对象Material
+        var materialg = new THREE.MeshLambertMaterial({color: 0xf8f8f8}); //材质对象Material
+        var mesh1 = new THREE.Mesh(geometry1, material1); //网格模型对象Mesh
+        var mesh3 = new THREE.Mesh(geometry3, material1); //网格模型对象Mesh
+        var mesh2 = new THREE.Mesh(geometry2, material2); //网格模型对象Mesh
+        mesh2.rotateX(Math.PI/2);
+        mesh2.position.y = 20;
+        mesh1.position.z = 280;
+        mesh3.position.z = -280;
+        mesh1.position.x = 60;
+        mesh3.position.x = 60;
+        var meshg = new THREE.Mesh(ground, materialg);
+        meshg.position.y = -50;
+        scene.add(axes);
+        scene.add(mesh1); //网格模型添加到场景中
+        scene.add(mesh2);
+        scene.add(mesh3);
+        scene.add(meshg);
+        /**
+        * 光源设置
+        */
+        //点光源
+        var point = new THREE.PointLight(0xffffff);
+        point.position.set(300, 200, 100); //点光源位置
+        scene.add(point); //点光源添加到场景中
+        //环境光
+        var ambient = new THREE.AmbientLight(0x444444);
+        scene.add(ambient);
+        console.log(scene)
+        console.log(scene.children)
+        /**
+        * 相机设置
+        */
+        var width = 755; //窗口宽度
+        var height = 700; //窗口高度
+        var k = width / height; //窗口宽高比
+        var s = 300; //三维场景显示范围控制系数，系数越大，显示的范围越大
+        //创建相机对象
+        var camera = new THREE.OrthographicCamera(-s * k, s * k, s, -s, 1, 1000);
+        camera.position.set(200, 200, 200); //设置相机位置
+        camera.lookAt(scene.position); //设置相机方向(指向的场景对象)
+        /**
+        * 创建渲染器对象
+        */
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setSize(width, height);//设置渲染区域尺寸
+        renderer.setClearColor(0xCAE1FF, 1); //设置背景颜色
+        container = document.getElementById("wholeCylinder");
+        container.appendChild(renderer.domElement); //body元素中插入canvas对象
+        //执行渲染操作   指定场景、相机作为参数
+        function render(){
+            renderer.render(scene, camera);
+        }
+        render();
+        var controls = new THREE.OrbitControls(camera,renderer.domElement);//创建控件对象
+        controls.addEventListener('change', render);//监听鼠标、键盘事件
     </script>
     {% endblock %}
 
