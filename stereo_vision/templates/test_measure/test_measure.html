@@ -199,6 +199,7 @@
                                     <td><img name='AL_target1' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AL_target1"></td>
                                     <td><img name='AL_target2' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AL_target2"></td>
                                     <td><img name='AL_target3' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AL_target3"></td>
+                                    <td><img name='AL_target4' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AL_target4"></td>
                                 </tr>
                             </table>
                             <p style="font-size:16px">A端右相机安装孔形心定准结果</p>
@@ -226,6 +227,7 @@
                                     <td><img name='AR_target1' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AR_target1"></td>
                                     <td><img name='AR_target2' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AR_target2"></td>
                                     <td><img name='AR_target3' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AR_target3"></td>
+                                    <td><img name='AR_target4' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="AR_target4"></td>
                                 </tr>
                             </table>
                         </div>
@@ -255,6 +257,7 @@
                                     <td><img name='BL_target1' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BL_target1"></td>
                                     <td><img name='BL_target2' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BL_target2"></td>
                                     <td><img name='BL_target3' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BL_target3"></td>
+                                    <td><img name='BL_target4' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BL_target4"></td>
                                 </tr>
                             </table>
                             <p style="font-size:16px">B端右相机安装孔形心定准结果</p>
@@ -282,6 +285,7 @@
                                     <td><img name='BR_target1' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BR_target1"></td>
                                     <td><img name='BR_target2' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BR_target2"></td>
                                     <td><img name='BR_target3' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BR_target3"></td>
+                                    <td><img name='BR_target4' src="/static/picture/noimg.png" alt="Pulpit rock" width="60" height="60" id="BR_target4"></td>
                                 </tr>
                             </table>
                         </div>
@@ -643,30 +647,30 @@
                         var img_id = "BR_hole"+i;
                         document.getElementById(img_id).src='/static/picture/noimg.png';
                     }
-                    for(var i=1;i<3;i++){
+                    for(var i=1;i<4;i++){
                         var img_id = "AL_target"+i;
                         document.getElementById(img_id).src='/static/picture/noimg.png';
                     }
-                    for(var i=1;i<3;i++){
+                    for(var i=1;i<4;i++){
                         var img_id = "AR_target"+i;
                         document.getElementById(img_id).src='/static/picture/noimg.png';
                     }
-                    for(var i=1;i<3;i++){
+                    for(var i=1;i<4;i++){
                         var img_id = "BL_target"+i;
                         document.getElementById(img_id).src='/static/picture/noimg.png';
                     }
-                    for(var i=1;i<3;i++){
+                    for(var i=1;i<4;i++){
                         var img_id = "BR_target"+i;
                         document.getElementById(img_id).src='/static/picture/noimg.png';
                     }
                     var numsOfALh = (res["ALh"]>12?12:res["ALh"]);
-                    var numsOfALt = (res["ALt"]>3?3:res["ALt"]);
+                    var numsOfALt = (res["ALt"]>4?4:res["ALt"]);
                     var numsOfARh = (res["ARh"]>12?12:res["ARh"]);
-                    var numsOfARt = (res["ARt"]>3?3:res["ARt"]);
+                    var numsOfARt = (res["ARt"]>4?4:res["ARt"]);
                     var numsOfBLh = (res["BLh"]>12?12:res["BLh"]);
-                    var numsOfBLt = (res["BLt"]>3?3:res["BLt"]);
+                    var numsOfBLt = (res["BLt"]>4?4:res["BLt"]);
                     var numsOfBRh = (res["BRh"]>12?12:res["BRh"]);
-                    var numsOfBRt = (res["BRt"]>3?3:res["BRt"]);
+                    var numsOfBRt = (res["BRt"]>4?4:res["BRt"]);
                     //hole
                     for(var i=0;i<numsOfALh;i++){
                         var img_id = "AL_hole"+(i+1);

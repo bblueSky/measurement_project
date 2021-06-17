@@ -328,6 +328,7 @@ def img_process(imgPath,class_of_img="hole"):
     ##核心，数字图像处理算法
     res = [0.0,0.0,0.0,0] ##0:形心横坐标 1:形心纵坐标 2:形心圆半径 3:拟合度评分
     img = cv2.imread(imgPath)
+    H,W,_ = img.shape
     imgray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     ##待定准对象为安装孔时
     if class_of_img=="hole":
@@ -348,7 +349,8 @@ def img_process(imgPath,class_of_img="hole"):
             param2 += 1
             circles = cv2.HoughCircles(imgray, cv2.HOUGH_GRADIENT, 1, 20, param1=param1, param2=param2, minRadius=0,
                                        maxRadius=maxRadius)
-        if circles is not None:
+        print(circles)
+        if int(circles[0,0,0])!=0 or int(circles[0,0,1])!=0 or int(circles[0,0,2])!=0:
             x = int(circles[0,0,0])
             y = int(circles[0,0,1])
             r = int(circles[0,0,2])
@@ -371,6 +373,21 @@ def img_process(imgPath,class_of_img="hole"):
             res[1] = circles[0,0,1]
             res[2] = circles[0,0,2]
             res[3] = score
+        else:
+            res[0] = x = W//2
+            res[1] = y = H//2
+            r1 = 5
+            r2 = 5
+            while r1<H//2:
+                if imedge[r1+(H//2),W//2]!=0:
+                    break
+                r1+=1
+            while r2<W//2:
+                if imedge[H//2,(W//2)+r2]!=0:
+                    break
+                r2+=1
+            r = (r1+r2)//2
+            res[2] = r
         savePath = changePname(imgPath,cls="hole")
         saveImg = cv2.line(img,(x,y+20),(x,y-20),(0,255,0),thickness=2)
         saveImg = cv2.line(saveImg,(x+20,y),(x-20,y),(0,255,0),thickness=2)
@@ -400,7 +417,7 @@ def img_process(imgPath,class_of_img="hole"):
             param2 += 1
             circles = cv2.HoughCircles(imgray, cv2.HOUGH_GRADIENT, 1, 20, param1=param1, param2=param2, minRadius=0,
                                        maxRadius=maxRadius)
-        if circles is not None:
+        if int(circles[0,0,0])!=0 or int(circles[0,0,1])!=0 or int(circles[0,0,2])!=0:
             x = int(circles[0, 0, 0])
             y = int(circles[0, 0, 1])
             r = int(circles[0, 0, 2])
@@ -423,6 +440,21 @@ def img_process(imgPath,class_of_img="hole"):
             res[1] = circles[0, 0, 1]
             res[2] = circles[0, 0, 2]
             res[3] = score
+        else:
+            res[0] = x = W//2
+            res[1] = y = H//2
+            r1 = 5
+            r2 = 5
+            while r1<H//2:
+                if imedge[r1+(H//2),W//2]!=0:
+                    break
+                r1+=1
+            while r2<W//2:
+                if imedge[H//2,(W//2)+r2]!=0:
+                    break
+                r2+=1
+            r = (r1+r2)//2
+            res[2] = r
         savePath = changePname(imgPath,cls="target")
         saveImg = cv2.line(img, (x, y + 20), (x, y - 20), (0, 255, 0), thickness=2)
         saveImg = cv2.line(saveImg, (x + 20, y), (x - 20, y), (0, 255, 0), thickness=2)
