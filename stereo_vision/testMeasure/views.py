@@ -97,10 +97,10 @@ def take_pic():
     #注意！！！这里以后要换成相机组！！！！暂时B端借用0\1
     image_left_B = cam.read(2)
     image_right_B = cam.read(3)
-    frame_left_A = image_left_A[::-1]
-    frame_right_A = image_right_A[::-1]
-    frame_left_B = image_left_B[::-1]
-    frame_right_B = image_right_B[::-1]
+    frame_left_A = image_left_A[:,::-1]
+    frame_right_A = image_right_A[:,::-1]
+    frame_left_B = image_left_B[:,::-1]
+    frame_right_B = image_right_B[:,::-1]
     # TODO  注释掉写入帧的操作
     dirPath = os.path.dirname(os.path.realpath(__file__)).replace('testMeasure', 'static/res_pictures/temp/')
     type = request.args.get('mydata')

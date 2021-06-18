@@ -1,0 +1,11 @@
+<?xml version="1.0" ?><boxes_info 数据时间="2021-06-18-14:32:45">
+		<camera_position>B_right</camera_position>
+		<boxes>
+			
+			
+		<hole><hole_box0><x>1084</x><y>3323</y><w>67</w><h>69</h></hole_box0><hole_box1><x>1859</x><y>3465</y><w>72</w><h>78</h></hole_box1><hole_box2><x>490</x><y>2824</y><w>69</w><h>50</h></hole_box2><hole_box3><x>739</x><y>631</y><w>71</w><h>89</h></hole_box3><hole_box4><x>3154</x><y>2534</y><w>63</w><h>57</h></hole_box4><hole_box5><x>2616</x><y>3200</y><w>77</w><h>58</h></hole_box5><hole_box6><x>2943</x><y>883</y><w>83</w><h>62</h></hole_box6><hole_box7><x>3270</x><y>1674</y><w>84</w><h>69</h></hole_box7><hole_box8><x>1848</x><y>280</y><w>67</w><h>59</h></hole_box8><hole_box9><x>2252</x><y>375</y><w>67</w><h>66</h></hole_box9><hole_box10><x>750</x><y>3113</y><w>58</w><h>56</h></hole_box10></hole><target><target_box0><x>3869</x><y>1361</y><w>92</w><h>81</h></target_box0><target_box1><x>5045</x><y>2476</y><w>103</w><h>81</h></target_box1></target></boxes>
+		<imgs>
+			<hole/>
+			<target/>
+		</imgs>
+	</boxes_info>

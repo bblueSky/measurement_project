@@ -1,0 +1,5 @@
+2021-06-18 13-57-22-0250: KSJAPI::AddCamera szDllName = libksjcam_102.so  dlopen success
+2021-06-18 14-15-18-0527: libusb_bulk_transfer: ret = -7, hPipe = 0x800a2d0, m_uBulkEndpointAddress = 0x81, nTotalBytes = 19961856, nNumberOfBytesRead = 11353088 ulTimeOut = 5000
+2021-06-18 14-15-18-0527: CKSJBusUsb::ReadData ReadRawDataAfterStart error  nRet = -8 
+2021-06-18 14-15-18-0527: CKSJDeviceOnBusUsb::Recover()  << IN >> 
+2021-06-18 14-15-20-0183: KSJAPI::CKSJDeviceOnBusUsb::Recover << OUT >> nRet = -10  

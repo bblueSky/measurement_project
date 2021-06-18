@@ -602,18 +602,18 @@
                 dataType: 'json',
                 success:function(res){
                     alert("数据录入完成！");
-                    document.getElementById("APO").innerHTML="A端靶球1全局坐标:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+res["APO"];
-                    document.getElementById("APH").innerHTML="A端靶球2全局坐标:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+res["APH"];
-                    document.getElementById("APW").innerHTML="A端靶球3全局坐标:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+res["APW"];
-                    document.getElementById("BPO").innerHTML="B端靶球1全局坐标:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+res["BPO"];
-                    document.getElementById("BPH").innerHTML="B端靶球2全局坐标:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+res["BPH"];
-                    document.getElementById("BPW").innerHTML="B端靶球3全局坐标:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+res["BPW"];
-                    document.getElementById("APOs").innerHTML="A端靶标1全局坐标:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+res["APOs"];
-                    document.getElementById("APHs").innerHTML="A端靶标2全局坐标:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+res["APHs"];
-                    document.getElementById("APWs").innerHTML="A端靶标3全局坐标:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+res["APWs"];
-                    document.getElementById("BPOs").innerHTML="B端靶标1全局坐标:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+res["BPOs"];
-                    document.getElementById("BPHs").innerHTML="B端靶标2全局坐标:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+res["BPHs"];
-                    document.getElementById("BPWs").innerHTML="B端靶标3全局坐标:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+res["BPWs"];
+                    document.getElementById("APO").value=res["APO"];
+                    document.getElementById("APH").value=res["APH"];
+                    document.getElementById("APW").value=res["APW"];
+                    document.getElementById("BPO").value=res["BPO"];
+                    document.getElementById("BPH").value=res["BPH"];
+                    document.getElementById("BPW").value=res["BPW"];
+                    document.getElementById("APOs").value=res["APOs"];
+                    document.getElementById("APHs").value=res["APHs"];
+                    document.getElementById("APWs").value=res["APWs"];
+                    document.getElementById("BPOs").value=res["BPOs"];
+                    document.getElementById("BPHs").value=res["BPHs"];
+                    document.getElementById("BPWs").value=res["BPWs"];
                 },
                 error: function (res) {
                       alert('失败')

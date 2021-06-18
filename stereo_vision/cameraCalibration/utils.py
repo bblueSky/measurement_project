@@ -140,8 +140,12 @@ def sig_calibration(flag,camera_):
     print("===========================================")
     print('ret:', single_calibration_fs_test.getNode('ret').real())  # 正确
     matrix = single_calibration_fs_test.getNode('mtx').mat()
+    # result.append([matrix[0, 0], matrix[0, 1], matrix[0, 2]])
+    # result.append([matrix[1, 0], matrix[1, 1], matrix[1, 2]])
+    # result.append([matrix[2, 0], matrix[2, 1], matrix[2, 2]])
     print(camera_+'相机内参:', matrix)  # 正确  相机内参
     distort = single_calibration_fs_test.getNode('dist').mat()
+    # result.append([])
     print(camera_+'相机畸变:', distort)  # 正确  畸变系数
     print(camera_+'旋转矩阵1:', single_calibration_fs_test.getNode('rvecs_1').mat())
     print(camera_+'平移矩阵1:', single_calibration_fs_test.getNode('tvecs_1').mat())
@@ -481,7 +485,7 @@ def   creat_disp(left_path,right_path):
 
 def rigid_transform_3D(A, B):
     assert len(A) == len(B)
-    N = A.shape[0];
+    N = A.shape[0]
     mu_A = np.mean(A, axis=0)
     mu_B = np.mean(B, axis=0)
 
@@ -502,7 +506,7 @@ def rigid_transform_3D(A, B):
     return R, t
 
 def LTOrd2AOrd(AP1,AP2,AP3,BP1,BP2,BP3):
-    B = np.mat([[0,0,0],[260.0,0,0],[0,260.0,0]])  ##数据根据基准板尺寸修改,需要考虑实际加工公差
+    B = np.mat([[0,0,0],[260.004,0,0],[0,130.007,0]])  ##数据根据基准板尺寸修改,需要考虑实际加工公差
     A = np.mat([[AP1[0,0],AP1[0,1],AP1[0,2]],[AP2[0,0],AP2[0,1],AP2[0,2]],[AP3[0,0],AP3[0,1],AP3[0,2]]])
 
     R_T2A,T_T2A = rigid_transform_3D(A,B)
