@@ -140,12 +140,12 @@ def sig_calibration(flag,camera_):
     print("===========================================")
     print('ret:', single_calibration_fs_test.getNode('ret').real())  # 正确
     matrix = single_calibration_fs_test.getNode('mtx').mat()
-    # result.append([matrix[0, 0], matrix[0, 1], matrix[0, 2]])
-    # result.append([matrix[1, 0], matrix[1, 1], matrix[1, 2]])
-    # result.append([matrix[2, 0], matrix[2, 1], matrix[2, 2]])
+    result.append([matrix[0, 0], matrix[0, 1], matrix[0, 2]])
+    result.append([matrix[1, 0], matrix[1, 1], matrix[1, 2]])
+    result.append([matrix[2, 0], matrix[2, 1], matrix[2, 2]])
     print(camera_+'相机内参:', matrix)  # 正确  相机内参
     distort = single_calibration_fs_test.getNode('dist').mat()
-    # result.append([])
+    result.append([distort[0,0],distort[0,1],distort[0,2],distort[0,3],distort[0,4]])
     print(camera_+'相机畸变:', distort)  # 正确  畸变系数
     print(camera_+'旋转矩阵1:', single_calibration_fs_test.getNode('rvecs_1').mat())
     print(camera_+'平移矩阵1:', single_calibration_fs_test.getNode('tvecs_1').mat())
@@ -308,7 +308,11 @@ def stereo_Calibration(flag):
     stereo_calibration_fs.write('P1', P1)
     stereo_calibration_fs.write('P2', P2)
     print('R', R)
+    result.append([R[0, 0], R[0, 1], R[0, 2]])
+    result.append([R[1, 0], R[1, 1], R[1, 2]])
+    result.append([R[2, 0], R[2, 1], R[2, 2]])
     print('T', T)
+    result.append([T[0, 0], T[1, 0], T[2, 0]])
     stereo_calibration_fs.release()
     endtime = time.time()
     st = datetime.datetime.fromtimestamp(endtime).strftime('%Y' + '-' + '%m' + '-' + '%d' + '-' + '%H' + ':' + '%M' + ':' + '%S')

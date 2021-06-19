@@ -240,12 +240,24 @@ def  stereo_calibration():
     results = stereo_Calibration(flag)
 
     res["ltime"] = resultl[0]
-    res["lterror"] = resultl[1]
+    res["lmtx0"] = resultl[1]
+    res["lmtx1"] = resultl[2]
+    res["lmtx2"] = resultl[3]
+    res["ldist"] = resultl[4]
+    res["lterror"] = resultl[5]
 
     res["rtime"] = resultr[0]
-    res["rterror"] = resultr[1]
+    res["rmtx0"] = resultr[1]
+    res["rmtx1"] = resultr[2]
+    res["rmtx2"] = resultr[3]
+    res["rdist"] = resultr[4]
+    res["rterror"] = resultr[5]
 
-    res["stime"] = results[0]
+    res["R0"] = results[0]
+    res["R1"] = results[1]
+    res["R2"] = results[2]
+    res["T"] = results[3]
+    res["stime"] = results[4]
 
 
     return res

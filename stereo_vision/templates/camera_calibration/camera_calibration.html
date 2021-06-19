@@ -515,11 +515,23 @@
                     document.getElementById("deleteAll").removeAttribute("disabled");
                     document.getElementById("stereoCalibration").removeAttribute("disabled");
                     document.getElementById("ltime").value=res["ltime"];
+                    document.getElementById("lmtx0").value=res["lmtx0"];
+                    document.getElementById("lmtx1").value=res["lmtx1"];
+                    document.getElementById("lmtx2").value=res["lmtx2"];
+                    document.getElementById("ldist").value=res["ldist"];
                     document.getElementById("lterror").value=res["lterror"];
 
                     document.getElementById("rtime").value=res["rtime"];
+                    document.getElementById("rmtx0").value=res["rmtx0"];
+                    document.getElementById("rmtx1").value=res["rmtx1"];
+                    document.getElementById("rmtx2").value=res["rmtx2"];
+                    document.getElementById("rdist").value=res["rdist"];
                     document.getElementById("rterror").value=res["rterror"];
 
+                    document.getElementById("R0").value=res["R0"];
+                    document.getElementById("R1").value=res["R1"];
+                    document.getElementById("R2").value=res["R2"];
+                    document.getElementById("T").value=res["T"];
                     document.getElementById("stime").value=res["stime"];
                 }
             })
