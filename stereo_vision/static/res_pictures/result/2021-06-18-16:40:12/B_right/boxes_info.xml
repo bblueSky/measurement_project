@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-	<boxes_info 数据时间="2021-06-18-16:40:12">
+<?xml version="1.0" ?><boxes_info 数据时间="2021-06-18-16:40:12">
 		<camera_position>B_right</camera_position>
 		<boxes>
-			<hole/>
-			<target/>
-		</boxes>
+			
+			
+		<hole><hole_box0><x>1739</x><y>3465</y><w>68</w><h>69</h></hole_box0><hole_box1><x>1777</x><y>252</y><w>58</w><h>74</h></hole_box1><hole_box2><x>3142</x><y>2737</y><w>71</w><h>65</h></hole_box2><hole_box3><x>983</x><y>3206</y><w>72</w><h>68</h></hole_box3><hole_box4><x>469</x><y>2617</y><w>69</w><h>58</h></hole_box4><hole_box5><x>2526</x><y>3308</y><w>72</w><h>68</h></hole_box5><hole_box6><x>3169</x><y>1059</y><w>71</w><h>67</h></hole_box6><hole_box7><x>290</x><y>1843</y><w>59</w><h>55</h></hole_box7><hole_box8><x>1018</x><y>489</y><w>79</w><h>66</h></hole_box8></hole><target><target_box0><x>3993</x><y>1358</y><w>94</w><h>71</h></target_box0><target_box1><x>5173</x><y>2464</y><w>83</w><h>80</h></target_box1><target_box2><x>5175</x><y>1330</y><w>81</w><h>68</h></target_box2><target_box3><x>3340</x><y>1462</y><w>68</w><h>68</h></target_box3></target></boxes>
 		<imgs>
-			<hole/>
-			<target/>
-		</imgs>
+			
+			
+		<hole><hole_img0><x>30.5</x><y>38.5</y><r>26.6</r><s>39</s></hole_img0><hole_img1><x>29</x><y>37</y><r>6</r><s>0</s></hole_img1><hole_img2><x>35.5</x><y>34.5</y><r>27.3</r><s>21</s></hole_img2><hole_img3><x>40.5</x><y>32.5</y><r>22.9</r><s>13</s></hole_img3><hole_img4><x>30.5</x><y>28.5</y><r>24.9</r><s>32</s></hole_img4><hole_img5><x>37.5</x><y>33.5</y><r>25.7</r><s>24</s></hole_img5><hole_img6><x>40.5</x><y>34.5</y><r>28.2</r><s>60</s></hole_img6><hole_img7><x>32.5</x><y>29.5</y><r>23.8</r><s>16</s></hole_img7><hole_img8><x>39</x><y>33</y><r>11</r><s>0</s></hole_img8></hole><target><target_img0><x>51.5</x><y>33.5</y><r>32.7</r><s>55</s></target_img0><target_img1><x>47.5</x><y>50.5</y><r>45.0</r><s>11</s></target_img1><target_img2><x>49.5</x><y>41.5</y><r>39.7</r><s>24</s></target_img2><target_img3><x>31.5</x><y>37.5</y><r>31.6</r><s>27</s></target_img3></target></imgs>
 	</boxes_info>

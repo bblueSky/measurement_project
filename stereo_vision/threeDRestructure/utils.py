@@ -228,6 +228,8 @@ def  creat_point_pairs(right_points,left_points,F):
         index,right_point =  min_distance_pnt(right_points, left_point,F) ##找出对应当前左点的最佳右点
         # todo 查看right_point数据格式
         print(len(right_points))
+        if len(right_points)<=0:
+            break
         right_points.pop(index)
         # pair['left_point'] = left_point
         # pair['right_point'] = right_point

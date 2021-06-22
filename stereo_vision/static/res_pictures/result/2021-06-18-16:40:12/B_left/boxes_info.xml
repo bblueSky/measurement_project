@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-	<boxes_info 数据时间="2021-06-18-16:40:12">
+<?xml version="1.0" ?><boxes_info 数据时间="2021-06-18-16:40:12">
 		<camera_position>B_left</camera_position>
 		<boxes>
-			<hole/>
-			<target/>
-		</boxes>
+			
+			
+		<hole><hole_box0><x>2511</x><y>3313</y><w>64</w><h>61</h></hole_box0><hole_box1><x>2899</x><y>3150</y><w>76</w><h>64</h></hole_box1><hole_box2><x>3506</x><y>2570</y><w>64</w><h>58</h></hole_box2><hole_box3><x>2082</x><y>3359</y><w>67</w><h>78</h></hole_box3><hole_box4><x>2170</x><y>50</y><w>70</w><h>82</h></hole_box4><hole_box5><x>614</x><y>2539</y><w>70</w><h>64</h></hole_box5><hole_box6><x>1240</x><y>3154</y><w>75</w><h>70</h></hole_box6><hole_box7><x>1315</x><y>222</y><w>76</w><h>69</h></hole_box7><hole_box8><x>3744</x><y>1776</y><w>57</w><h>53</h></hole_box8><hole_box9><x>403</x><y>1672</y><w>64</w><h>57</h></hole_box9><hole_box10><x>3555</x><y>953</y><w>67</w><h>67</h></hole_box10></hole><target><target_box0><x>4282</x><y>1263</y><w>90</w><h>72</h></target_box0><target_box1><x>5247</x><y>1282</y><w>96</w><h>59</h></target_box1></target></boxes>
 		<imgs>
-			<hole/>
-			<target/>
-		</imgs>
+			
+			
+		<hole><hole_img0><x>34.5</x><y>31.5</y><r>19.1</r><s>36</s></hole_img0><hole_img1><x>40.5</x><y>31.5</y><r>25.4</r><s>24</s></hole_img1><hole_img2><x>30.5</x><y>28.5</y><r>26.1</r><s>18</s></hole_img2><hole_img3><x>38.5</x><y>43.5</y><r>25.6</r><s>32</s></hole_img3><hole_img4><x>35</x><y>41</y><r>10</r><s>0</s></hole_img4><hole_img5><x>38.5</x><y>32.5</y><r>28.6</r><s>36</s></hole_img5><hole_img6><x>41.5</x><y>33.5</y><r>26.8</r><s>29</s></hole_img6><hole_img7><x>38</x><y>34</y><r>14</r><s>0</s></hole_img7><hole_img8><x>33.5</x><y>24.5</y><r>21.8</r><s>25</s></hole_img8><hole_img9><x>32</x><y>28</y><r>7</r><s>0</s></hole_img9><hole_img10><x>33</x><y>33</y><r>23</r><s>0</s></hole_img10></hole><target><target_img0><x>47.5</x><y>40.5</y><r>14.5</r><s>21</s></target_img0><target_img1><x>66.5</x><y>31.5</y><r>28.8</r><s>10</s></target_img1></target></imgs>
 	</boxes_info>

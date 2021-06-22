@@ -29,7 +29,7 @@ from xml.dom import minidom
 
 CLASSES = ('__background__','hole','target')
 
-NETS = {'vgg16': ('vgg16_faster_rcnn_iter_70000.ckpt',),'res101': ('res101_faster_rcnn_iter_100000.ckpt',)}
+NETS = {'vgg16': ('vgg16_faster_rcnn_iter_70000.ckpt',),'res101': ('res101_faster_rcnn_iter_50001.ckpt',)}
 DATASETS= {'pascal_voc': ('voc_2007_trainval',),'pascal_voc_0712': ('voc_2007_trainval+voc_2012_trainval',)}
 
 def vis_detections(im, class_name, dets, thresh=0.5):
@@ -358,16 +358,16 @@ def img_process(imgPath,class_of_img="hole"):
             # print(y)
             # print(r)
             score = 0
-            if imedge[y,x-r]!=0:
+            if x-r in range(W) and imedge[y,x-r]!=0:
                 score+=1
-            if imedge[y,x+r]!=0:
+            if x+r in range(W) and imedge[y,x+r]!=0:
                 score+=1
             for i in range(x-r+1,x+r):
                 w = abs(x-i)
                 h = round((r**2-w**2)**0.5)
-                if imedge[y+h,i]!=0:
+                if y+h in range(H) and i in range(W) and imedge[y+h,i]!=0:
                     score+=1
-                if imedge[y-h,i]!=0:
+                if y-h in range(H) and i in range(W) and imedge[y-h,i]!=0:
                     score+=1
             res[0] = circles[0,0,0]
             res[1] = circles[0,0,1]
@@ -413,10 +413,14 @@ def img_process(imgPath,class_of_img="hole"):
             param2 += -1
             circles = cv2.HoughCircles(imgray, cv2.HOUGH_GRADIENT, 1, 20, param1=param1, param2=param2, minRadius=0,
                                        maxRadius=maxRadius)
-        while circles.shape[1] > 1:
-            param2 += 1
-            circles = cv2.HoughCircles(imgray, cv2.HOUGH_GRADIENT, 1, 20, param1=param1, param2=param2, minRadius=0,
-                                       maxRadius=maxRadius)
+            print("param2:"+str(param2))
+        print(circles)
+        # while circles.shape[1] > 1:
+        #     print("param2:" + str(param2))
+        #     param2 += 1
+        #     circles = cv2.HoughCircles(imgray, cv2.HOUGH_GRADIENT, 1, 20, param1=param1, param2=param2, minRadius=0,
+        #                                maxRadius=maxRadius)
+        #     print(circles)
         if int(circles[0,0,0])!=0 or int(circles[0,0,1])!=0 or int(circles[0,0,2])!=0:
             x = int(circles[0, 0, 0])
             y = int(circles[0, 0, 1])
@@ -425,16 +429,17 @@ def img_process(imgPath,class_of_img="hole"):
             # print(y)
             # print(r)
             score = 0
-            if imedge[y, x - r] != 0:
+            if x-r in range(W) and imedge[y, x - r] != 0:
                 score += 1
-            if imedge[y, x + r] != 0:
+            if x+r in range(W) and imedge[y, x + r] != 0:
                 score += 1
             for i in range(x - r + 1, x + r):
+
                 w = abs(x - i)
                 h = round((r ** 2 - w ** 2) ** 0.5)
-                if imedge[y + h, i] != 0:
+                if y+h in range(H) and i in range(W) and imedge[y + h, i] != 0:
                     score += 1
-                if imedge[y - h, i] != 0:
+                if y-h in range(H) and i in range(W) and imedge[y - h, i] != 0:
                     score += 1
             res[0] = circles[0, 0, 0]
             res[1] = circles[0, 0, 1]

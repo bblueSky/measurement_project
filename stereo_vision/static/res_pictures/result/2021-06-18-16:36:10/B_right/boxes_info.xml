@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-	<boxes_info 数据时间="2021-06-18-16:36:10">
+<?xml version="1.0" ?><boxes_info 数据时间="2021-06-18-16:36:10">
 		<camera_position>B_right</camera_position>
 		<boxes>
-			<hole/>
-			<target/>
-		</boxes>
+			
+			
+		<hole><hole_box0><x>640</x><y>2918</y><w>62</w><h>63</h></hole_box0><hole_box1><x>2490</x><y>3359</y><w>71</w><h>70</h></hole_box1><hole_box2><x>2090</x><y>3478</y><w>73</w><h>74</h></hole_box2><hole_box3><x>1863</x><y>240</y><w>55</w><h>68</h></hole_box3><hole_box4><x>1291</x><y>3390</y><w>55</w><h>71</h></hole_box4><hole_box5><x>2993</x><y>757</y><w>71</w><h>70</h></hole_box5><hole_box6><x>2273</x><y>306</y><w>63</w><h>73</h></hole_box6><hole_box7><x>2845</x><y>3130</y><w>74</w><h>66</h></hole_box7><hole_box8><x>758</x><y>679</y><w>68</w><h>78</h></hole_box8><hole_box9><x>3340</x><y>2423</y><w>69</w><h>64</h></hole_box9><hole_box10><x>3387</x><y>1537</y><w>75</w><h>74</h></hole_box10><hole_box11><x>274</x><y>1785</y><w>69</w><h>54</h></hole_box11><hole_box12><x>2662</x><y>476</y><w>59</w><h>62</h></hole_box12></hole><target><target_box0><x>5201</x><y>1330</y><w>87</w><h>69</h></target_box0><target_box1><x>5201</x><y>2464</y><w>93</w><h>77</h></target_box1><target_box2><x>1663</x><y>3490</y><w>78</w><h>92</h></target_box2><target_box3><x>4029</x><y>1351</y><w>93</w><h>73</h></target_box3></target></boxes>
 		<imgs>
-			<hole/>
-			<target/>
-		</imgs>
+			
+			
+		<hole><hole_img0><x>36.5</x><y>31.5</y><r>26.4</r><s>36</s></hole_img0><hole_img1><x>35.5</x><y>37.5</y><r>19.4</r><s>34</s></hole_img1><hole_img2><x>37.5</x><y>38.5</y><r>25.2</r><s>20</s></hole_img2><hole_img3><x>33.5</x><y>31.5</y><r>20.1</r><s>31</s></hole_img3><hole_img4><x>31.5</x><y>34.5</y><r>25.2</r><s>36</s></hole_img4><hole_img5><x>35</x><y>35</y><r>6</r><s>0</s></hole_img5><hole_img6><x>35.5</x><y>27.5</y><r>30.2</r><s>20</s></hole_img6><hole_img7><x>38.5</x><y>38.5</y><r>26.0</r><s>48</s></hole_img7><hole_img8><x>34</x><y>39</y><r>25</r><s>0</s></hole_img8><hole_img9><x>29.5</x><y>30.5</y><r>27.4</r><s>30</s></hole_img9><hole_img10><x>35.5</x><y>39.5</y><r>27.0</r><s>29</s></hole_img10><hole_img11><x>33.5</x><y>25.5</y><r>16.8</r><s>9</s></hole_img11><hole_img12><x>33.5</x><y>33.5</y><r>21.2</r><s>39</s></hole_img12></hole><target><target_img0><x>57.5</x><y>39.5</y><r>39.3</r><s>14</s></target_img0><target_img1><x>55.5</x><y>57.5</y><r>48.5</r><s>26</s></target_img1><target_img2><x>28.5</x><y>64.5</y><r>14.5</r><s>20</s></target_img2><target_img3><x>44.5</x><y>39.5</y><r>31.8</r><s>59</s></target_img3></target></imgs>
 	</boxes_info>
