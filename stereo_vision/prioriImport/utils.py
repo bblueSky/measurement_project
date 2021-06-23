@@ -187,6 +187,27 @@ def fitCircle(x,y):  ##最小二乘法拟合圆
     return xc_2,yc_2,R_2,residu_2
 
 
+def fitCircle3D(x,y,z):
+    x_m = np.mean(x)
+    y_m = np.mean(y)
+    z_m = np.mean(z)
+    def calc_R(xc,yc,zc):
+        return np.sqrt((x - xc) ** 2 + (y - yc) ** 2 + (z - zc) ** 2)
+
+    def f_2(c):
+        Ri = calc_R(*c)
+        return Ri - Ri.mean()
+
+    center_estimate = x_m, y_m, z_m
+    center_2, ier = optimize.leastsq(f_2, center_estimate)
+    xc_2, yc_2,zc_2 = center_2
+    Ri_2 = calc_R(*center_2)
+    R_2 = Ri_2.mean()
+    residu_2 = sum((Ri_2 - R_2) ** 2)
+    return xc_2,yc_2,zc_2,R_2,residu_2
+
+
+
 
 def dataFitCircle(res):  ##函数作用：1、读取xml里的数据 2、根据这些数据拟合圆，计算各种孔位序列 3、用json返回圆心坐标 4、把圆心坐标写入xml
     ## 法兰有四种情况： 1、安装孔、螺纹孔、象限孔 2、安装孔、螺纹孔 3、安装孔、象限孔 4、安装孔

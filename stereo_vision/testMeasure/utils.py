@@ -409,7 +409,7 @@ def img_process(imgPath,class_of_img="hole"):
         maxRadius = 90  ##后期调试
         circles = cv2.HoughCircles(imgray, cv2.HOUGH_GRADIENT, 1, 20, param1=param1, param2=param2, minRadius=0,
                                    maxRadius=maxRadius)
-        while circles is None:
+        while circles is None and param2>0:
             param2 += -1
             circles = cv2.HoughCircles(imgray, cv2.HOUGH_GRADIENT, 1, 20, param1=param1, param2=param2, minRadius=0,
                                        maxRadius=maxRadius)
