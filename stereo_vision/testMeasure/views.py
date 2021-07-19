@@ -67,7 +67,7 @@ def take_pic():
     img_path = os.path.realpath(__file__).replace("testMeasure/views.py", "static/res_pictures/")
     print("相机开始运行")
     #os.system('sh /home/cx/PycharmProjects/stereo_vision/stereo_vision/cameraCalibration/run.sh')
-    exp_time = 100
+    exp_time = 70
     #exp_time =  request.get_date('exp_time')
     cam = kcam.Ksjcam()
 
@@ -92,11 +92,12 @@ def take_pic():
 
     image_left_A = cam.read(0)  # 从相机0读取一个图像，这个image就是oenpcv的图像 先插的是相机1
     image_right_A = cam.read(1)
-    # image_left_B = image_left_A
-    # image_right_B = image_right_A
+    image_left_B = image_left_A
+    image_right_B = image_right_A
     #注意！！！这里以后要换成相机组！！！！暂时B端借用0\1
-    image_left_B = cam.read(2)
-    image_right_B = cam.read(3)
+    # image_left_B = cam.read(2)
+    # image_right_B = cam.read(3)
+
     frame_left_A = image_left_A[:,::-1]
     frame_right_A = image_right_A[:,::-1]
     frame_left_B = image_left_B[:,::-1]

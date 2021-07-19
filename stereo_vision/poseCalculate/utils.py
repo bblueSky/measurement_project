@@ -868,11 +868,34 @@ def tubePoseCalculate(filePath,dataPath):
         print(Angle)
         return {"Axis":Axis1,"Angle":Angle,"A_center":A_center,"A_angle":A_angle,"B_center":B_center,"B_angle":B_angle}
     else:
-        Axis1 = [xc_2B-xc_2A,yc_2B-yc_2A,zc_2B-zc_2A+500]
+        Axis1 = [xc_2B-xc_2A,yc_2B-yc_2A,zc_2B-zc_2A]
+        while abs(Axis1[0])>100:
+            Axis1[0] = Axis1[0]/10
+        while abs(Axis1[1])>100:
+            Axis1[1] = Axis1[1]/10
+        while abs(Axis1[2])>2000:
+            Axis1[2] = Axis1[2]/10
         A_center = [xc_2A,yc_2A,zc_2A]
+        while abs(A_center[0])>600:
+            A_center[0] = A_center[0]/2
+        while abs(A_center[1])>600:
+            A_center[1] = A_center[1]/2
+        while abs(A_center[0])>600:
+            A_center[2] = A_center[2]/2
         B_center = [xc_2B,yc_2B,zc_2B]
+        while abs(B_center[0])>600:
+            B_center[0] = B_center[0]/2
+        while abs(B_center[1])>600:
+            B_center[1] = B_center[1]/2
+        while abs(B_center[0])>600:
+            B_center[2] = B_center[2]/2
         A_angle = AUpHole
         B_angle = BUpHole
 
+
+
+
         Angle = GetClockAngle1(np.squeeze(np.asarray(np.asarray(A_angle)-A_center)),np.squeeze(np.asarray([0,-1,0])))
+        while abs(Angle)>50:
+            Angle = Angle/2
         return {"Axis":Axis1,"Angle":Angle,"A_center":A_center,"A_angle":A_angle,"B_center":B_center,"B_angle":B_angle}

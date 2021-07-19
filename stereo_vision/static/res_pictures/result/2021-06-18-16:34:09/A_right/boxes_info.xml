@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-	<boxes_info 数据时间="2021-06-18-16:34:09">
+<?xml version="1.0" ?><boxes_info 数据时间="2021-06-18-16:34:09">
 		<camera_position>A_right</camera_position>
 		<boxes>
-			<hole/>
-			<target/>
-		</boxes>
+			
+			
+		<hole><hole_box0><x>2857</x><y>295</y><w>114</w><h>94</h></hole_box0><hole_box1><x>3302</x><y>3434</y><w>82</w><h>73</h></hole_box1><hole_box2><x>4483</x><y>617</y><w>80</w><h>89</h></hole_box2><hole_box3><x>2315</x><y>3011</y><w>65</w><h>79</h></hole_box3><hole_box4><x>4762</x><y>2716</y><w>77</w><h>78</h></hole_box4><hole_box5><x>2370</x><y>566</y><w>96</w><h>87</h></hole_box5><hole_box6><x>4367</x><y>3119</y><w>77</w><h>80</h></hole_box6><hole_box7><x>4987</x><y>2195</y><w>73</w><h>78</h></hole_box7><hole_box8><x>2769</x><y>3305</y><w>73</w><h>82</h></hole_box8><hole_box9><x>1803</x><y>2073</y><w>79</w><h>71</h></hole_box9><hole_box10><x>5018</x><y>1627</y><w>75</w><h>69</h></hole_box10></hole><target><target_box0><x>4007</x><y>324</y><w>72</w><h>81</h></target_box0><target_box1><x>1211</x><y>1394</y><w>65</w><h>74</h></target_box1></target></boxes>
 		<imgs>
-			<hole/>
-			<target/>
-		</imgs>
+			
+			
+		<hole><hole_img0><x>57</x><y>47</y><r>6</r><s>0</s></hole_img0><hole_img1><x>44.5</x><y>37.5</y><r>22.7</r><s>33</s></hole_img1><hole_img2><x>40</x><y>44</y><r>6</r><s>0</s></hole_img2><hole_img3><x>32.5</x><y>39.5</y><r>19.1</r><s>37</s></hole_img3><hole_img4><x>36.5</x><y>37.5</y><r>22.5</r><s>45</s></hole_img4><hole_img5><x>50.5</x><y>52.5</y><r>20.5</r><s>15</s></hole_img5><hole_img6><x>38.5</x><y>43.5</y><r>23.5</r><s>35</s></hole_img6><hole_img7><x>40.5</x><y>36.5</y><r>21.7</r><s>0</s></hole_img7><hole_img8><x>40.5</x><y>40.5</y><r>21.6</r><s>25</s></hole_img8><hole_img9><x>35.5</x><y>28.5</y><r>20.2</r><s>21</s></hole_img9><hole_img10><x>40.5</x><y>34.5</y><r>21.7</r><s>6</s></hole_img10></hole><target><target_img0><x>46.5</x><y>45.5</y><r>15.8</r><s>33</s></target_img0><target_img1><x>30.5</x><y>39.5</y><r>28.2</r><s>46</s></target_img1></target></imgs>
 	</boxes_info>
