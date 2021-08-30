@@ -147,7 +147,7 @@ def get_img_boxes(flag):
     check = False  # 用来返回检测到的数据是否合乎标准
     cfg.TEST.HAS_RPN = True  # Use RPN for proposals
     tfmodel = os.path.dirname(os.path.realpath(__file__)).replace("testMeasure","tf-faster-rcnn/output/res101/voc_2007_trainval/"
-                                                                                "default/res101_faster_rcnn_iter_100000.ckpt")
+                                                                                "default/res101_faster_rcnn_iter_50001.ckpt")
     if not os.path.isfile(tfmodel + '.meta'):
         raise IOError(('{:s} not found.\n请检查output路径设置').format(tfmodel + '.meta'))
     tfconfig = tf.ConfigProto(allow_soft_placement=True)
