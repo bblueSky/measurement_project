@@ -196,12 +196,13 @@ def  compute_point_distance(pts,A,B,C):  ##计算点到直线的距离
     return  d
 
 
-# 函数的作用:left_point在right_points里面的最匹配点
-def  min_distance_pnt(right_points,left_point,F):
+# 函数的作用:left_point在right_points里面的最匹配点,设置了阈值，
+def  min_distance_pnt(right_points,left_point,F,distance_init=math.inf):
 
-    distance_init = math.inf
+
     obj_point = None
     index = 0
+    yon = False
     for  i , item in enumerate(right_points):
         pts3 = [0,0]
         pts3[0] = left_point[0]
@@ -215,17 +216,20 @@ def  min_distance_pnt(right_points,left_point,F):
         distance = compute_point_distance(pts, A, B, C)
 
         if distance < distance_init:
+            yon = True
+            distance_init = distance
+            obj_point = item
+            index = i
 
-           distance_init = distance
-           obj_point = item
-           index = i
-    return  index,obj_point
+    if yon:
+        return  index,obj_point
+    return yon
 
 ## 此函数的输出格式也需要修改
 def  creat_point_pairs(right_points,left_points,F):
      all_pairs = []
      for left_point in  left_points:
-        index,right_point =  min_distance_pnt(right_points, left_point,F) ##找出对应当前左点的最佳右点
+        index,right_point =  min_distance_pnt(right_points, left_point,F,distance_init=20) ##找出对应当前左点的最佳右！！！这里要改！！
         # todo 查看right_point数据格式
         print(len(right_points))
         if len(right_points)<=0:

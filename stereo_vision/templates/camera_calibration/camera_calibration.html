@@ -136,9 +136,12 @@
                             <div style="height:9px"></div>
                         </div>
                         <div>
-                            <table border="3" style="border:#5b93d3">
+                            <table border="1" style="color:black">
                                 <tr>
-                                    <td><img name= 'process' src="/static/res_pictures/temp/noPoint.png" alt="Pulpit rock" width="200" height="260" id="process"></td>
+                                    <td><div id="left_bar" style="width:200px;height:130px"><img src="/static/res_pictures/temp/noPoint.png" style="width:200px;height:130px"></div></td>
+                                </tr>
+                                <tr>
+                                    <td><div id="right_bar" style="width:200px;height:130px"><img src="/static/res_pictures/temp/noPoint.png" style="width:200px;height:130px"></div></td>
                                 </tr>
                             </table>
                         </div>
@@ -535,6 +538,10 @@
                     document.getElementById("stime").value=res["stime"];
                 }
             })
+            var left_bar = echarts.init(document.getElementById('left_bar'));
+            var right_bar = echarts.init(document.getElementById('right_bar'));
+            //option以json的形式传输到前端
+            var option = res["option"]
         }
     </script>
     <script>
