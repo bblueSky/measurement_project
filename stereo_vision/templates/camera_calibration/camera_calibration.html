@@ -310,6 +310,7 @@
 
 
     {% block write_js %}
+    <script src="/static/js/echarts.min.js"></script>
     <script>
         var time
         function selectAorB(){
@@ -502,6 +503,12 @@
             document.getElementById("deleteThis").setAttribute("disabled",true);
             document.getElementById("deleteAll").setAttribute("disabled",true);
             document.getElementById("stereoCalibration").setAttribute("disabled",true);
+            var left_data;
+            var right_data;
+            var left_option;
+            var right_option;
+            var left_bar = echarts.init(document.getElementById('left_bar'));
+            var right_bar = echarts.init(document.getElementById('right_bar'));
             $.ajax({
                 type:'GET',
                 data:{'mydata':flag},
@@ -536,12 +543,41 @@
                     document.getElementById("R2").value=res["R2"];
                     document.getElementById("T").value=res["T"];
                     document.getElementById("stime").value=res["stime"];
+                    left_data = res["left_data"]
+                    right_data = res["right_data"]
+                    left_option = {
+                        tooltip: {},
+
+                        xAxis: {
+                            data: []
+                        },
+                        yAxis: {},
+                        series: [{
+                            name: 'euclidian difference',
+                            type: 'bar',
+                            data: left_data
+                        }]
+                    };
+                    right_option = {
+                        tooltip: {},
+                        legend: {
+                            data:['euclidian difference']
+                        },
+                        xAxis: {
+                            data: []
+                        },
+                        yAxis: {},
+                        series: [{
+                            name: 'euclidian difference',
+                            type: 'bar',
+                            data: right_data
+                        }]
+                    };
+                    left_bar.setOption(left_option);
+                    right_bar.setOption(right_option);
                 }
             })
-            var left_bar = echarts.init(document.getElementById('left_bar'));
-            var right_bar = echarts.init(document.getElementById('right_bar'));
             //option以json的形式传输到前端
-            var option = res["option"]
         }
     </script>
     <script>
