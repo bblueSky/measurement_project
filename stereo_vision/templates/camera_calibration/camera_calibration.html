@@ -138,10 +138,7 @@
                         <div>
                             <table border="1" style="color:black">
                                 <tr>
-                                    <td><div id="left_bar" style="width:200px;height:130px"><img src="/static/res_pictures/temp/noPoint.png" style="width:200px;height:130px"></div></td>
-                                </tr>
-                                <tr>
-                                    <td><div id="right_bar" style="width:200px;height:130px"><img src="/static/res_pictures/temp/noPoint.png" style="width:200px;height:130px"></div></td>
+                                    <td><div id="bar" style="width:200px;height:260px"><img src="/static/res_pictures/temp/nobar.png" style="width:200px;height:260px"></div></td>
                                 </tr>
                             </table>
                         </div>
@@ -505,10 +502,8 @@
             document.getElementById("stereoCalibration").setAttribute("disabled",true);
             var left_data;
             var right_data;
-            var left_option;
-            var right_option;
-            var left_bar = echarts.init(document.getElementById('left_bar'));
-            var right_bar = echarts.init(document.getElementById('right_bar'));
+            var option;
+            var bar = echarts.init(document.getElementById('bar'));
             $.ajax({
                 type:'GET',
                 data:{'mydata':flag},
@@ -545,36 +540,27 @@
                     document.getElementById("stime").value=res["stime"];
                     left_data = res["left_data"]
                     right_data = res["right_data"]
-                    left_option = {
-                        tooltip: {},
-
-                        xAxis: {
-                            data: []
-                        },
-                        yAxis: {},
-                        series: [{
-                            name: 'euclidian difference',
-                            type: 'bar',
-                            data: left_data
-                        }]
-                    };
-                    right_option = {
+                    option = {
                         tooltip: {},
                         legend: {
-                            data:['euclidian difference']
+                            data:['Left Camera','Right Camera']
                         },
                         xAxis: {
                             data: []
                         },
                         yAxis: {},
                         series: [{
-                            name: 'euclidian difference',
+                            name: 'Left Camera',
+                            type: 'bar',
+                            data: left_data
+                        },
+                        {
+                            name: 'Right Camera',
                             type: 'bar',
                             data: right_data
                         }]
                     };
-                    left_bar.setOption(left_option);
-                    right_bar.setOption(right_option);
+                    bar.setOption(option);
                 }
             })
             //option以json的形式传输到前端
