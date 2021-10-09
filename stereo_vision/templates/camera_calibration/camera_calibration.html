@@ -698,6 +698,7 @@
         var material1 = new THREE.MeshLambertMaterial({color: 0xF4A460}); //材质对象Material
         var material2 = new THREE.MeshLambertMaterial({color: 0xf8f8f8}); //材质对象Material
         var mesh1 = new THREE.Mesh(geometry1, material1); //网格模型对象Mesh
+        mesh1.name = "1";
         var mesh2 = new THREE.Mesh(geometry2, material1); //网格模型对象Mesh
         var meshg = new THREE.Mesh(ground, material2);
         meshg.position.y = -50;

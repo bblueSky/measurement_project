@@ -69,11 +69,12 @@ def sig_calibration(flag,camera_):
     以下是为了评估标定效果
     """
     tot_error = 0
+    error_list = list()
     for num in range(len(objpoints)):
         imgpoints2, _ = cv2.projectPoints(objpoints[num], rvecs[num], tvecs[num], mtx, dist)
         error = cv2.norm(imgpoints[num], imgpoints2, cv2.NORM_L2) / len(imgpoints2)  ##评估公式,使用欧几里的距离进行评估
         tot_error += error  ##评估积累
-
+        error_list.append(error)
     ##if 'leftCamera' in source_dir_path:
         ##camera_file_name = find_camera_calibration_file(source_dir_path) + 'leftCamera'
         ##print(camera_file_name)
@@ -154,7 +155,7 @@ def sig_calibration(flag,camera_):
     result.append(t_error)
     print('compute_distance_path:', single_calibration_fs_test.getNode('compute_distance_path').string())
     print('corner_img_dir:', single_calibration_fs_test.getNode('corner_img_dir').string())
-
+    result.append(error_list)
 
 
     print(result)

@@ -259,12 +259,12 @@ def  stereo_calibration():
     res["T"] = results[3]
     res["stime"] = results[4]
 
-    left_data = [50, 200, 360, 100, 100, 200]
+    # left_data = [50, 200, 360, 100, 100, 200]
 
-    right_data = [5, 20, 36, 10, 10, 20]
+    # right_data = [5, 20, 36, 10, 10, 20]
 
-    res["left_data"] = left_data
-    res["right_data"] = right_data
+    res["left_data"] = resultl[6]
+    res["right_data"] = resultr[6]
 
     return res
 

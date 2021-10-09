@@ -255,6 +255,7 @@
     <script src="/static/js/echarts.min.js"></script>
     <script src="/static/js/three.js"></script>
     <script src="/static/js/OrbitControls.js"></script>
+    <script src="/static/js/STLLoader.js"></script>
     <script>
         var myChart1 = echarts.init(document.getElementById("theChart1"));
 
@@ -282,23 +283,33 @@
         myChart1.setOption(option1);
     </script>
     <script>
+        var loader = new THREE.STLLoader();
         /**
         * 创建场景对象Scene
         */
         var scene = new THREE.Scene();
         var axes = new THREE.AxisHelper(200);
         var geometry1 = new THREE.BoxGeometry(30, 30, 2); //基准板B
-        var geometry2 = new THREE.CylinderGeometry(40,40,600);
+        loader.load("/static/model/4.STL", function (geometry2) {
+            //创建纹理
+            var material2 = new THREE.MeshLambertMaterial({color: 0x1C86EE});
+            var mesh2 = new THREE.Mesh(geometry2,material2 );
+            //mesh2.rotation.x = -0.5 * Math.PI; //将模型摆正
+            //mesh2.scale.set(0.1, 0.1, 0.1); //缩放
+            geometry2.center(); //居中显示
+            scene.add(mesh2);
+        });
+        //var geometry2 = new THREE.CylinderGeometry(40,40,600);
         var geometry3 = new THREE.BoxGeometry(30, 30, 2); //基准板A
         var ground = new THREE.BoxGeometry(300, 5, 600); //创建一个立方体几何对象Geometry
         var material1 = new THREE.MeshLambertMaterial({color: 0xF4A460}); //材质对象Material
-        var material2 = new THREE.MeshLambertMaterial({color: 0x1C86EE}); //材质对象Material
+        //var material2 = new THREE.MeshLambertMaterial({color: 0x1C86EE}); //材质对象Material
         var materialg = new THREE.MeshLambertMaterial({color: 0xf8f8f8}); //材质对象Material
         var mesh1 = new THREE.Mesh(geometry1, material1); //网格模型对象Mesh
         var mesh3 = new THREE.Mesh(geometry3, material1); //网格模型对象Mesh
-        var mesh2 = new THREE.Mesh(geometry2, material2); //网格模型对象Mesh
-        mesh2.rotateX(Math.PI/2);
-        mesh2.position.y = 20;
+        //var mesh2 = new THREE.Mesh(geometry2, material2); //网格模型对象Mesh
+        //mesh2.rotateX(Math.PI/2);
+        //mesh2.position.y = 20;
         mesh1.position.z = 280;
         mesh3.position.z = -280;
         mesh1.position.x = 60;
@@ -306,10 +317,10 @@
         var meshg = new THREE.Mesh(ground, materialg);
         meshg.position.y = -50;
         scene.add(axes);
-        scene.add(mesh1); //网格模型添加到场景中
-        scene.add(mesh2);
-        scene.add(mesh3);
-        scene.add(meshg);
+        //scene.add(mesh1); //网格模型添加到场景中
+        //scene.add(mesh2);
+        //scene.add(mesh3);
+        //scene.add(meshg);
         /**
         * 光源设置
         */
