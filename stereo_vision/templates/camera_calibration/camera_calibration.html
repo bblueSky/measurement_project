@@ -695,13 +695,15 @@
         */
         var scene = new THREE.Scene();
         var axes = new THREE.AxisHelper(200);
+        axes.position.set(0,-12,-100)//x,y,z,红,绿,蓝
+        axes.rotateZ(Math.PI);
         loader.load("/static/model/standardPadAndSupport_A.stl", function (geometry1) {
             //基准板组A
             var material1 = new THREE.MeshLambertMaterial({color: 0xEE0000});
             var mesh1 = new THREE.Mesh(geometry1,material1);
             mesh1.rotation.x = -0.5 * Math.PI;
             mesh1.rotation.z = -0.5 * Math.PI;
-            mesh1.position.set(0,0,-40);
+            mesh1.position.set(0,-12,-100);
             mesh1.scale.set(0.1, 0.1, 0.1); //缩放
             scene.add(mesh1);
         });
@@ -711,13 +713,14 @@
             var mesh2 = new THREE.Mesh(geometry2,material2);
             mesh2.rotation.x = -0.5 * Math.PI;
             mesh2.rotation.z = 0.5 * Math.PI;
-            mesh2.position.set(0,0,40);
+            mesh2.position.set(0,-12,100);
             mesh2.scale.set(0.1, 0.1, 0.1); //缩放
             scene.add(mesh2);
         });
         loader.load("/static/model/laserTracker.stl", function (geometry3) {
             //激光跟踪仪
             var material3 = new THREE.MeshLambertMaterial({color: 0xA6A6A6});
+            //var material3 = new THREE.MeshBasicMaterial( { envMap: THREE.ImageUtils.loadTexture("/static/picture/nihe.jpg")}) ;
             var mesh3 = new THREE.Mesh(geometry3,material3);
             mesh3.rotation.x = -0.5 * Math.PI;
             mesh3.rotation.z = 0.5 * Math.PI;
@@ -725,14 +728,41 @@
             mesh3.scale.set(0.1, 0.1, 0.1); //缩放
             scene.add(mesh3);
         });
+        loader.load("/static/model/camera.stl", function (geometry4) {
+            //双目相机A
+            var material4 = new THREE.MeshLambertMaterial({color: 0xEE0000});
+            var mesh4 = new THREE.Mesh(geometry4,material4);
+            mesh4.rotation.x = -0.5 * Math.PI;
+            mesh4.rotation.z = Math.PI;
+            mesh4.position.set(-80,-40,-240);
+            mesh4.scale.set(0.1, 0.1, 0.1); //缩放
+            scene.add(mesh4);
+        });
+        loader.load("/static/model/camera.stl", function (geometry5) {
+            //双目相机B
+            var material5 = new THREE.MeshLambertMaterial({color: 0xEE0000});
+            var mesh5 = new THREE.Mesh(geometry5,material5);
+            mesh5.name = "mesh5";
+            mesh5.rotation.x = -0.5 * Math.PI;
+            mesh5.position.set(-80,-40,240);
+            mesh5.scale.set(0.1, 0.1, 0.1); //缩放
+            scene.add(mesh5);
+        });
 
-        var ground = new THREE.BoxGeometry(300, 5, 600);
-            //地面
-        var materialg = new THREE.MeshLambertMaterial({color: 0xf8f8f8}); //材质对象Material
-        var meshg = new THREE.Mesh(ground, materialg);
-        meshg.position.y = -100;
+
+        loadert = new THREE.TextureLoader();
         scene.add(axes);
-        scene.add(meshg);
+        loadert.load('/static/picture/img11.jpg',function (texture) {
+            //加载地面地标贴图
+            var materialg = new THREE.MeshLambertMaterial({
+                map: texture // 将材质的map属性设置为加载的图片
+            });
+            var ground = new THREE.BoxGeometry(600, 5, 600);
+            var meshg = new THREE.Mesh(ground, materialg);  // 创建这个mesh对象
+            meshg.position.y = -100;
+            meshg.position.x = -150;
+            scene.add(meshg);
+        });
         /**
         * 光源设置
         */
@@ -759,7 +789,7 @@
         /**
         * 创建渲染器对象
         */
-        var renderer = new THREE.WebGLRenderer();
+        var renderer = new THREE.WebGLRenderer({antialias:true});
         renderer.setSize(width, height);//设置渲染区域尺寸
         renderer.setClearColor(0xCAE1FF, 1); //设置背景颜色
         container = document.getElementById("targetBallCoordinates");
@@ -890,7 +920,7 @@
         /**
         * 创建渲染器对象
         */
-        var renderer2 = new THREE.WebGLRenderer();
+        var renderer2 = new THREE.WebGLRenderer({antialias:true});
         renderer2.setSize(width, height);//设置渲染区域尺寸
         renderer2.setClearColor(0xCAE1FF, 1); //设置背景颜色
         container2 = document.getElementById("pad");
