@@ -690,6 +690,7 @@
     <script src="/static/js/STLLoader.js"></script>
     <script>
         var loader = new THREE.STLLoader();
+        var loadert = new THREE.TextureLoader();
         /**
         * 创建场景对象Scene
         */
@@ -699,7 +700,7 @@
         axes.rotateZ(Math.PI);
         loader.load("/static/model/standardPadAndSupport_A.stl", function (geometry1) {
             //基准板组A
-            var material1 = new THREE.MeshLambertMaterial({color: 0xEE0000});
+            var material1 = new THREE.MeshLambertMaterial({color: 0xCCCCCC});
             var mesh1 = new THREE.Mesh(geometry1,material1);
             mesh1.rotation.x = -0.5 * Math.PI;
             mesh1.rotation.z = -0.5 * Math.PI;
@@ -709,7 +710,7 @@
         });
         loader.load("/static/model/standardPadAndSupport_B.stl", function (geometry2) {
             //基准板组B
-            var material2 = new THREE.MeshLambertMaterial({color: 0xEE0000});
+            var material2 = new THREE.MeshLambertMaterial({color: 0xCCCCCC});
             var mesh2 = new THREE.Mesh(geometry2,material2);
             mesh2.rotation.x = -0.5 * Math.PI;
             mesh2.rotation.z = 0.5 * Math.PI;
@@ -718,19 +719,25 @@
             scene.add(mesh2);
         });
         loader.load("/static/model/laserTracker.stl", function (geometry3) {
-            //激光跟踪仪
-            var material3 = new THREE.MeshLambertMaterial({color: 0xA6A6A6});
-            //var material3 = new THREE.MeshBasicMaterial( { envMap: THREE.ImageUtils.loadTexture("/static/picture/nihe.jpg")}) ;
-            var mesh3 = new THREE.Mesh(geometry3,material3);
-            mesh3.rotation.x = -0.5 * Math.PI;
-            mesh3.rotation.z = 0.5 * Math.PI;
-            mesh3.position.set(140,-100,35);
-            mesh3.scale.set(0.1, 0.1, 0.1); //缩放
-            scene.add(mesh3);
+            //loadert.load('/static/picture/LTcolor3.jpg',function (texture) {
+
+                //var material3 = new THREE.MeshLambertMaterial({
+                    //map: texture // 将材质的map属性设置为加载的图片
+                //});
+                //激光跟踪仪
+                var material3 = new THREE.MeshLambertMaterial({color: 0x8A8A8A});
+
+                var mesh3 = new THREE.Mesh(geometry3,material3);
+                mesh3.rotation.x = -0.5 * Math.PI;
+                mesh3.rotation.z = 0.5 * Math.PI;
+                mesh3.position.set(140,-100,35);
+                mesh3.scale.set(0.1, 0.1, 0.1); //缩放
+                scene.add(mesh3);
+            //});
         });
         loader.load("/static/model/camera.stl", function (geometry4) {
             //双目相机A
-            var material4 = new THREE.MeshLambertMaterial({color: 0xEE0000});
+            var material4 = new THREE.MeshLambertMaterial({color: 0x242424});
             var mesh4 = new THREE.Mesh(geometry4,material4);
             mesh4.rotation.x = -0.5 * Math.PI;
             mesh4.rotation.z = Math.PI;
@@ -740,7 +747,7 @@
         });
         loader.load("/static/model/camera.stl", function (geometry5) {
             //双目相机B
-            var material5 = new THREE.MeshLambertMaterial({color: 0xEE0000});
+            var material5 = new THREE.MeshLambertMaterial({color: 0x242424});
             var mesh5 = new THREE.Mesh(geometry5,material5);
             mesh5.name = "mesh5";
             mesh5.rotation.x = -0.5 * Math.PI;
@@ -748,11 +755,8 @@
             mesh5.scale.set(0.1, 0.1, 0.1); //缩放
             scene.add(mesh5);
         });
-
-
-        loadert = new THREE.TextureLoader();
         scene.add(axes);
-        loadert.load('/static/picture/img11.jpg',function (texture) {
+        loadert.load('/static/picture/ground1.jpg',function (texture) {
             //加载地面地标贴图
             var materialg = new THREE.MeshLambertMaterial({
                 map: texture // 将材质的map属性设置为加载的图片
