@@ -691,122 +691,187 @@
     <script>
         var loader = new THREE.STLLoader();
         var loadert = new THREE.TextureLoader();
-        /**
-        * 创建场景对象Scene
-        */
-        var scene = new THREE.Scene();
-        var axes = new THREE.AxisHelper(200);
-        axes.position.set(0,-12,-100)//x,y,z,红,绿,蓝
-        axes.rotateZ(Math.PI);
-        loader.load("/static/model/standardPadAndSupport_A.stl", function (geometry1) {
-            //基准板组A
-            var material1 = new THREE.MeshLambertMaterial({color: 0xCCCCCC});
-            var mesh1 = new THREE.Mesh(geometry1,material1);
-            mesh1.rotation.x = -0.5 * Math.PI;
-            mesh1.rotation.z = -0.5 * Math.PI;
-            mesh1.position.set(0,-12,-100);
-            mesh1.scale.set(0.1, 0.1, 0.1); //缩放
-            scene.add(mesh1);
-        });
-        loader.load("/static/model/standardPadAndSupport_B.stl", function (geometry2) {
-            //基准板组B
-            var material2 = new THREE.MeshLambertMaterial({color: 0xCCCCCC});
-            var mesh2 = new THREE.Mesh(geometry2,material2);
-            mesh2.rotation.x = -0.5 * Math.PI;
-            mesh2.rotation.z = 0.5 * Math.PI;
-            mesh2.position.set(0,-12,100);
-            mesh2.scale.set(0.1, 0.1, 0.1); //缩放
-            scene.add(mesh2);
-        });
-        loader.load("/static/model/laserTracker.stl", function (geometry3) {
-            //loadert.load('/static/picture/LTcolor3.jpg',function (texture) {
-
-                //var material3 = new THREE.MeshLambertMaterial({
-                    //map: texture // 将材质的map属性设置为加载的图片
-                //});
-                //激光跟踪仪
-                var material3 = new THREE.MeshLambertMaterial({color: 0x8A8A8A});
-
-                var mesh3 = new THREE.Mesh(geometry3,material3);
-                mesh3.rotation.x = -0.5 * Math.PI;
-                mesh3.rotation.z = 0.5 * Math.PI;
-                mesh3.position.set(140,-100,35);
-                mesh3.scale.set(0.1, 0.1, 0.1); //缩放
-                scene.add(mesh3);
-            //});
-        });
-        loader.load("/static/model/camera.stl", function (geometry4) {
-            //双目相机A
-            var material4 = new THREE.MeshLambertMaterial({color: 0x242424});
-            var mesh4 = new THREE.Mesh(geometry4,material4);
-            mesh4.rotation.x = -0.5 * Math.PI;
-            mesh4.rotation.z = Math.PI;
-            mesh4.position.set(-80,-40,-240);
-            mesh4.scale.set(0.1, 0.1, 0.1); //缩放
-            scene.add(mesh4);
-        });
-        loader.load("/static/model/camera.stl", function (geometry5) {
-            //双目相机B
-            var material5 = new THREE.MeshLambertMaterial({color: 0x242424});
-            var mesh5 = new THREE.Mesh(geometry5,material5);
-            mesh5.name = "mesh5";
-            mesh5.rotation.x = -0.5 * Math.PI;
-            mesh5.position.set(-80,-40,240);
-            mesh5.scale.set(0.1, 0.1, 0.1); //缩放
-            scene.add(mesh5);
-        });
-        scene.add(axes);
-        loadert.load('/static/picture/ground1.jpg',function (texture) {
-            //加载地面地标贴图
-            var materialg = new THREE.MeshLambertMaterial({
-                map: texture // 将材质的map属性设置为加载的图片
+        var renderer1, scene1, camera1;
+        var controls1, groupl;
+        var width1; //窗口宽度
+        var height1; //窗口高度
+        init1();
+        animate1();
+        function init1(){
+            scene1 = new THREE.Scene();
+            groupl = new THREE.Group();
+            scene1.add(groupl);
+            var axes = new THREE.AxisHelper(200);
+            axes.position.set(0,-12,-100)//x,y,z,红,绿,蓝
+            axes.rotateZ(Math.PI);
+            loader.load("/static/model/standardPadAndSupport_A.stl", function (geometry1) {
+                //基准板组A
+                var material1 = new THREE.MeshLambertMaterial({color: 0xCCCCCC});
+                var mesh1 = new THREE.Mesh(geometry1,material1);
+                mesh1.rotation.x = -0.5 * Math.PI;
+                mesh1.rotation.z = -0.5 * Math.PI;
+                mesh1.position.set(0,-12,-100);
+                mesh1.scale.set(0.1, 0.1, 0.1); //缩放
+                var group1 = new THREE.Group();
+                group1.add(mesh1);
+                groupl.add(group1);
             });
-            var ground = new THREE.BoxGeometry(600, 5, 600);
-            var meshg = new THREE.Mesh(ground, materialg);  // 创建这个mesh对象
-            meshg.position.y = -100;
-            meshg.position.x = -150;
-            scene.add(meshg);
-        });
-        /**
-        * 光源设置
-        */
-        //点光源
-        var point = new THREE.PointLight(0xffffff);
-        point.position.set(300, 200, 100); //点光源位置
-        scene.add(point); //点光源添加到场景中
-        //环境光
-        var ambient = new THREE.AmbientLight(0x444444);
-        scene.add(ambient);
-        console.log(scene)
-        console.log(scene.children)
-        /**
-        * 相机设置
-        */
-        var width = 375; //窗口宽度
-        var height = 245; //窗口高度
-        var k = width / height; //窗口宽高比
-        var s = 200; //三维场景显示范围控制系数，系数越大，显示的范围越大
-        //创建相机对象
-        var camera = new THREE.OrthographicCamera(-s * k, s * k, s, -s, 1, 1000);
-        camera.position.set(200, 200, 200); //设置相机位置
-        camera.lookAt(scene.position); //设置相机方向(指向的场景对象)
-        /**
-        * 创建渲染器对象
-        */
-        var renderer = new THREE.WebGLRenderer({antialias:true});
-        renderer.setSize(width, height);//设置渲染区域尺寸
-        renderer.setClearColor(0xCAE1FF, 1); //设置背景颜色
-        container = document.getElementById("targetBallCoordinates");
-        container.appendChild(renderer.domElement); //body元素中插入canvas对象
-        //执行渲染操作   指定场景、相机作为参数
-        function render(){
-            renderer.render(scene, camera);
+            loader.load("/static/model/standardPadAndSupport_B.stl", function (geometry2) {
+                //基准板组B
+                var material2 = new THREE.MeshLambertMaterial({color: 0xCCCCCC});
+                var mesh2 = new THREE.Mesh(geometry2,material2);
+                mesh2.rotation.x = -0.5 * Math.PI;
+                mesh2.rotation.z = 0.5 * Math.PI;
+                mesh2.position.set(0,-12,100);
+                mesh2.scale.set(0.1, 0.1, 0.1); //缩放
+                var group2 = new THREE.Group();
+                group2.add(mesh2);
+                groupl.add(group2);
+            });
+            loader.load("/static/model/laserTracker.stl", function (geometry3) {
+                //loadert.load('/static/picture/LTcolor3.jpg',function (texture) {
+
+                    //var material3 = new THREE.MeshLambertMaterial({
+                        //map: texture // 将材质的map属性设置为加载的图片
+                    //});
+                    //激光跟踪仪
+                    var material3 = new THREE.MeshLambertMaterial({color: 0x8A8A8A});
+
+                    var mesh3 = new THREE.Mesh(geometry3,material3);
+                    mesh3.rotation.x = -0.5 * Math.PI;
+                    mesh3.rotation.z = 0.5 * Math.PI;
+                    mesh3.position.set(140,-100,35);
+                    mesh3.scale.set(0.1, 0.1, 0.1); //缩放
+                    var group3 = new THREE.Group();
+                    group3.add(mesh3);
+                    groupl.add(group3);
+                //});
+            });
+            loader.load("/static/model/camera.stl", function (geometry4) {
+                //双目相机A
+                var material4 = new THREE.MeshLambertMaterial({color: 0x242424});
+                var mesh4 = new THREE.Mesh(geometry4,material4);
+                mesh4.rotation.x = -0.5 * Math.PI;
+                mesh4.rotation.z = Math.PI;
+                mesh4.position.set(-80,-40,-240);
+                mesh4.scale.set(0.1, 0.1, 0.1); //缩放
+                var group4 = new THREE.Group();
+                group4.add(mesh4);
+                groupl.add(group4);
+            });
+            loader.load("/static/model/camera.stl", function (geometry5) {
+                //双目相机B
+                var material5 = new THREE.MeshLambertMaterial({color: 0x242424});
+                var mesh5 = new THREE.Mesh(geometry5,material5);
+                mesh5.name = "mesh5";
+                mesh5.rotation.x = -0.5 * Math.PI;
+                mesh5.position.set(-80,-40,240);
+                mesh5.scale.set(0.1, 0.1, 0.1); //缩放
+                var group5 = new THREE.Group();
+                group5.add(mesh5);
+                groupl.add(group5);
+            });
+            scene1.add(axes);
+            loadert.load('/static/picture/ground1.jpg',function (texture) {
+                //加载地面地标贴图
+                var materialg = new THREE.MeshLambertMaterial({
+                    map: texture // 将材质的map属性设置为加载的图片
+                });
+                var ground = new THREE.BoxGeometry(600, 5, 600);
+                var meshg = new THREE.Mesh(ground, materialg);  // 创建这个mesh对象
+                meshg.position.y = -100;
+                meshg.position.x = -150;
+                var groupg = new THREE.Group();
+                groupg.add(meshg);
+                groupl.add(groupg);
+            });
+            /**
+            * 光源设置
+            */
+            //点光源
+            var point = new THREE.PointLight(0xffffff);
+            point.position.set(300, 200, 100); //点光源位置
+            scene1.add(point); //点光源添加到场景中
+            //环境光
+            var ambient = new THREE.AmbientLight(0x444444);
+            scene1.add(ambient);
+            console.log(scene1)
+            console.log(scene1.children)
+            /**
+            * 相机设置
+            */
+            width1 = 375; //窗口宽度
+            height1 = 245; //窗口高度
+            var k = width1 / height1; //窗口宽高比
+            var s = 200; //三维场景显示范围控制系数，系数越大，显示的范围越大
+            //创建相机对象
+            camera1 = new THREE.OrthographicCamera(-s * k, s * k, s, -s, 1, 1000);
+            camera1.position.set(200, 200, 200); //设置相机位置
+            camera1.lookAt(scene1.position); //设置相机方向(指向的场景对象)
+            /**
+            * 创建渲染器对象
+            */
+            renderer1 = new THREE.WebGLRenderer({antialias:true});
+            renderer1.setSize(width1, height1);//设置渲染区域尺寸
+            renderer1.setClearColor(0xCAE1FF, 1); //设置背景颜色
+            var container = document.getElementById("targetBallCoordinates");
+            container.appendChild(renderer1.domElement); //body元素中插入canvas对象
+            render1();
+            controls1 = new THREE.OrbitControls(camera1,renderer1.domElement);//创建控件对象
+            controls1.addEventListener('change', render1);//监听鼠标、键盘事件
+            window.addEventListener('resize', onWindowResize, false);
+            window.addEventListener("mousemove", onDocumentMouseMove, false );
         }
-        render();
-        var controls = new THREE.OrbitControls(camera,renderer.domElement);//创建控件对象
-        controls.addEventListener('change', render);//监听鼠标、键盘事件
+        //执行渲染操作   指定场景、相机作为参数
+        function render1(){
+            renderer1.render(scene1, camera1);
+        }
+        function animate1() {
+            renderer1.render( scene1, camera1 );
+            requestAnimationFrame( animate1 );
+        }
+        function onWindowResize() {
+            camera1.aspect = width1 / height1;
+            camera1.updateProjectionMatrix();
+            renderer1.setSize( width1, height1 );
+        }
+        var selectedObject = null;
+        function onDocumentMouseMove(event) {
+
+            event.preventDefault();
+            if ( selectedObject ) {
+                //selectedObject.material.color.set('#FFFFFF');
+                selectedObject.material.color.b = selectedObject.material.color.b-0.5;
+                selectedObject.material.color.g = selectedObject.material.color.g-0.5;
+                selectedObject.material.color.r = selectedObject.material.color.r-0.5;
+                selectedObject = null;
+            }
+            var intersects = getIntersects(event.layerX,event.layerY );
+            if ( intersects.length > 0 &&selectedObject!=intersects[0].object) {
+                var res = intersects.filter( function ( res ) {
+                    return res && res.object;
+                } )[0];
+                if ( res && res.object ) {
+                    selectedObject = res.object;
+                    selectedObject.material.color.b = selectedObject.material.color.b+0.5;
+                    selectedObject.material.color.g = selectedObject.material.color.g+0.5;
+                    selectedObject.material.color.r = selectedObject.material.color.r+0.5;
+                    //selectedObject.material.color.set('#00FFFF');
+                }
+            }
+        }
+        var raycaster = new THREE.Raycaster();
+        var mouseVector = new THREE.Vector3();
+        function getIntersects( x, y ) {
+            x = ( x / width1 ) * 2 - 1;
+            y = - ( y / height1 ) * 2 + 1;
+            mouseVector.set( x, y, 0.5 );
+            raycaster.setFromCamera( mouseVector, camera1 );
+            return raycaster.intersectObject(groupl,true);
+        }
     </script>
     <script>
+
         /**
         * 创建场景对象Scene
         */
@@ -927,7 +992,7 @@
         var renderer2 = new THREE.WebGLRenderer({antialias:true});
         renderer2.setSize(width, height);//设置渲染区域尺寸
         renderer2.setClearColor(0xCAE1FF, 1); //设置背景颜色
-        container2 = document.getElementById("pad");
+        var container2 = document.getElementById("pad");
         container2.appendChild(renderer2.domElement); //body元素中插入canvas对象
         //执行渲染操作   指定场景、相机作为参数
         function render2(){
