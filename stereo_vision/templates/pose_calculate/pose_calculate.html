@@ -126,10 +126,11 @@
                         </div>
                         <div style="width:20px"></div>
                         <div style="width:15px"></div>
-                        <div id="history1" style="width:540px;border:2px solid #1255a2">
+                        <div id="history1" style="width:200px;border:2px solid #1255a2">
                             <!--这里放条件文本-->
                         </div>
-                        <div id="history2" style="width:540px;border:2px solid #1255a2">
+                        <div style="width:30px;"></div>
+                        <div id="history2" style="width:320px;border:2px solid #1255a2">
                             <!--这里放条件文本-->
                         </div>
                         <div style="width:20px"></div>
@@ -567,6 +568,138 @@
             mouseVector.set( x, y, 0.5 );
             raycaster.setFromCamera( mouseVector, camera );
             return raycaster.intersectObject(group,true);
+        }
+    </script>
+    <script>
+        var rendererl, scenel, cameral;
+        var controlsl, groupl;
+        var widthl; //窗口宽度
+        var heightl; //窗口高度
+        initl();
+        animatel();
+        function initl(){
+            scenel = new THREE.Scene();
+            groupl = new THREE.Group();
+            scenel.add(groupl);
+            var axes = new THREE.AxisHelper(200);
+            axes.position.set(0,-12,-100)//x,y,z,红,绿,蓝
+            axes.rotateZ(Math.PI);
+            //加载模型
+            loader.load("/static/model/flange1.stl", function (geometry1) {
+                //基准板组A
+                var material1 = new THREE.MeshLambertMaterial({color: 0x1C86EE});
+                var mesh1 = new THREE.Mesh(geometry1,material1);
+                mesh1.rotation.x = -0.5 * Math.PI;
+                mesh1.rotation.z = -0.5 * Math.PI;
+                mesh1.position.set(0,-12,-100);
+                mesh1.scale.set(0.1, 0.1, 0.1); //缩放
+                var group1 = new THREE.Group();
+                group1.add(mesh1);
+                groupl.add(group1);
+            });
+            scenel.add(axes);
+            var point = new THREE.PointLight(0xffffff);
+            point.position.set(0, 0, 100); //点光源位置
+            scenel.add(point); //点光源添加到场景中
+            //环境光
+            var ambient = new THREE.AmbientLight(0x444444);
+            scenel.add(ambient);
+            console.log(scenel)
+            console.log(scenel.children)
+            /**
+            * 相机设置
+            */
+            widthl = 196; //窗口宽度
+            heightl = 201; //窗口高度
+            var k = widthl / heightl; //窗口宽高比
+            var s = 70; //三维场景显示范围控制系数，系数越大，显示的范围越大
+            //创建相机对象
+            cameral = new THREE.OrthographicCamera(-s * k, s * k, s, -s, 1, 1000);
+            cameral.position.set(0,0,10); //设置相机位置
+            cameral.lookAt(scenel.position); //设置相机方向(指向的场景对象)
+            /**
+            * 创建渲染器对象
+            */
+            rendererl = new THREE.WebGLRenderer({antialias:true});
+            rendererl.setSize(widthl, heightl);//设置渲染区域尺寸
+            rendererl.setClearColor(0xCAE1FF, 1); //设置背景颜色
+            var container = document.getElementById("history1");
+            container.appendChild(rendererl.domElement); //body元素中插入canvas对象
+            //执行渲染操作   指定场景、相机作为参数
+            renderl();
+        }
+        function renderl(){
+            rendererl.render(scenel, cameral);
+        }
+        function animatel() {
+            rendererl.render( scenel, cameral );
+            requestAnimationFrame( animatel );
+        }
+    </script>
+    <script>
+        var rendererr, scener, camerar;
+        var controlsr, groupr;
+        var widthr; //窗口宽度
+        var heightr; //窗口高度
+        initr();
+        animater();
+        function initr(){
+            scener = new THREE.Scene();
+            groupr = new THREE.Group();
+            scener.add(groupr);
+            var axes = new THREE.AxisHelper(200);
+            axes.position.set(0,-12,-100)//x,y,z,红,绿,蓝
+            axes.rotateZ(Math.PI);
+            //加载模型
+            loader.load("/static/model/shortTube.stl", function (geometry1) {
+                //基准板组A
+                var material1 = new THREE.MeshLambertMaterial({color: 0x1C86EE});
+                var mesh1 = new THREE.Mesh(geometry1,material1);
+                mesh1.rotation.x = -0.5 * Math.PI;
+                mesh1.rotation.z = -0.5 * Math.PI;
+                mesh1.position.set(0,-12,-100);
+                mesh1.scale.set(0.1, 0.1, 0.1); //缩放
+                var group1 = new THREE.Group();
+                group1.add(mesh1);
+                groupr.add(group1);
+            });
+            scener.add(axes);
+            var point = new THREE.PointLight(0xffffff);
+            point.position.set(0, 100, 100); //点光源位置
+            scener.add(point); //点光源添加到场景中
+            //环境光
+            var ambient = new THREE.AmbientLight(0x444444);
+            scener.add(ambient);
+            console.log(scener)
+            console.log(scener.children)
+            /**
+            * 相机设置
+            */
+            widthr = 316; //窗口宽度
+            heightr = 201; //窗口高度
+            var k = widthr / heightr; //窗口宽高比
+            var s = 70; //三维场景显示范围控制系数，系数越大，显示的范围越大
+            //创建相机对象
+            camerar = new THREE.OrthographicCamera(-s * k, s * k, s, -s, 1, 1000);
+            camerar.position.set(100,0,0); //设置相机位置
+            camerar.lookAt(scener.position); //设置相机方向(指向的场景对象)
+            /**
+            * 创建渲染器对象
+            */
+            rendererr = new THREE.WebGLRenderer({antialias:true});
+            rendererr.setSize(widthr, heightr);//设置渲染区域尺寸
+            rendererr.setClearColor(0xCAE1FF, 1); //设置背景颜色
+            var container = document.getElementById("history2");
+            container.appendChild(rendererr.domElement); //body元素中插入canvas对象
+            //执行渲染操作   指定场景、相机作为参数
+            renderr();
+        }
+        function renderr(){
+            rendererr.render(scener, camerar);
+        }
+        function animater() {
+            rendererr.render( scener, camerar );
+            requestAnimationFrame( animater );
         }
     </script>
     {% endblock %}
