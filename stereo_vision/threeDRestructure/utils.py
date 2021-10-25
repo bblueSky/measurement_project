@@ -197,12 +197,11 @@ def  compute_point_distance(pts,A,B,C):  ##计算点到直线的距离
 
 
 # 函数的作用:left_point在right_points里面的最匹配点,设置了阈值，
-def  min_distance_pnt(right_points,left_point,F,distance_init=math.inf):
+def  min_distance_pnt(right_points,left_point,F):
 
-
+    distance_init = math.inf
     obj_point = None
     index = 0
-    yon = False
     for  i , item in enumerate(right_points):
         pts3 = [0,0]
         pts3[0] = left_point[0]
@@ -216,23 +215,20 @@ def  min_distance_pnt(right_points,left_point,F,distance_init=math.inf):
         distance = compute_point_distance(pts, A, B, C)
 
         if distance < distance_init:
-            yon = True
-            distance_init = distance
-            obj_point = item
-            index = i
 
-    if yon:
-        return  index,obj_point
-    return yon
+           distance_init = distance
+           obj_point = item
+           index = i
+    return  index,obj_point
 
 ## 此函数的输出格式也需要修改
-def  creat_point_pairs(right_points,left_points,F):
-     all_pairs = []
-     for left_point in  left_points:
-        index,right_point =  min_distance_pnt(right_points, left_point,F,distance_init=20) ##找出对应当前左点的最佳右！！！这里要改！！
+def creat_point_pairs(right_points, left_points, F):
+    all_pairs = []
+    for left_point in left_points:
+        index, right_point = min_distance_pnt(right_points, left_point, F)  ##找出对应当前左点的最佳右点
         # todo 查看right_point数据格式
         print(len(right_points))
-        if len(right_points)<=0:
+        if len(right_points) <= 0:
             break
         right_points.pop(index)
         # pair['left_point'] = left_point
@@ -243,11 +239,13 @@ def  creat_point_pairs(right_points,left_points,F):
         left_y = left_point[1]
         right_x = right_point[0]
         right_y = right_point[1]
-        radius = (left_point[2]+right_point[2])//2
-        score = (left_point[3]+right_point[3])//2
-        all_pairs.append([[left_x,left_y],[right_x,right_y],radius,score])
-     print("=====")
-     return all_pairs
+        radius = (left_point[2] + right_point[2]) // 2
+        score = (left_point[3] + right_point[3]) // 2
+        all_pairs.append([[left_x, left_y], [right_x, right_y], radius, score])
+    print("=====")
+    return all_pairs
+
+
 
 # 修改后把匹配好的左右点存入points_info.xml
 def save_pairs_file(epoch_name,pairs,end='A',hot="hole"):
