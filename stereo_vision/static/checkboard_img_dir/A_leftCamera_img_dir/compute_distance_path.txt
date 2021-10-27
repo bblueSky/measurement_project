@@ -1,1 +1,0 @@
-/home/cx/PycharmProjects/stereo_vision/stereo_vision/compute_distance/calibresult.png

@@ -13,8 +13,8 @@ def sig_calibration(flag,camera_):
     result = list()
     source_dir_path = os.path.dirname(os.path.realpath(__file__)).replace("cameraCalibration","static/checkboard_img_dir/"+flag+"_"+camera_+"Camera_img_dir/")
     starttime = time.time()
-    cbrow = 9
-    cbcol = 13    #纵横角点
+    cbrow = 8     #纵横角点 283的是8
+    cbcol = 11    #纵横角点 283的是11
     objp = np.zeros((cbrow * cbcol, 3), np.float32)
     criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 200, 0.0001)  ##迭代50次或者精度达到0.001
     objp[:, :2] = np.mgrid[0:cbrow, 0:cbcol].T.reshape(-1, 2)  ##mgrid处理后尺寸2x9x13（二次元组x9x13），转置后为二次元组x13x9,整体相当于13x9x2顺序数填入objp
@@ -52,7 +52,7 @@ def sig_calibration(flag,camera_):
     new_ojbs = objpoints
 
     for i,obj in enumerate(objpoints):
-        new_ojbs[i] = objpoints[i]*40    ##这里改尺寸
+        new_ojbs[i] = objpoints[i]*60    ##这里改尺寸 283是60
 
 
 
@@ -178,8 +178,8 @@ def stereo_Calibration(flag):
     criteria_stereo = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 200, 0.0001)
     # Prepare object points
     # todo  修改点的数量
-    cbrow = 9
-    cbcol = 13  # 纵横角点
+    cbrow = 8
+    cbcol = 11  # 纵横角点
     objp = np.zeros((cbcol * cbrow, 3), np.float32)  ##
     objp[:, :2] = np.mgrid[0:cbcol, 0:cbrow].T.reshape(-1, 2)
 
@@ -251,9 +251,9 @@ def stereo_Calibration(flag):
     new_objsl = objpoints_l
     new_objsr = objpoints_r
     for i, obj in enumerate(objpoints_l):
-        new_objsl[i] = new_objsl[i] * 40    ##这里调节棋盘格的尺寸
+        new_objsl[i] = new_objsl[i] * 60    ##这里调节棋盘格的尺寸
     for i, obj in enumerate(objpoints_r):
-        new_objsr[i] = new_objsr[i] * 40    ##这里调节棋盘格的尺寸
+        new_objsr[i] = new_objsr[i] * 60    ##这里调节棋盘格的尺寸
 
     ret, mtx_l, dist_l, rvecs, tvecs = cv2.calibrateCamera(new_objsl, imgpoints_l,
                                                            gray_l.shape[::-1], None,

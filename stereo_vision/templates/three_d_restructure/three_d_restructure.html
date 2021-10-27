@@ -328,6 +328,52 @@
         }
         function Constraint(){
             var flag = $("#selectLog").find("option:selected").text();
+            var AHX = new Array(20);
+            var AHY = new Array(20);
+            var AHZ = new Array(20);
+<!--            var AH0X,AH0Y,AH0Z;-->
+<!--            var AH1X,AH1Y,AH1Z;-->
+<!--            var AH2X,AH2Y,AH2Z;-->
+<!--            var AH3X,AH3Y,AH3Z;-->
+<!--            var AH4X,AH4Y,AH4Z;-->
+<!--            var AH5X,AH5Y,AH5Z;-->
+<!--            var AH6X,AH6Y,AH6Z;-->
+<!--            var AH7X,AH7Y,AH7Z;-->
+<!--            var AH8X,AH8Y,AH8Z;-->
+<!--            var AH9X,AH9Y,AH9Z;-->
+<!--            var AH10X,AH10Y,AH10Z;-->
+<!--            var AH11X,AH11Y,AH11Z;-->
+<!--            var AH12X,AH12Y,AH12Z;-->
+<!--            var AH13X,AH13Y,AH13Z;-->
+<!--            var AH14X,AH14Y,AH14Z;-->
+<!--            var AH15X,AH15Y,AH15Z;-->
+<!--            var AH16X,AH16Y,AH16Z;-->
+<!--            var AH17X,AH17Y,AH17Z;-->
+<!--            var AH18X,AH18Y,AH18Z;-->
+<!--            var AH19X,AH19Y,AH19Z;-->
+
+<!--            var BH0X,BH0Y,BH0Z;-->
+<!--            var BH1X,BH1Y,BH1Z;-->
+<!--            var BH2X,BH2Y,BH2Z;-->
+<!--            var BH3X,BH3Y,BH3Z;-->
+<!--            var BH4X,BH4Y,BH4Z;-->
+<!--            var BH5X,BH5Y,BH5Z;-->
+<!--            var BH6X,BH6Y,BH6Z;-->
+<!--            var BH7X,BH7Y,BH7Z;-->
+<!--            var BH8X,BH8Y,BH8Z;-->
+<!--            var BH9X,BH9Y,BH9Z;-->
+<!--            var BH10X,BH10Y,BH10Z;-->
+<!--            var BH11X,BH11Y,BH11Z;-->
+<!--            var BH12X,BH12Y,BH12Z;-->
+<!--            var BH13X,BH13Y,BH13Z;-->
+<!--            var BH14X,BH14Y,BH14Z;-->
+<!--            var BH15X,BH15Y,BH15Z;-->
+<!--            var BH16X,BH16Y,BH16Z;-->
+<!--            var BH17X,BH17Y,BH17Z;-->
+<!--            var BH18X,BH18Y,BH18Z;-->
+<!--            var BH19X,BH19Y,BH19Z;-->
+
+
             $.ajax({
                 type:'GET',
                 data:{'flag':flag},
@@ -335,8 +381,15 @@
                 dataType: 'json',
                 success:function(res){
                     alert('成功！');
+
                     for(var i=0;i<20;i++){
+                        if(i>=res["AH"].length){
+                            break;
+                        }
                         document.getElementById("AH"+i).value = res["AH"][i];
+                        AHX[i] = res["AH"][i][0];
+                        AHY[i] = res["AH"][i][1];
+                        AHZ[i] = res["AH"][i][2];
                     }
                     for(var i=0;i<4;i++){
                         document.getElementById("AT"+i).value = res["AT"][i];
@@ -352,7 +405,13 @@
                     alert('失败！')
                 }
             })
+            console.log(AHX);
+            console.log(AHY);
+            console.log(AHZ);
         }
+    </script>
+    <script>
+
     </script>
     <script>
         /**
@@ -361,7 +420,8 @@
         var scene = new THREE.Scene();
         var axes = new THREE.AxisHelper(200);
         var geometry1 = new THREE.BoxGeometry(30, 30, 2); //创建一个立方体几何对象Geometry
-        var geometry2 = new THREE.CylinderGeometry(40,40,20);
+        var geometry2 = new THREE.SphereGeometry(5,100,100);
+
         var ground = new THREE.BoxGeometry(300, 5, 600); //创建一个立方体几何对象Geometry
         var material1 = new THREE.MeshLambertMaterial({color: 0xF4A460}); //材质对象Material
         var material2 = new THREE.MeshLambertMaterial({color: 0x1C86EE}); //材质对象Material
@@ -425,7 +485,7 @@
         var scene2 = new THREE.Scene();
         var axes2 = new THREE.AxisHelper(200);
         var geometry3 = new THREE.BoxGeometry(30, 30, 2); //创建一个立方体几何对象Geometry
-        var geometry4 = new THREE.CylinderGeometry(40,40,20);
+        var geometry4 = new THREE.SphereGeometry(5,100,100);
         var ground2 = new THREE.BoxGeometry(300, 5, 600); //创建一个立方体几何对象Geometry
         var material3 = new THREE.MeshLambertMaterial({color: 0xF4A460}); //材质对象Material
         var material4 = new THREE.MeshLambertMaterial({color: 0x1C86EE}); //材质对象Material
