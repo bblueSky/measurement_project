@@ -549,12 +549,10 @@
                             break;
                         }
                         document.getElementById("AH"+i).value = res["AH"][i];
-                        AHX[i] = res["AH"][i][0];
-                        AHY[i] = res["AH"][i][1];
-                        AHZ[i] = res["AH"][i][2];
+
                     }
                     loader.load("/static/model/target.stl", function (geometry1) {
-                        //APOs
+                        //A端的视觉靶标
                         for(var i=0;i<4;i++){
                             document.getElementById("AT"+i).value = res["AT"][i];
                             console.log(res["AT"][i]);
@@ -566,7 +564,7 @@
                             mesh1.scale.set(0.1, 0.1, 0.1); //缩放
                             var group1 = new THREE.Group();
                             group1.add(mesh1);
-                            group.add(group1);
+                            groupl.add(group1);
                         }
                     });
                     for(var i=0;i<20;i++){
@@ -574,28 +572,24 @@
                             break;
                         }
                         document.getElementById("BH"+i).value = res["BH"][i];
-                        BHX[i] = res["BH"][i][0];
-                        BHY[i] = res["BH"][i][1];
-                        BHZ[i] = res["BH"][i][2];
+
                     }
-                    for(var i=0;i<4;i++){
-                        document.getElementById("BT"+i).value = res["BT"][i];
-                        BTX[i] = res["BT"][i][0];
-                        BTY[i] = res["BT"][i][1];
-                        BTZ[i] = res["BT"][i][2];
-                    }
-<!--                    loader.load("/static/model/target.stl", function (geometry1) {-->
-<!--                        //APOs-->
-<!--                        var material1 = new THREE.MeshLambertMaterial({color: 0xCCCCCC});-->
-<!--                        var mesh1 = new THREE.Mesh(geometry1,material1);-->
-<!--                        //mesh1.rotation.x = -0.5 * Math.PI;-->
-<!--                        //mesh1.rotation.z = -0.5 * Math.PI;-->
-<!--                        mesh1.position.set(res["AT"][0][0]*0.1,res["AT"][0][1]*0.1,res["AT"][0][2]*0.1);-->
-<!--                        mesh1.scale.set(0.1, 0.1, 0.1); //缩放-->
-<!--                        var group1 = new THREE.Group();-->
-<!--                        group1.add(mesh1);-->
-<!--                        group.add(group1);-->
-<!--                    });-->
+                    loader.load("/static/model/target.stl", function (geometry1) {
+                        //A端的视觉靶标
+                        for(var i=0;i<4;i++){
+                            document.getElementById("BT"+i).value = res["BT"][i];
+                            console.log(res["BT"][i]);
+                            var material1 = new THREE.MeshLambertMaterial({color: 0xCCCCCC});
+                            var mesh1 = new THREE.Mesh(geometry1,material1);
+                            //mesh1.rotation.x = -0.5 * Math.PI;
+                            //mesh1.rotation.z = -0.5 * Math.PI;
+                            mesh1.position.set(res["BT"][i][0]*0.1,res["BT"][i][1]*0.1,res["BT"][i][2]*0.1);
+                            mesh1.scale.set(0.1, 0.1, 0.1); //缩放
+                            var group1 = new THREE.Group();
+                            group1.add(mesh1);
+                            groupr.add(group1);
+                        }
+                    });
                 },
                 error: function (res) {
                     alert('失败！')
