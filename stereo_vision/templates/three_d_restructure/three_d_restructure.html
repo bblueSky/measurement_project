@@ -549,7 +549,13 @@
                             break;
                         }
                         document.getElementById("AH"+i).value = res["AH"][i];
-
+                        var geometry1 = new THREE.SphereGeometry(4, 20, 20);
+                        var material1 = new THREE.MeshLambertMaterial({color: 0xCCCCCC});
+                        var mesh1 = new THREE.Mesh(geometry1,material1);
+                        mesh1.position.set(res["AH"][i][0]*0.1,res["AH"][i][1]*0.1,res["AH"][i][2]*0.1);
+                        var group1 = new THREE.Group();
+                        group1.add(mesh1);
+                        groupl.add(group1);
                     }
                     loader.load("/static/model/target.stl", function (geometry1) {
                         //A端的视觉靶标
@@ -572,7 +578,13 @@
                             break;
                         }
                         document.getElementById("BH"+i).value = res["BH"][i];
-
+                        var geometry1 = new THREE.SphereGeometry(4, 20, 20);
+                        var material1 = new THREE.MeshLambertMaterial({color: 0xCCCCCC});
+                        var mesh1 = new THREE.Mesh(geometry1,material1);
+                        mesh1.position.set(res["BH"][i][0]*0.1,res["BH"][i][1]*0.1,res["BH"][i][2]*0.1);
+                        var group1 = new THREE.Group();
+                        group1.add(mesh1);
+                        groupr.add(group1);
                     }
                     loader.load("/static/model/target.stl", function (geometry1) {
                         //A端的视觉靶标

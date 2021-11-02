@@ -221,7 +221,7 @@ def  min_distance_pnt(right_points,left_point,F):
            index = i
     return  index,obj_point
 
-## 此函数的输出格式也需要修改
+## 类比此函数的功能，写出另外两个，这个不用了
 def creat_point_pairs(right_points, left_points, F):
     all_pairs = []
     for left_point in left_points:
@@ -244,6 +244,24 @@ def creat_point_pairs(right_points, left_points, F):
         all_pairs.append([[left_x, left_y], [right_x, right_y], radius, score])
     print("=====")
     return all_pairs
+
+def creat_target_pairs():
+    ##返回all_pairs列表
+    pass
+
+
+
+
+
+
+def creat_hole_pairs():
+    ##返回all_pairs列表
+    pass
+
+
+
+
+
 
 
 
@@ -503,10 +521,17 @@ def   get_epoch_pairs_points(epoch_name): ##主要函数1
     """
 
     AL_holes, AR_holes, BL_holes, BR_holes, AL_targets, AR_targets, BL_targets, BR_targets = read_feature_file1(epoch_name) ##涉及函数2
+
+    ##这里做一下适应性修改，因为标定问题，对极约束并不是很好用，留作选用函数，改用适用于筒端一周的角度排序匹配法
+    ##定义两函数：1、creat_target_pairs 2、creat_hole_pairs
+    ##首先是利用粗略位置关系的creat_target_pairs，拿到二维图片中插在筒端上的视觉靶标
+    ##其次是利用向量关系求解角度并排序的creat_hole_pairs,最终完成跟之前一样格式的匹配结果
+
     A_holes_pairs = creat_point_pairs(AR_holes, AL_holes, F_A) ##涉及函数3
     B_holes_pairs = creat_point_pairs(BR_holes, BL_holes, F_B)
     A_targets_pairs = creat_point_pairs(AR_targets, AL_targets, F_A)
     B_targets_pairs = creat_point_pairs(BR_targets, BL_targets, F_B)
+
     print('A_holes_all_pairs：',A_holes_pairs)
     print('B_holes_all_pairs：', B_holes_pairs)
     print('A_targets_all_pairs：', A_targets_pairs)
