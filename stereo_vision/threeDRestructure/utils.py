@@ -350,7 +350,21 @@ def creat_target_pairs(right_points,left_points):
 
 
 
-
+def GetClockAngle(v1, v2):  ##求v2到v1顺时针旋转角度
+    # print(v1)
+    # print(v2)
+    # 2个向量模的乘积
+    TheNorm = np.linalg.norm(v1)*np.linalg.norm(v2)
+    # 叉乘
+    rho =  np.rad2deg(np.arcsin(np.cross(v1, v2)/TheNorm))
+    # print(rho)
+    # 点乘
+    theta = np.rad2deg(np.arccos(np.dot(v1,v2)/TheNorm))
+    # print(theta)
+    if rho < 0:
+        return 360 - theta
+    else:
+        return theta
 
 
 def creat_hole_pairs(right_points,left_points,leftp4,rightp4):
@@ -358,10 +372,10 @@ def creat_hole_pairs(right_points,left_points,leftp4,rightp4):
     all_pairs = list()
     l_x,l_y,r_x,r_y = np.zeros(len(left_points)+1),np.zeros(len(left_points)+1),np.zeros(len(right_points)+1),np.zeros(len(right_points)+1)
     for i in range(len(left_points)):
-        l_x[i] = left_points[0]
-        l_y[i] = left_points[1]
-        r_x[i] = right_points[0]
-        r_y[i] = right_points[1]
+        l_x[i] = left_points[i][0]
+        l_y[i] = left_points[i][1]
+        r_x[i] = right_points[i][0]
+        r_y[i] = right_points[i][1]
     l_x[len(left_points)] = leftp4[0]
     l_y[len(left_points)] = leftp4[1]
     r_x[len(right_points)] = rightp4[0]
@@ -371,8 +385,18 @@ def creat_hole_pairs(right_points,left_points,leftp4,rightp4):
     left_angle_list = list()
     right_angle_list = list()
     ##定义了夹角列表，先把夹角求出来后得出排序索引
-
-
+    lfir_vactor = [leftp4[0] - l_xc , leftp4[1]-l_yc]
+    rfir_vactor = [rightp4[0] - r_xc , rightp4[1] - r_yc]
+    for i in range(len(left_points)):
+        left_angle_list.append(GetClockAngle(np.squeeze(np.asarray([left_points[i][0] - l_xc , left_points[i][1] - l_yc])),np.squeeze(np.asarray(lfir_vactor))))
+        right_angle_list.append(GetClockAngle(np.squeeze(np.asarray([right_points[i][0] - r_xc, right_points[i][1] - r_yc])),np.squeeze(np.asarray(rfir_vactor))))
+    leftsortlist = np.argsort(left_angle_list)
+    rightsortlist = np.argsort(right_angle_list)
+    for i in range(len(left_points)):
+        leftindex = leftsortlist[i]
+        rightindex = rightsortlist[i]
+        all_pairs.append([[left_points[leftindex][0],left_points[leftindex][1]],[right_points[rightindex][0],right_points[rightindex][1]],(left_points[leftindex][2]+right_points[rightindex][2])//2,(left_points[leftindex][3]+right_points[rightindex][3])//2])
+    return all_pairs
 
 
 
@@ -646,8 +670,8 @@ def   get_epoch_pairs_points(epoch_name): ##主要函数1
     ##target匹配已经改完
 
 
-    A_holes_pairs = creat_point_pairs(AR_holes, AL_holes, F_A)  ##涉及函数3
-    B_holes_pairs = creat_point_pairs(BR_holes, BL_holes, F_B)
+    A_holes_pairs = creat_hole_pairs(AR_holes, AL_holes, AleftTargetPoint,ArightTargetPoint)  ##涉及函数3
+    B_holes_pairs = creat_hole_pairs(BR_holes, BL_holes, BleftTargetPoint,BrightTargetPoint)
 
 
 
