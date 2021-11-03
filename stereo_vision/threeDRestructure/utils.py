@@ -245,18 +245,117 @@ def creat_point_pairs(right_points, left_points, F):
     print("=====")
     return all_pairs
 
-def creat_target_pairs():
+
+def findOHW(p1,p2,p3,p4):
+    ##先选出横坐标接近的两个点，最终认为p1是PO、p2是PH、p3是PW、p4是筒上靶标
+    ##比较顺序： p1->p2\p3\p4 p2->p3\p4 p3->p4
+    dis_array = [0]*6
+    dis_array[0] = abs(p1[0] - p2[0])
+    dis_array[1] = abs(p1[0] - p3[0])
+    dis_array[2] = abs(p1[0] - p4[0])
+    dis_array[3] = abs(p2[0] - p3[0])
+    dis_array[4] = abs(p2[0] - p4[0])
+    dis_array[5] = abs(p3[0] - p4[0])
+    minnum = dis_array[0]
+    minindex = 0
+    for i in range(6):
+        if dis_array[i]<=minnum:
+            minnum = dis_array[i]
+            minindex = i
+    if minindex==0:
+        ##p1\p2
+        if p1[1]<p2[1]:
+            _p = p2
+            p2 = p3
+            p3 = _p
+        else:
+            _p = p1
+            p1 = p2
+            p2 = p3
+            p3 = _p
+    elif minindex==1:
+        ##p1\p3
+        if p1[1]<p3[1]:
+            p1 = p1
+        else:
+            _p = p1
+            p1 = p3
+            p3 = _p
+    elif minindex==2:
+        ##p1\p4
+        if p1[1]<p4[1]:
+            _p = p4
+            p4 = p3
+            p3 = _p
+        else:
+            _p = p1
+            p1 = p4
+            p4 = p3
+            p3 = _p
+    elif minindex==3:
+        ##p2\p3
+        if p2[1]<p3[1]:
+            _p = p2
+            p2 = p1
+            p1 = _p
+        else:
+            _p = p1
+            p1 = p3
+            p3 = p2
+            p2 = _p
+    elif minindex==4:
+        ##p2\p4
+        if p2[1]<p4[1]:
+            _p = p1
+            p1 = p2
+            p2 = _p
+            _p = p4
+            p4 = p3
+            p3 = _p
+        else:
+            _p = p1
+            p1 = p4
+            p4 = _p
+            _p = p2
+            p2 = p3
+            p3 = _p
+    else:
+        ##p3\p4
+        if p3[1]<p4[1]:
+            _p = p1
+            p1 = p3
+            p3 = p4
+            p4 = _p
+        else:
+            _p = p1
+            p1 = p4
+            p4 = _p
+    ##此时p1、p3已经确定
+    if abs(p2[0]-p1[0])>abs(p4[0]-p1[0]):
+        _p = p2
+        p2 = p4
+        p4 = _p
+    return p1,p2,p3,p4
+
+
+def creat_target_pairs(right_points,left_points):
+    ##left_points和right_points的结构都为[x,y,radius,score]且必然为四个
     ##返回all_pairs列表
-    pass
+    all_pairs = list()
+    left_points[0],left_points[1],left_points[2],left_points[3] = findOHW(left_points[0],left_points[1],left_points[2],left_points[3])
+    right_points[0],right_points[1],right_points[2],right_points[3] = findOHW(right_points[0],right_points[1],right_points[2],right_points[3])
+    for i in range(4):
+        all_pairs.append([[left_points[i][0],left_points[i][1]],[right_points[i][0],right_points[i][1]],(left_points[i][2]+right_points[i][2])//2,(left_points[i][3]+right_points[i][3])//2])
+    return all_pairs,left_points[3],right_points[3]
 
 
 
 
 
 
-def creat_hole_pairs():
+def creat_hole_pairs(right_points,left_points,leftp4,rightp4):
     ##返回all_pairs列表
-    pass
+    all_pairs = list()
 
 
 
@@ -527,10 +626,16 @@ def   get_epoch_pairs_points(epoch_name): ##主要函数1
     ##首先是利用粗略位置关系的creat_target_pairs，拿到二维图片中插在筒端上的视觉靶标
     ##其次是利用向量关系求解角度并排序的creat_hole_pairs,最终完成跟之前一样格式的匹配结果
 
-    A_holes_pairs = creat_point_pairs(AR_holes, AL_holes, F_A) ##涉及函数3
+
+    A_targets_pairs,AleftTargetPoint,ArightTargetPoint = creat_target_pairs(AR_targets, AL_targets)
+    B_targets_pairs,BleftTargetPoint,BrightTargetPoint = creat_target_pairs(BR_targets, BL_targets)
+    ##target匹配已经改完
+
+
+    A_holes_pairs = creat_point_pairs(AR_holes, AL_holes, F_A)  ##涉及函数3
     B_holes_pairs = creat_point_pairs(BR_holes, BL_holes, F_B)
-    A_targets_pairs = creat_point_pairs(AR_targets, AL_targets, F_A)
-    B_targets_pairs = creat_point_pairs(BR_targets, BL_targets, F_B)
+
+
 
     print('A_holes_all_pairs：',A_holes_pairs)
     print('B_holes_all_pairs：', B_holes_pairs)
