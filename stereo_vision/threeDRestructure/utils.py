@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import math
 from xml.dom import minidom
-
+from stereo_vision.prioriImport.utils import fitCircle
 
 
 def  point_undistort(point,flag,end='A'):
@@ -356,7 +356,21 @@ def creat_target_pairs(right_points,left_points):
 def creat_hole_pairs(right_points,left_points,leftp4,rightp4):
     ##返回all_pairs列表
     all_pairs = list()
-
+    l_x,l_y,r_x,r_y = np.zeros(len(left_points)+1),np.zeros(len(left_points)+1),np.zeros(len(right_points)+1),np.zeros(len(right_points)+1)
+    for i in range(len(left_points)):
+        l_x[i] = left_points[0]
+        l_y[i] = left_points[1]
+        r_x[i] = right_points[0]
+        r_y[i] = right_points[1]
+    l_x[len(left_points)] = leftp4[0]
+    l_y[len(left_points)] = leftp4[1]
+    r_x[len(right_points)] = rightp4[0]
+    r_y[len(right_points)] = rightp4[1]
+    l_xc, l_yc, l_R, l_residu = fitCircle(l_x, l_y)
+    r_xc, r_yc, r_R, r_residu = fitCircle(r_x, r_y)
+    left_angle_list = list()
+    right_angle_list = list()
+    ##定义了夹角列表，先把夹角求出来后得出排序索引
 
 
 
