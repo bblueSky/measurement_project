@@ -366,7 +366,7 @@
             widthl = 770; //窗口宽度
             heightl = 400; //窗口高度
             var k = widthl / heightl; //窗口宽高比
-            var s = 300; //三维场景显示范围控制系数，系数越大，显示的范围越大
+            var s = 100; //三维场景显示范围控制系数，系数越大，显示的范围越大
             //创建相机对象
             cameral = new THREE.OrthographicCamera(-s * k, s * k, s, -s, 1, 1000);
             cameral.position.set(300, 300, 300); //设置相机位置
@@ -398,39 +398,39 @@
             cameral.updateProjectionMatrix();
             rendererl.setSize( widthl, heightl );
         }
-        var selectedObject = null;
+        var selectedObjectl = null;
         function onDocumentMouseMovel(event) {
 
             event.preventDefault();
-            if ( selectedObject ) {
+            if ( selectedObjectl ) {
                 //selectedObject.material.color.set('#FFFFFF');
-                selectedObject.material.color.b = selectedObject.material.color.b-0.5;
-                selectedObject.material.color.g = selectedObject.material.color.g-0.5;
-                selectedObject.material.color.r = selectedObject.material.color.r-0.5;
-                selectedObject = null;
+                selectedObjectl.material.color.b = selectedObjectl.material.color.b-0.5;
+                selectedObjectl.material.color.g = selectedObjectl.material.color.g-0.5;
+                selectedObjectl.material.color.r = selectedObjectl.material.color.r-0.5;
+                selectedObjectl = null;
             }
             var intersects = getIntersectsl(event.layerX,event.layerY );
-            if ( intersects.length > 0 &&selectedObject!=intersects[0].object) {
+            if ( intersects.length > 0 &&selectedObjectl!=intersects[0].object) {
                 var res = intersects.filter( function ( res ) {
                     return res && res.object;
                 } )[0];
                 if ( res && res.object ) {
-                    selectedObject = res.object;
-                    selectedObject.material.color.b = selectedObject.material.color.b+0.5;
-                    selectedObject.material.color.g = selectedObject.material.color.g+0.5;
-                    selectedObject.material.color.r = selectedObject.material.color.r+0.5;
-                    //selectedObject.material.color.set('#00FFFF');
+                    selectedObjectl = res.object;
+                    selectedObjectl.material.color.b = selectedObjectl.material.color.b+0.5;
+                    selectedObjectl.material.color.g = selectedObjectl.material.color.g+0.5;
+                    selectedObjectl.material.color.r = selectedObjectl.material.color.r+0.5;
+                    //selectedObjectl.material.color.set('#00FFFF');
                 }
             }
         }
-        var raycaster = new THREE.Raycaster();
-        var mouseVector = new THREE.Vector3();
+        var raycasterl = new THREE.Raycaster();
+        var mouseVectorl = new THREE.Vector3();
         function getIntersectsl( x, y ) {
             x = ( x / widthl ) * 2 - 1;
             y = - ( y / heightl ) * 2 + 1;
-            mouseVector.set( x, y, 0.5 );
-            raycaster.setFromCamera( mouseVector, cameral );
-            return raycaster.intersectObject(groupl,true);
+            mouseVectorl.set( x, y, 0.5 );
+            raycasterl.setFromCamera( mouseVectorl, cameral );
+            return raycasterl.intersectObject(groupl,true);
         }
     </script>
     <script>
@@ -466,7 +466,7 @@
             widthr = 770; //窗口宽度
             heightr = 400; //窗口高度
             var k = widthr / heightr; //窗口宽高比
-            var s = 300; //三维场景显示范围控制系数，系数越大，显示的范围越大
+            var s = 200; //三维场景显示范围控制系数，系数越大，显示的范围越大
             //创建相机对象
             camerar = new THREE.OrthographicCamera(-s * k, s * k, s, -s, 1, 1000);
             camerar.position.set(300, 300, 300); //设置相机位置
@@ -498,39 +498,39 @@
             camerar.updateProjectionMatrix();
             rendererr.setSize( widthr, heightr );
         }
-        var selectedObject = null;
+        var selectedObjectr = null;
         function onDocumentMouseMover(event) {
 
             event.preventDefault();
-            if ( selectedObject ) {
-                //selectedObject.material.color.set('#FFFFFF');
-                selectedObject.material.color.b = selectedObject.material.color.b-0.5;
-                selectedObject.material.color.g = selectedObject.material.color.g-0.5;
-                selectedObject.material.color.r = selectedObject.material.color.r-0.5;
-                selectedObject = null;
+            if ( selectedObjectr ) {
+                //selectedObjectr.material.color.set('#FFFFFF');
+                selectedObjectr.material.color.b = selectedObjectr.material.color.b-0.5;
+                selectedObjectr.material.color.g = selectedObjectr.material.color.g-0.5;
+                selectedObjectr.material.color.r = selectedObjectr.material.color.r-0.5;
+                selectedObjectr = null;
             }
-            var intersects = getIntersectsl(event.layerX,event.layerY );
-            if ( intersects.length > 0 &&selectedObject!=intersects[0].object) {
+            var intersects = getIntersectsr(event.layerX,event.layerY );
+            if ( intersects.length > 0 &&selectedObjectr!=intersects[0].object) {
                 var res = intersects.filter( function ( res ) {
                     return res && res.object;
                 } )[0];
                 if ( res && res.object ) {
-                    selectedObject = res.object;
-                    selectedObject.material.color.b = selectedObject.material.color.b+0.5;
-                    selectedObject.material.color.g = selectedObject.material.color.g+0.5;
-                    selectedObject.material.color.r = selectedObject.material.color.r+0.5;
-                    //selectedObject.material.color.set('#00FFFF');
+                    selectedObjectr = res.object;
+                    selectedObjectr.material.color.b = selectedObjectr.material.color.b+0.5;
+                    selectedObjectr.material.color.g = selectedObjectr.material.color.g+0.5;
+                    selectedObjectr.material.color.r = selectedObjectr.material.color.r+0.5;
+                    //selectedObjectr.material.color.set('#00FFFF');
                 }
             }
         }
-        var raycaster = new THREE.Raycaster();
-        var mouseVector = new THREE.Vector3();
+        var raycasterr = new THREE.Raycaster();
+        var mouseVectorr = new THREE.Vector3();
         function getIntersectsr( x, y ) {
             x = ( x / widthr ) * 2 - 1;
             y = - ( y / heightr ) * 2 + 1;
-            mouseVector.set( x, y, 0.5 );
-            raycaster.setFromCamera( mouseVector, camerar );
-            return raycaster.intersectObject(groupr,true);
+            mouseVectorr.set( x, y, 0.5 );
+            raycasterr.setFromCamera( mouseVectorr, camerar );
+            return raycasterr.intersectObject(groupr,true);
         }
     </script>
     <script>
@@ -549,10 +549,10 @@
                             break;
                         }
                         document.getElementById("AH"+i).value = res["AH"][i];
-                        var geometry1 = new THREE.SphereGeometry(4, 20, 20);
-                        var material1 = new THREE.MeshLambertMaterial({color: 0xCCCCCC});
+                        var geometry1 = new THREE.SphereGeometry(2, 20, 20);
+                        var material1 = new THREE.MeshLambertMaterial({color: 0x1C86EE});
                         var mesh1 = new THREE.Mesh(geometry1,material1);
-                        mesh1.position.set(res["AH"][i][0]*0.1,res["AH"][i][1]*0.1,res["AH"][i][2]*0.1);
+                        mesh1.position.set(res["AH"][i][0]*0.1,res["AH"][i][1]*-0.1,res["AH"][i][2]*0.1);
                         var group1 = new THREE.Group();
                         group1.add(mesh1);
                         groupl.add(group1);
@@ -566,8 +566,8 @@
                             var mesh1 = new THREE.Mesh(geometry1,material1);
                             //mesh1.rotation.x = -0.5 * Math.PI;
                             //mesh1.rotation.z = -0.5 * Math.PI;
-                            mesh1.position.set(res["AT"][i][0]*0.1,res["AT"][i][1]*0.1,res["AT"][i][2]*0.1);
-                            mesh1.scale.set(0.1, 0.1, 0.1); //缩放
+                            mesh1.position.set(res["AT"][i][0]*0.1,res["AT"][i][1]*-0.1,res["AT"][i][2]*0.1);
+                            mesh1.scale.set(0.2, 0.2, 0.2); //缩放
                             var group1 = new THREE.Group();
                             group1.add(mesh1);
                             groupl.add(group1);
@@ -578,16 +578,16 @@
                             break;
                         }
                         document.getElementById("BH"+i).value = res["BH"][i];
-                        var geometry1 = new THREE.SphereGeometry(4, 20, 20);
-                        var material1 = new THREE.MeshLambertMaterial({color: 0xCCCCCC});
+                        var geometry1 = new THREE.SphereGeometry(2, 20, 20);
+                        var material1 = new THREE.MeshLambertMaterial({color: 0x1C86EE});
                         var mesh1 = new THREE.Mesh(geometry1,material1);
-                        mesh1.position.set(res["BH"][i][0]*0.1,res["BH"][i][1]*0.1,res["BH"][i][2]*0.1);
+                        mesh1.position.set(res["BH"][i][0]*0.1,res["BH"][i][1]*-0.1,res["BH"][i][2]*0.1);
                         var group1 = new THREE.Group();
                         group1.add(mesh1);
                         groupr.add(group1);
                     }
                     loader.load("/static/model/target.stl", function (geometry1) {
-                        //A端的视觉靶标
+                        //B端的视觉靶标
                         for(var i=0;i<4;i++){
                             document.getElementById("BT"+i).value = res["BT"][i];
                             console.log(res["BT"][i]);
@@ -595,8 +595,8 @@
                             var mesh1 = new THREE.Mesh(geometry1,material1);
                             //mesh1.rotation.x = -0.5 * Math.PI;
                             //mesh1.rotation.z = -0.5 * Math.PI;
-                            mesh1.position.set(res["BT"][i][0]*0.1,res["BT"][i][1]*0.1,res["BT"][i][2]*0.1);
-                            mesh1.scale.set(0.1, 0.1, 0.1); //缩放
+                            mesh1.position.set(res["BT"][i][0]*0.1,res["BT"][i][1]*-0.1,res["BT"][i][2]*0.1);
+                            mesh1.scale.set(0.2, 0.2, 0.2); //缩放
                             var group1 = new THREE.Group();
                             group1.add(mesh1);
                             groupr.add(group1);
