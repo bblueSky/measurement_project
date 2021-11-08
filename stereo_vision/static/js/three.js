@@ -3982,7 +3982,6 @@
 		}
 
 	}
-
 	class Matrix4 {
 		constructor() {
 			this.elements = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
@@ -36250,5 +36249,4 @@
 	exports.sRGBEncoding = sRGBEncoding;
 
 	Object.defineProperty(exports, '__esModule', { value: true });
-
 })));

@@ -1,10 +1,10 @@
-import {
-	Matrix4,
-	Object3D,
-	Vector3
-} from '../../../build/three.module.js';
+//import {
+//	Matrix4,
+//	Object3D,
+//	Vector3
+//} from "/static/js/three.module.js";
 
-class CSS2DObject extends Object3D {
+class CSS2DObject extends THREE.Object3D {
 
 	constructor( element = document.createElement( 'div' ) ) {
 
@@ -49,11 +49,11 @@ CSS2DObject.prototype.isCSS2DObject = true;
 
 //
 
-const _vector = new Vector3();
-const _viewMatrix = new Matrix4();
-const _viewProjectionMatrix = new Matrix4();
-const _a = new Vector3();
-const _b = new Vector3();
+const _vector = new THREE.Vector3();
+const _viewMatrix = new THREE.Matrix4();
+const _viewProjectionMatrix = new THREE.Matrix4();
+const _a = new THREE.Vector3();
+const _b = new THREE.Vector3();
 
 class CSS2DRenderer {
 
