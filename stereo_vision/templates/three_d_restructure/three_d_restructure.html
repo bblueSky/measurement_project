@@ -434,27 +434,6 @@
             raycasterl.setFromCamera( mouseVectorl, cameral );
             return raycasterl.intersectObject(groupl,true);
         }
-
-
-
-        //尺寸试验模型
-        var geometry1 = new THREE.SphereGeometry(2, 20, 20);
-        var material1 = new THREE.MeshLambertMaterial({color: 0x1C86EE});
-        var mesh1 = new THREE.Mesh(geometry1,material1);
-        mesh1.position.set(0,0,0);
-        const holeDiv = document.createElement("div");
-        holeDiv.className = "className";
-        holeDiv.textContent = "三维坐标:("+111.111+","+111.111+","+111.111+")";
-        holeDiv.style.marginTop = '0em';
-        holeDiv.style.font_size = "5px"
-        const holeLabel = new THREE.CSS2DObject(holeDiv);
-        holeLabel.position.set(0,-100,0);
-        mesh1.add(holeLabel);
-        var group1 = new THREE.Group();
-        group1.add(mesh1);
-        groupl.add(group1);
-
-
     </script>
     <script>
         var rendererr, scener, camerar;
@@ -576,13 +555,26 @@
                         var material1 = new THREE.MeshLambertMaterial({color: 0x1C86EE});
                         var mesh1 = new THREE.Mesh(geometry1,material1);
                         mesh1.position.set(res["AH"][i][0]*0.1,res["AH"][i][1]*-0.1,res["AH"][i][2]*0.1);
-                        const holeDiv = document.createElement("div");
-                        holeDiv.className = "className";
-                        holeDiv.textContent = "三维坐标:("+res["AH"][i][0]+","+res["AH"][i][1]+","+res["AH"][i][2]+")";
-                        holeDiv.style.marginTop = '-1em';
-                        const holeLabel = new THREE.CSS2DObject(holeDiv);
-                        holeLabel.position.set(0,2,0);
-                        mesh1.add(holeLabel);
+                        var holeDiv1 = document.createElement("div1");
+                        var holeDiv2 = document.createElement("div2");
+                        holeDiv1.className = "class";
+                        holeDiv2.className = "coordinate";
+                        holeDiv1.textContent = "法兰通孔";
+                        holeDiv2.textContent = res["AH"][i][0]+","+res["AH"][i][1]+","+res["AH"][i][2];
+                        holeDiv1.style.fontSize = "5px";
+                        holeDiv2.style.fontSize = "5px";
+                        holeDiv1.style.fontWeight = "bold";
+                        holeDiv2.style.fontWeight = "bold";
+                        holeDiv1.style.color = "blue";
+                        holeDiv2.style.color = "purple";
+                        //holeDiv1.style.backgroundColor = "blue";
+                        //holeDiv2.style.backgroundColor = "purple";
+                        var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                        var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                        holeLabel1.position.set(0,0,0);
+                        holeLabel2.position.set(0,-5,0);
+                        mesh1.add(holeLabel1);
+                        mesh1.add(holeLabel2);
                         var group1 = new THREE.Group();
                         group1.add(mesh1);
                         groupl.add(group1);
