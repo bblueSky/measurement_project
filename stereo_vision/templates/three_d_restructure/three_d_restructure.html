@@ -264,7 +264,7 @@
     <script src="/static/js/three.js"></script>
     <script src="/static/js/OrbitControls.js"></script>
     <script src="/static/js/STLLoader.js"></script>
-    <script src="/static/js/CSS2DRenderer.js" type="module"></script>
+    <script src="/static/js/CSS2DRenderer.js"></script>
     <script>
         function updateList2() {
             $("#selectLog").html("");
@@ -335,7 +335,7 @@
     <script>
         var loader = new THREE.STLLoader();
         var loadert = new THREE.TextureLoader();
-        var rendererl, scenel, cameral;
+        var rendererl, scenel, cameral, labelRendererl;
         var controlsl, groupl;
         var widthl; //窗口宽度
         var heightl; //窗口高度
@@ -380,24 +380,25 @@
             rendererl.setClearColor(0xCAE1FF, 1); //设置背景颜色
             var container = document.getElementById("ACylinder");
             container.appendChild(rendererl.domElement); //body元素中插入canvas对象
-            //执行渲染操作   指定场景、相机作为参数
-            renderl();
-            controlsl = new THREE.OrbitControls(cameral,rendererl.domElement);//创建控件对象
-            controlsl.addEventListener('change', renderl);//监听鼠标、键盘事件
+            labelRendererl = new THREE.CSS2DRenderer();
+            labelRendererl.setSize(widthl, heightl);
+            labelRendererl.domElement.style.position = 'absolute';
+            labelRendererl.domElement.style.top = '0px';
+            container.appendChild(labelRendererl.domElement);
+            controlsl = new THREE.OrbitControls(cameral,labelRendererl.domElement);//创建控件对象
             window.addEventListener('resize', onWindowResizel, false);
             window.addEventListener("mousemove", onDocumentMouseMovel, false );
         }
-        function renderl(){
-            rendererl.render(scenel, cameral);
-        }
         function animatel() {
             rendererl.render( scenel, cameral );
+            labelRendererl.render( scenel, cameral );
             requestAnimationFrame( animatel );
         }
         function onWindowResizel() {
             cameral.aspect = widthl / heightl;
             cameral.updateProjectionMatrix();
             rendererl.setSize( widthl, heightl );
+            labelRendererl.setSize( widthl, heightl );
         }
         var selectedObjectl = null;
         function onDocumentMouseMovel(event) {
@@ -433,6 +434,27 @@
             raycasterl.setFromCamera( mouseVectorl, cameral );
             return raycasterl.intersectObject(groupl,true);
         }
+
+
+
+        //尺寸试验模型
+        var geometry1 = new THREE.SphereGeometry(2, 20, 20);
+        var material1 = new THREE.MeshLambertMaterial({color: 0x1C86EE});
+        var mesh1 = new THREE.Mesh(geometry1,material1);
+        mesh1.position.set(0,0,0);
+        const holeDiv = document.createElement("div");
+        holeDiv.className = "className";
+        holeDiv.textContent = "三维坐标:("+111.111+","+111.111+","+111.111+")";
+        holeDiv.style.marginTop = '0em';
+        holeDiv.style.font_size = "5px"
+        const holeLabel = new THREE.CSS2DObject(holeDiv);
+        holeLabel.position.set(0,-100,0);
+        mesh1.add(holeLabel);
+        var group1 = new THREE.Group();
+        group1.add(mesh1);
+        groupl.add(group1);
+
+
     </script>
     <script>
         var rendererr, scener, camerar;
@@ -534,9 +556,6 @@
             return raycasterr.intersectObject(groupr,true);
         }
     </script>
-    <script type="module">
-        import { CSS2DRenderer, CSS2DObject } from '/static/js/CSS2DRenderer.js';
-    </script>
     <script>
         function Constraint(){
             var flag = $("#selectLog").find("option:selected").text();
@@ -561,7 +580,7 @@
                         holeDiv.className = "className";
                         holeDiv.textContent = "三维坐标:("+res["AH"][i][0]+","+res["AH"][i][1]+","+res["AH"][i][2]+")";
                         holeDiv.style.marginTop = '-1em';
-                        const holeLabel = new CSS2DObject(holeDiv);
+                        const holeLabel = new THREE.CSS2DObject(holeDiv);
                         holeLabel.position.set(0,2,0);
                         mesh1.add(holeLabel);
                         var group1 = new THREE.Group();
