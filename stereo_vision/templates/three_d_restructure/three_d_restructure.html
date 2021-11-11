@@ -370,7 +370,7 @@
             var s = 100; //三维场景显示范围控制系数，系数越大，显示的范围越大
             //创建相机对象
             cameral = new THREE.OrthographicCamera(-s * k, s * k, s, -s, 1, 1000);
-            cameral.position.set(300, 300, 300); //设置相机位置
+            cameral.position.set(100, 100, 800); //设置相机位置
             cameral.lookAt(scenel.position); //设置相机方向(指向的场景对象)
             /**
             * 创建渲染器对象
@@ -383,7 +383,7 @@
             labelRendererl = new THREE.CSS2DRenderer();
             labelRendererl.setSize(widthl, heightl);
             labelRendererl.domElement.style.position = 'absolute';
-            labelRendererl.domElement.style.top = '0px';
+            labelRendererl.domElement.style.top = '20px';
             container.appendChild(labelRendererl.domElement);
             controlsl = new THREE.OrbitControls(cameral,labelRendererl.domElement);//创建控件对象
             window.addEventListener('resize', onWindowResizel, false);
@@ -409,6 +409,8 @@
                 selectedObjectl.material.color.b = selectedObjectl.material.color.b-0.5;
                 selectedObjectl.material.color.g = selectedObjectl.material.color.g-0.5;
                 selectedObjectl.material.color.r = selectedObjectl.material.color.r-0.5;
+                selectedObjectl.children[0].element.innerHTML = "";
+                selectedObjectl.children[1].element.innerHTML = "";
                 selectedObjectl = null;
             }
             var intersects = getIntersectsl(event.layerX,event.layerY );
@@ -421,6 +423,8 @@
                     selectedObjectl.material.color.b = selectedObjectl.material.color.b+0.5;
                     selectedObjectl.material.color.g = selectedObjectl.material.color.g+0.5;
                     selectedObjectl.material.color.r = selectedObjectl.material.color.r+0.5;
+                    selectedObjectl.children[0].element.innerHTML = selectedObjectl.name;
+                    selectedObjectl.children[1].element.innerHTML = "三维坐标：("+10*selectedObjectl.position.x+","+10*selectedObjectl.position.y+","+10*selectedObjectl.position.z+")";
                     //selectedObjectl.material.color.set('#00FFFF');
                 }
             }
@@ -434,6 +438,36 @@
             raycasterl.setFromCamera( mouseVectorl, cameral );
             return raycasterl.intersectObject(groupl,true);
         }
+
+        var geometry1 = new THREE.SphereGeometry(2, 20, 20);
+        var material1 = new THREE.MeshLambertMaterial({color: 0x1C86EE});
+        var mesh1 = new THREE.Mesh(geometry1,material1);
+        mesh1.position.set(0,10,0);
+        mesh1.name = "法兰通孔";
+        var holeDiv1 = document.createElement("div1");
+        var holeDiv2 = document.createElement("div2");
+        holeDiv1.className = "class";
+        holeDiv2.className = "coordinate";
+        holeDiv1.textContent = "";
+        holeDiv2.textContent = "";
+        holeDiv1.style.fontSize = "5px";
+        holeDiv2.style.fontSize = "5px";
+        holeDiv1.style.fontWeight = "bold";
+        holeDiv2.style.fontWeight = "bold";
+        holeDiv1.style.color = "yellow";
+        holeDiv2.style.color = "yellow";
+        holeDiv1.style.backgroundColor = "blue";
+        holeDiv2.style.backgroundColor = "purple";
+        var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+        var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+        holeLabel1.position.set(0,10,0);
+        holeLabel2.position.set(0,-10,0);
+        mesh1.add(holeLabel1);
+        mesh1.add(holeLabel2);
+        var group1 = new THREE.Group();
+        group1.add(mesh1);
+        groupl.add(group1);
+
     </script>
     <script>
         var rendererr, scener, camerar;
@@ -555,24 +589,25 @@
                         var material1 = new THREE.MeshLambertMaterial({color: 0x1C86EE});
                         var mesh1 = new THREE.Mesh(geometry1,material1);
                         mesh1.position.set(res["AH"][i][0]*0.1,res["AH"][i][1]*-0.1,res["AH"][i][2]*0.1);
+                        mesh1.name = "法兰通孔";
                         var holeDiv1 = document.createElement("div1");
                         var holeDiv2 = document.createElement("div2");
                         holeDiv1.className = "class";
                         holeDiv2.className = "coordinate";
-                        holeDiv1.textContent = "法兰通孔";
-                        holeDiv2.textContent = res["AH"][i][0]+","+res["AH"][i][1]+","+res["AH"][i][2];
+                        holeDiv1.textContent = "";
+                        holeDiv2.textContent = "";
                         holeDiv1.style.fontSize = "5px";
                         holeDiv2.style.fontSize = "5px";
                         holeDiv1.style.fontWeight = "bold";
                         holeDiv2.style.fontWeight = "bold";
-                        holeDiv1.style.color = "blue";
-                        holeDiv2.style.color = "purple";
-                        //holeDiv1.style.backgroundColor = "blue";
-                        //holeDiv2.style.backgroundColor = "purple";
+                        holeDiv1.style.color = "yellow";
+                        holeDiv2.style.color = "yellow";
+                        holeDiv1.style.backgroundColor = "blue";
+                        holeDiv2.style.backgroundColor = "purple";
                         var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
                         var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
-                        holeLabel1.position.set(0,0,0);
-                        holeLabel2.position.set(0,-5,0);
+                        holeLabel1.position.set(0,10,0);
+                        holeLabel2.position.set(0,-10,0);
                         mesh1.add(holeLabel1);
                         mesh1.add(holeLabel2);
                         var group1 = new THREE.Group();
@@ -590,6 +625,27 @@
                             //mesh1.rotation.z = -0.5 * Math.PI;
                             mesh1.position.set(res["AT"][i][0]*0.1,res["AT"][i][1]*-0.1,res["AT"][i][2]*0.1);
                             mesh1.scale.set(0.2, 0.2, 0.2); //缩放
+                            mesh1.name = "视觉靶标";
+                            var holeDiv1 = document.createElement("div1");
+                            var holeDiv2 = document.createElement("div2");
+                            holeDiv1.className = "class";
+                            holeDiv2.className = "coordinate";
+                            holeDiv1.textContent = "";
+                            holeDiv2.textContent = "";
+                            holeDiv1.style.fontSize = "5px";
+                            holeDiv2.style.fontSize = "5px";
+                            holeDiv1.style.fontWeight = "bold";
+                            holeDiv2.style.fontWeight = "bold";
+                            holeDiv1.style.color = "yellow";
+                            holeDiv2.style.color = "yellow";
+                            holeDiv1.style.backgroundColor = "blue";
+                            holeDiv2.style.backgroundColor = "purple";
+                            var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                            var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                            holeLabel1.position.set(0,10,0);
+                            holeLabel2.position.set(0,-10,0);
+                            mesh1.add(holeLabel1);
+                            mesh1.add(holeLabel2);
                             var group1 = new THREE.Group();
                             group1.add(mesh1);
                             groupl.add(group1);
