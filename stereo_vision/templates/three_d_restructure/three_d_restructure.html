@@ -540,39 +540,6 @@
             raycasterr.setFromCamera( mouseVectorr, camerar );
             return raycasterr.intersectObject(groupr,true);
         }
-
-
-        var geometry1 = new THREE.SphereGeometry(2, 20, 20);
-        var material1 = new THREE.MeshLambertMaterial({color: 0x1C86EE});
-        var mesh1 = new THREE.Mesh(geometry1,material1);
-        mesh1.position.set(0,10,0);
-        mesh1.name = "法兰通孔";
-        var holeDiv1 = document.createElement("div1");
-        var holeDiv2 = document.createElement("div2");
-        holeDiv1.className = "class";
-        holeDiv2.className = "coordinate";
-        holeDiv1.textContent = "";
-        holeDiv2.textContent = "";
-        holeDiv1.style.fontSize = "5px";
-        holeDiv2.style.fontSize = "5px";
-        holeDiv1.style.fontWeight = "bold";
-        holeDiv2.style.fontWeight = "bold";
-        holeDiv1.style.color = "yellow";
-        holeDiv2.style.color = "yellow";
-        holeDiv1.style.backgroundColor = "blue";
-        holeDiv2.style.backgroundColor = "purple";
-        var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
-        var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
-        holeLabel1.position.set(0,10,0);
-        holeLabel2.position.set(0,-10,0);
-        mesh1.add(holeLabel1);
-        mesh1.add(holeLabel2);
-        var group1 = new THREE.Group();
-        group1.add(mesh1);
-        groupr.add(group1);
-
-
-
     </script>
     <script>
         function Constraint(){
