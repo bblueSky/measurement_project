@@ -401,7 +401,7 @@
             widthl = 300; //窗口宽度
             heightl = 300; //窗口高度
             var k = widthl / heightl; //窗口宽高比
-            var s = 70; //三维场景显示范围控制系数，系数越大，显示的范围越大
+            var s = 60; //三维场景显示范围控制系数，系数越大，显示的范围越大
             //创建相机对象
             cameral = new THREE.OrthographicCamera(-s * k, s * k, s, -s, 1, 1000);
             cameral.position.set(100,0,0); //设置相机位置
@@ -537,7 +537,7 @@
             widthr = 300; //窗口宽度
             heightr = 300; //窗口高度
             var k = widthr / heightr; //窗口宽高比
-            var s = 70; //三维场景显示范围控制系数，系数越大，显示的范围越大
+            var s = 60; //三维场景显示范围控制系数，系数越大，显示的范围越大
             //创建相机对象
             camerar = new THREE.OrthographicCamera(-s * k, s * k, s, -s, 1, 1000);
             camerar.position.set(100,0,0); //设置相机位置
@@ -556,7 +556,6 @@
             labelRendererr.domElement.style.top = '20px';
             container.appendChild(labelRendererr.domElement);
             controlsr = new THREE.OrbitControls(camerar,labelRendererr.domElement);
-            controlsr;
             window.addEventListener('resize', onWindowResizer, false);
             window.addEventListener("mousemove", onDocumentMouseMover, false );
         }
