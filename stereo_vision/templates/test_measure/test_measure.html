@@ -37,7 +37,6 @@
             </a><!-- sl-menu-link -->
 	        <ul class="sl-menu-sub nav flex-column">
                 <li class="nav-item"><a href="../cameraCalibration/" class="nav-link">测量场标定及日志管理</a></li>
-                <li class="nav-item"><a href="../prioriImport/" class="nav-link">先验加工数据导入及管理</a></li>
             </ul>
             <a href="#" class="sl-menu-link active">
             <div class="sl-menu-item">
@@ -160,12 +159,12 @@
                               <!-- 左右相机照片显示 -->
                             <table border="3" style="border:#ffffff">
                                 <tr>
-                                    <td><img name='leftcamera_A' src="/static/picture/noimg.png" alt="Pulpit rock" width="300" height="250" id="left_img_A"></td>
-                                    <td><img name='rightcamera_A' src="/static/picture/noimg.png" alt="Pulpit rock" width="300" height="250" id="right_img_A"></td>
+                                    <td><img name='leftcamera_A' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="300" height="250" id="left_img_A"></td>
+                                    <td><img name='rightcamera_A' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="300" height="250" id="right_img_A"></td>
                                 </tr>
                                 <tr>
-                                    <td><img name='leftcamera_B' src="/static/picture/noimg.png" alt="Pulpit rock" width="300" height="250" id="left_img_B"></td>
-                                    <td><img name='rightcamera_B' src="/static/picture/noimg.png" alt="Pulpit rock" width="300" height="250" id="right_img_B"></td>
+                                    <td><img name='leftcamera_B' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="300" height="250" id="left_img_B"></td>
+                                    <td><img name='rightcamera_B' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="300" height="250" id="right_img_B"></td>
                                 </tr>
                             </table>
                         </div>
@@ -314,7 +313,11 @@
                     </div>
                     <div style="height:30px"></div>
                     <div class="container" style="height:300px;padding-right:0px;padding-left:0px;border:1px solid #1255a2" id="theChart">
-
+                        <table>
+                            <tr>
+                                <td><div id="bar" style="height:300px"><img src="/static/picture/nobar.png" style="height:300px"></div></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -1038,6 +1041,48 @@
                         var img_id = "BR_target"+(i+1);
                         document.getElementById(img_id).src='/static/res_pictures/result/'+flag+'/B_right/boxes_img/p_target'+i+'.jpg';
                     }
+                    var myChart1 = echarts.init(document.getElementById("theChart"));
+                    // 指定图表的配置项和数据
+                    var option1 = {
+                        title: {
+                            text: '关键特征检测误差统计'
+                        },
+                        tooltip: {},
+                        legend: {
+                            data:['A端左相机','A端右相机','B端左相机','B端右相机']
+                        },
+                        xAxis: {
+                            data: []
+                        },
+                        yAxis: {},
+                        series: [{
+                            name: 'A端左相机',
+                            type: 'line',
+                            color:'red',
+                            data: res["A_left"]
+                        },
+                        {
+                            name: 'A端右相机',
+                            type: 'line',
+                            color:'purple',
+                            data: res["A_right"]
+                        },
+                        {
+                            name: 'B端左相机',
+                            type: 'line',
+                            color:'green',
+                            data: res["B_left"]
+                        },
+                        {
+                            name: 'B端右相机',
+                            type: 'line',
+                            color:'blue',
+                            data: res["B_right"]
+                        }]
+                    };
+
+                    // 使用刚指定的配置项和数据显示图表。
+                    myChart1.setOption(option1);
                 },
                 error: function (res) {
                     alert('失败！');
@@ -1063,49 +1108,7 @@
         }
     </script>
     <script>
-        var myChart1 = echarts.init(document.getElementById("theChart"));
 
-        // 指定图表的配置项和数据
-        var option1 = {
-            title: {
-                text: '关键特征检测误差统计'
-            },
-            tooltip: {},
-            legend: {
-                data:['A端左相机','A端右相机','B端左相机','B端右相机']
-            },
-            xAxis: {
-                data: ["1","2","3","4","5","6"]
-            },
-            yAxis: {},
-            series: [{
-                name: 'A端左相机',
-                type: 'line',
-                color:'red',
-                data: [0.5, 0.2, 0.36, 0.1, 0.1, 0.2]
-            },
-            {
-                name: 'A端右相机',
-                type: 'line',
-                color:'purple',
-                data: [0.4, 0.1, 0.38, 0.2, 0.4, 0.1]
-            },
-            {
-                name: 'B端左相机',
-                type: 'line',
-                color:'green',
-                data: [0.7, 0.3, 0.36, 0.1, 0.6, 0.2]
-            },
-            {
-                name: 'B端右相机',
-                type: 'line',
-                color:'blue',
-                data: [0.1, 0.2, 0.8, 0.25, 0.3, 0.5]
-            }]
-        };
-
-        // 使用刚指定的配置项和数据显示图表。
-        myChart1.setOption(option1);
     </script>
     {% endblock %}
     <!-- ######### END: MAIN PANEL ########## -->

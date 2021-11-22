@@ -425,9 +425,11 @@ def centreSight():
     # print(boxes_img_path)
     # print("\n")
     im_names = ["A_left", "A_right", "B_left", "B_right"]
+    res_score_list = list()
     for i in range(4):
         hole_list = list()
         target_list = list()
+        score_list = list()
         boxes_img_dir_path = from_path+"/"+im_names[i]+"/boxes_img"
         save_path = from_path + "/" + im_names[i] + "/boxes_info.xml"
         dirList_f = os.listdir(boxes_img_dir_path)
@@ -469,6 +471,7 @@ def centreSight():
             score.appendChild(dom.createTextNode(str(res[3])))
             hole_img.appendChild(score)
             item_h.appendChild(hole_img)
+            score_list.append(res[3])
         for j in range(numsOf_targets):
             #遍历所有的靶标
             imgPath = boxes_img_dir_path+"/target"+str(j)+".jpg"
@@ -488,9 +491,12 @@ def centreSight():
             score.appendChild(dom.createTextNode(str(res[3])))
             target_img.appendChild(score)
             item_t.appendChild(target_img)
+            score_list.append(res[3])
         with open(save_path,'w') as fp:
             dom.writexml(fp)
-    return {"ALh":result[0],"ALt":result[1],"ARh":result[2],"ARt":result[3],"BLh":result[4],"BLt":result[5],"BRh":result[6],"BRt":result[7]}
+        res_score_list.append(score_list)
+
+    return {"ALh":result[0],"ALt":result[1],"ARh":result[2],"ARt":result[3],"BLh":result[4],"BLt":result[5],"BRh":result[6],"BRt":result[7],"A_left":res_score_list[0],"A_right":res_score_list[1],"B_left":res_score_list[2],"B_right":res_score_list[3]}
 
 
 
