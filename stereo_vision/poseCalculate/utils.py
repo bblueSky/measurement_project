@@ -39,7 +39,7 @@ def GetClockAngle1(v1, v2):  ##求v2到v1顺时针旋转角度
     else:
         return theta
 
-
+##梳理一下位姿求解算法，画出步骤图
 def tubePoseCalculate(filePath,dataPath):
     """
     :param filePath:
@@ -97,17 +97,19 @@ def tubePoseCalculate(filePath,dataPath):
     numsOfAhole = len(Ahole.childNodes)
     numsOfAtarget = len(Atarget.childNodes)## 此处默认检测到的靶标数量为4(3个板上1个筒上)
     # print("numsOfAhole:"+str(numsOfAhole))
-    data_list = list()
-    data_index_list = list()
+    data_list = list()##Ａ端安装孔列表
+
     for i in range(numsOfAmouting):
         x = Amouting.getElementsByTagName('p' + str(i))[0].childNodes[0].childNodes[0].data
         y = Amouting.getElementsByTagName('p' + str(i))[0].childNodes[1].childNodes[0].data
         data_list.append([float(x),float(y)])
-        data_index_list.append(i)
-
-    hole_list = list()
-    hole_index_list = list()
-    hole_r_list = list()
+    for i in range(numsOfAtapped):
+        x = Atapped.getElementsByTagName('p' + str(i))[0].childNodes[0].childNodes[0].data
+        y = Atapped.getElementsByTagName('p' + str(i))[0].childNodes[1].childNodes[0].data
+        data_list.append([float(x), float(y)])
+    hole_list = list()##Ａ端三维重构孔位列表
+    hole_index_list = list()##Ａ端三维重构孔位序号列表
+    hole_r_list = list()##Ａ端三维重构孔位孔径列表
     Aminy = float("inf") ##用来拿出最上面的点
     Aminyi = 0
     for i in range(numsOfAhole):
@@ -418,8 +420,10 @@ def tubePoseCalculate(filePath,dataPath):
             # print(d_Amouting)
             centerAndAngle = np.mat(np.zeros([2, 3]))
             d_center = d_root.getElementsByTagName("center")[0]
-            d_center_X = float(d_center.getElementsByTagName("x")[0].childNodes[0].data)
-            d_center_Y = float(d_center.getElementsByTagName("y")[0].childNodes[0].data)
+            # d_center_X = float(d_center.getElementsByTagName("x")[0].childNodes[0].data)
+            d_center_X = 0
+            # d_center_Y = float(d_center.getElementsByTagName("y")[0].childNodes[0].data)
+            d_center_Y = 0
             mu_Amouting = np.mat([d_center_X, d_center_Y, 0])
             ##注意这里出现大变化！！！基准向量是正安装孔index0！！！
             holeAquadrant = [data_list[d_fir_index][0],data_list[d_fir_index][1],0]
@@ -478,13 +482,15 @@ def tubePoseCalculate(filePath,dataPath):
     numsOfBtarget = len(Btarget.childNodes)  ## 此处默认检测到的靶标数量为4(3个板上1个筒上)
     # print("numsOfBhole:"+str(numsOfBhole))
     data_list = list()
-    data_index_list = list()
+
     for i in range(numsOfBmouting):
         x = Bmouting.getElementsByTagName('p' + str(i))[0].childNodes[0].childNodes[0].data
         y = Bmouting.getElementsByTagName('p' + str(i))[0].childNodes[1].childNodes[0].data
         data_list.append([float(x), float(y)])
-        data_index_list.append(i)
-
+    for i in range(numsOfBtapped):
+        x = Btapped.getElementsByTagName('p' + str(i))[0].childNodes[0].childNodes[0].data
+        y = Btapped.getElementsByTagName('p' + str(i))[0].childNodes[1].childNodes[0].data
+        data_list.append([float(x), float(y)])
     hole_list = list()
     hole_index_list = list()
     hole_r_list = list()
@@ -564,9 +570,9 @@ def tubePoseCalculate(filePath,dataPath):
         else:
             ##根据孔径估算排名得出安装孔实测列表
             hole_index_list = np.argsort(hole_r_list)[::-1]
-            hole_index_list = hole_index_list[:numsOfBmouting]
+            hole_index_list = hole_index_list[:(numsOfBmouting+numsOfBtapped)]
             p_Bmouting = list()
-            p_Bmouting_mat = np.mat(np.zeros([numsOfBmouting, 3]))
+            p_Bmouting_mat = np.mat(np.zeros([numsOfBmouting+numsOfBtapped, 3]))
             for i in hole_index_list:
                 p_Bmouting.append(hole_list[i])  ##得出计算值中的安装孔列表
                 p_Bmouting_mat[i, 0] = hole_list[i][0]
@@ -648,8 +654,10 @@ def tubePoseCalculate(filePath,dataPath):
             # print(d_Bmouting)
             centerAndAngle = np.mat(np.zeros([2, 3]))
             d_center = d_root.getElementsByTagName("center")[1]
-            d_center_X = float(d_center.getElementsByTagName("x")[0].childNodes[0].data)
-            d_center_Y = float(d_center.getElementsByTagName("y")[0].childNodes[0].data)
+            # d_center_X = float(d_center.getElementsByTagName("x")[0].childNodes[0].data)
+            d_center_X = 0
+            # d_center_Y = float(d_center.getElementsByTagName("y")[0].childNodes[0].data)
+            d_center_Y = 0
             mu_Bmouting = np.mat([d_center_X, d_center_Y, 0])
             # print(mu_Bmouting)
             targetBquadrant = [float(Bquadrant.getElementsByTagName("x")[0].childNodes[0].data),
