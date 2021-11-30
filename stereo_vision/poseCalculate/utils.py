@@ -80,6 +80,37 @@ def tubePoseCalculate(filePath,dataPath):
     p_root = p_doc.documentElement
     d_root = d_doc.documentElement
     g_root = g_doc.documentElement
+
+
+    ##额外插入的求板子粗略距离
+    APO = g_root.getElementsByTagName("APO")[0]
+    APH = g_root.getElementsByTagName("APH")[0]
+    APW = g_root.getElementsByTagName("APW")[0]
+    BPO = g_root.getElementsByTagName("BPO")[0]
+    BPH = g_root.getElementsByTagName("BPH")[0]
+    BPW = g_root.getElementsByTagName("BPW")[0]
+    APO_X = float(APO.getElementsByTagName("X")[0].childNodes[0].data)
+    APO_Y = float(APO.getElementsByTagName("Y")[0].childNodes[0].data)
+    APO_Z = float(APO.getElementsByTagName("Z")[0].childNodes[0].data)
+    APH_X = float(APH.getElementsByTagName("X")[0].childNodes[0].data)
+    APH_Y = float(APH.getElementsByTagName("Y")[0].childNodes[0].data)
+    APH_Z = float(APH.getElementsByTagName("Z")[0].childNodes[0].data)
+    APW_X = float(APW.getElementsByTagName("X")[0].childNodes[0].data)
+    APW_Y = float(APW.getElementsByTagName("Y")[0].childNodes[0].data)
+    APW_Z = float(APW.getElementsByTagName("Z")[0].childNodes[0].data)
+    BPO_X = float(BPO.getElementsByTagName("X")[0].childNodes[0].data)
+    BPO_Y = float(BPO.getElementsByTagName("Y")[0].childNodes[0].data)
+    BPO_Z = float(BPO.getElementsByTagName("Z")[0].childNodes[0].data)
+    BPH_X = float(BPH.getElementsByTagName("X")[0].childNodes[0].data)
+    BPH_Y = float(BPH.getElementsByTagName("Y")[0].childNodes[0].data)
+    BPH_Z = float(BPH.getElementsByTagName("Z")[0].childNodes[0].data)
+    BPW_X = float(BPW.getElementsByTagName("X")[0].childNodes[0].data)
+    BPW_Y = float(BPW.getElementsByTagName("Y")[0].childNodes[0].data)
+    BPW_Z = float(BPW.getElementsByTagName("Z")[0].childNodes[0].data)
+    lll = ((BPO_X ** 2 + BPO_Y ** 2 + BPO_Z ** 2) ** 0.5) * 0.5
+
+
+
     ##注意这块只处理A端:
     ##处理理论值
     Amouting = d_root.getElementsByTagName('Amouting')[0]
@@ -246,6 +277,13 @@ def tubePoseCalculate(filePath,dataPath):
             APWs_X = float(APWs.getElementsByTagName("X")[0].childNodes[0].data)
             APWs_Y = float(APWs.getElementsByTagName("Y")[0].childNodes[0].data)
             APWs_Z = float(APWs.getElementsByTagName("Z")[0].childNodes[0].data)
+
+
+
+
+
+
+
             Atarget_mat = np.mat([[APOs_X,APOs_Y,APOs_Z],[APHs_X,APHs_Y,APHs_Z],[APWs_X,APWs_Y,APWs_Z]])
             p_Atarget_mat = np.mat([[target_list[p_origin_index][0],target_list[p_origin_index][1],target_list[p_origin_index][2]],[target_list[p_height_index][0],target_list[p_height_index][1],target_list[p_height_index][2]],[target_list[p_width_index][0],target_list[p_width_index][1],target_list[p_width_index][2]]])
             # print(Atarget_mat)
@@ -874,7 +912,7 @@ def tubePoseCalculate(filePath,dataPath):
         B_angle = [B_centerAndAngle2[1, 0], B_centerAndAngle2[1, 1],B_centerAndAngle2[1, 2]]
         print(Axis)
         print(Angle)
-        return {"Axis":Axis1,"Angle":Angle,"A_center":A_center,"A_angle":A_angle,"B_center":B_center,"B_angle":B_angle}
+        return {"Axis":Axis1,"Angle":Angle,"A_center":A_center,"A_angle":A_angle,"B_center":B_center,"B_angle":B_angle,"lll":lll,"APO":[APO_X,APO_Y,APO_Z],"APH":[APH_X,APH_Y,APH_Z],"APW":[APW_X,APW_Y,APW_Z],"BPO":[BPO_X,BPO_Y,BPO_Z],"BPH":[BPH_X,BPH_Y,BPH_Z],"BPW":[BPW_X,BPW_Y,BPW_Z]}
     else:
         Axis1 = [xc_2B-xc_2A,yc_2B-yc_2A,zc_2B-zc_2A]
         while abs(Axis1[0])>100:
@@ -906,4 +944,7 @@ def tubePoseCalculate(filePath,dataPath):
         Angle = GetClockAngle1(np.squeeze(np.asarray(np.asarray(A_angle)-A_center)),np.squeeze(np.asarray([0,-1,0])))
         while abs(Angle)>50:
             Angle = Angle/2
-        return {"Axis":Axis1,"Angle":Angle,"A_center":A_center,"A_angle":A_angle,"B_center":B_center,"B_angle":B_angle}
+
+
+        print(lll)
+        return {"Axis":Axis1,"Angle":Angle,"A_center":A_center,"A_angle":A_angle,"B_center":B_center,"B_angle":B_angle,"lll":lll,"APO":[APO_X,APO_Y,APO_Z],"APH":[APH_X,APH_Y,APH_Z],"APW":[APW_X,APW_Y,APW_Z],"BPO":[BPO_X,BPO_Y,BPO_Z],"BPH":[BPH_X,BPH_Y,BPH_Z],"BPW":[BPW_X,BPW_Y,BPW_Z]}

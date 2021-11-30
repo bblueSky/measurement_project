@@ -172,93 +172,11 @@
 
 
     {% block write_js %}
-    <script>
-        function updateList2() {
-            $("#selectLog").html("");
-            $.ajax({
-                type:'GET',
-                data:{'mydata':1},
-                url:"/poseCalculate/updateList",
-                dataType: 'json',
-                success:function(res){
-                    //console.log("第一步");
-                    var options = "<option value=0>请选择待检测日志</option>";
-                    for (var key in res) {
-                        //console.log("第二步");
-                        options += "<option value='"+key+"'>"+res[key]+"</option>";
-                    }
-                    $("#selectLog").append(options);
-                    //console.log("第三步");
-                    //window.location.reload();
-                    //alert('已选择'+type+'类筒端');
-
-                    //window.location.reload();
-
-                },
-                error: function (res) {
-                    alert('失败！')
-                }
-            });
-        }
-        function selectLog(){
-            var type = $("#selectLog").val();
-            var type1 = $("#selectLog").find("option:selected").text();
-            $.ajax({
-                type:'GET',
-                data:{'mydata':type},
-                url:"/poseCalculate/selectLog",
-                dataType: 'json',
-                success:function(res){
-                    //window.location.reload();
-                    if(type==0){
-                        alert('误操作！请选择待检测日志！')
-                    }
-                    else{
-                        alert('已选择'+type1+'日志');
-                    }
-
-                    //window.location.reload();
-                },
-                error: function (res) {
-                      alert('失败！')
-                }
-            })
-        }
-    </script>
-    <script>
-        function confirmDelete(){
-            var flag = $("#selectLog").find("option:selected").text();
-            var r = confirm("确定要对"+flag+"日志进行筒段位姿计算吗？")
-		    if (r == true) {
-		        Calculate();
-		    }
-		    else {
-		    }
-        }
-        function Calculate(){
-            var flag = $("#selectLog").find("option:selected").text();
-            $.ajax({
-                type:'GET',
-                data:{'flag':flag},
-                url:"/poseCalculate/Calculate",
-                dataType: 'json',
-                success:function(res){
-                    alert('位姿计算完成！')
-                    document.getElementById("Axis").value=res["Axis"];
-                    document.getElementById("Angle").value=res["Angle"];
-                    document.getElementById("A_center").value=res["A_center"];
-                    document.getElementById("B_center").value=res["B_center"];
-                },
-                error: function (res) {
-                    alert('失败！')
-                }
-            })
-        }
-    </script>
     <script src="/static/js/echarts.min.js"></script>
     <script src="/static/js/three.js"></script>
     <script src="/static/js/OrbitControls.js"></script>
     <script src="/static/js/STLLoader.js"></script>
+    <script src="/static/js/CSS2DRenderer.js"></script>
     <script>
         var myChart1 = echarts.init(document.getElementById("theChart1"));
 
@@ -289,7 +207,7 @@
         var loader = new THREE.STLLoader();
         var loadert = new THREE.TextureLoader();
         var renderer, scene, camera;
-        var controls, group;
+        var controls, group,labelRenderer;
         var width; //窗口宽度
         var height; //窗口高度
         init();
@@ -302,30 +220,6 @@
             axes.position.set(0,-12,-100)//x,y,z,红,绿,蓝
             axes.rotateZ(Math.PI);
             //加载模型
-            loader.load("/static/model/standardPadAndSupport_A.stl", function (geometry1) {
-                //基准板组A
-                var material1 = new THREE.MeshLambertMaterial({color: 0xCCCCCC});
-                var mesh1 = new THREE.Mesh(geometry1,material1);
-                mesh1.rotation.x = -0.5 * Math.PI;
-                mesh1.rotation.z = -0.5 * Math.PI;
-                mesh1.position.set(0,-12,-100);
-                mesh1.scale.set(0.1, 0.1, 0.1); //缩放
-                var group1 = new THREE.Group();
-                group1.add(mesh1);
-                group.add(group1);
-            });
-            loader.load("/static/model/standardPadAndSupport_B.stl", function (geometry2) {
-                //基准板组B
-                var material2 = new THREE.MeshLambertMaterial({color: 0xCCCCCC});
-                var mesh2 = new THREE.Mesh(geometry2,material2);
-                mesh2.rotation.x = -0.5 * Math.PI;
-                mesh2.rotation.z = 0.5 * Math.PI;
-                mesh2.position.set(0,-12,100);
-                mesh2.scale.set(0.1, 0.1, 0.1); //缩放
-                var group2 = new THREE.Group();
-                group2.add(mesh2);
-                group.add(group2);
-            });
             loader.load("/static/model/laserTracker.stl", function (geometry3) {
                 //loadert.load('/static/picture/LTcolor3.jpg',function (texture) {
 
@@ -340,6 +234,27 @@
                     mesh3.rotation.z = 0.5 * Math.PI;
                     mesh3.position.set(140,-100,35);
                     mesh3.scale.set(0.1, 0.1, 0.1); //缩放
+                    mesh3.name = "激光跟踪仪,状态:正常";
+                    var holeDiv1 = document.createElement("div1");
+                    var holeDiv2 = document.createElement("div2");
+                    holeDiv1.className = "class";
+                    holeDiv2.className = "coordinate";
+                    holeDiv1.textContent = "";
+                    holeDiv2.textContent = "";
+                    holeDiv1.style.fontSize = "5px";
+                    holeDiv2.style.fontSize = "5px";
+                    holeDiv1.style.fontWeight = "bold";
+                    holeDiv2.style.fontWeight = "bold";
+                    holeDiv1.style.color = "yellow";
+                    holeDiv2.style.color = "yellow";
+                    holeDiv1.style.backgroundColor = "blue";
+                    holeDiv2.style.backgroundColor = "purple";
+                    var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                    var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                    holeLabel1.position.set(0,1000,0);
+                    holeLabel2.position.set(0,-1000,0);
+                    mesh3.add(holeLabel1);
+                    mesh3.add(holeLabel2);
                     var group3 = new THREE.Group();
                     group3.add(mesh3);
                     group.add(group3);
@@ -353,6 +268,27 @@
                 mesh4.rotation.z = Math.PI;
                 mesh4.position.set(-80,-40,-240);
                 mesh4.scale.set(0.1, 0.1, 0.1); //缩放
+                mesh4.name = "双目相机A,状态:正常";
+                var holeDiv1 = document.createElement("div1");
+                var holeDiv2 = document.createElement("div2");
+                holeDiv1.className = "class";
+                holeDiv2.className = "coordinate";
+                holeDiv1.textContent = "";
+                holeDiv2.textContent = "";
+                holeDiv1.style.fontSize = "5px";
+                holeDiv2.style.fontSize = "5px";
+                holeDiv1.style.fontWeight = "bold";
+                holeDiv2.style.fontWeight = "bold";
+                holeDiv1.style.color = "yellow";
+                holeDiv2.style.color = "yellow";
+                holeDiv1.style.backgroundColor = "blue";
+                holeDiv2.style.backgroundColor = "purple";
+                var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                holeLabel1.position.set(0,1000,0);
+                holeLabel2.position.set(0,-1000,0);
+                mesh4.add(holeLabel1);
+                mesh4.add(holeLabel2);
                 var group4 = new THREE.Group();
                 group4.add(mesh4);
                 group.add(group4);
@@ -365,21 +301,30 @@
                 mesh5.rotation.x = -0.5 * Math.PI;
                 mesh5.position.set(-80,-40,240);
                 mesh5.scale.set(0.1, 0.1, 0.1); //缩放
+                mesh5.name = "双目相机B,状态:正常";
+                var holeDiv1 = document.createElement("div1");
+                var holeDiv2 = document.createElement("div2");
+                holeDiv1.className = "class";
+                holeDiv2.className = "coordinate";
+                holeDiv1.textContent = "";
+                holeDiv2.textContent = "";
+                holeDiv1.style.fontSize = "5px";
+                holeDiv2.style.fontSize = "5px";
+                holeDiv1.style.fontWeight = "bold";
+                holeDiv2.style.fontWeight = "bold";
+                holeDiv1.style.color = "yellow";
+                holeDiv2.style.color = "yellow";
+                holeDiv1.style.backgroundColor = "blue";
+                holeDiv2.style.backgroundColor = "purple";
+                var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                holeLabel1.position.set(0,1000,0);
+                holeLabel2.position.set(0,-1000,0);
+                mesh5.add(holeLabel1);
+                mesh5.add(holeLabel2);
                 var group5 = new THREE.Group();
                 group5.add(mesh5);
                 group.add(group5);
-            });
-            loader.load("/static/model/shortTube.stl", function (geometry6) {
-                //筒段本体
-                var material6 = new THREE.MeshLambertMaterial({color: 0xE5E5E5});
-                var mesh6 = new THREE.Mesh(geometry6,material6);
-                mesh6.rotation.x = -0.5 * Math.PI; //将模型摆正
-                mesh6.rotation.z = -0.5 * Math.PI;
-                mesh6.position.set(-90,-20,-35);
-                mesh6.scale.set(0.1, 0.1, 0.1); //缩放
-                var group6 = new THREE.Group();
-                group6.add(mesh6);
-                group.add(group6);
             });
             loader.load("/static/model/robot1.STL", function (geometry7) {
                 //机械臂关节1
@@ -388,6 +333,27 @@
                 mesh7.rotation.x = -0.5 * Math.PI; //将模型摆正
                 mesh7.position.set(-270,-97,25);
                 mesh7.scale.set(0.1, 0.1, 0.1); //缩放
+                mesh7.name = "工业机器人,状态:正常";
+                var holeDiv1 = document.createElement("div1");
+                var holeDiv2 = document.createElement("div2");
+                holeDiv1.className = "class";
+                holeDiv2.className = "coordinate";
+                holeDiv1.textContent = "";
+                holeDiv2.textContent = "";
+                holeDiv1.style.fontSize = "5px";
+                holeDiv2.style.fontSize = "5px";
+                holeDiv1.style.fontWeight = "bold";
+                holeDiv2.style.fontWeight = "bold";
+                holeDiv1.style.color = "yellow";
+                holeDiv2.style.color = "yellow";
+                holeDiv1.style.backgroundColor = "blue";
+                holeDiv2.style.backgroundColor = "purple";
+                var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                holeLabel1.position.set(0,1000,0);
+                holeLabel2.position.set(0,-1000,0);
+                mesh7.add(holeLabel1);
+                mesh7.add(holeLabel2);
                 var group7 = new THREE.Group();
                 group7.add(mesh7);
                 group.add(group7);
@@ -399,6 +365,27 @@
                 mesh8.rotation.x = -0.5 * Math.PI; //将模型摆正
                 mesh8.position.set(-270,-97,25);
                 mesh8.scale.set(0.1, 0.1, 0.1); //缩放
+                mesh8.name = "工业机器人,状态:正常";
+                var holeDiv1 = document.createElement("div1");
+                var holeDiv2 = document.createElement("div2");
+                holeDiv1.className = "class";
+                holeDiv2.className = "coordinate";
+                holeDiv1.textContent = "";
+                holeDiv2.textContent = "";
+                holeDiv1.style.fontSize = "5px";
+                holeDiv2.style.fontSize = "5px";
+                holeDiv1.style.fontWeight = "bold";
+                holeDiv2.style.fontWeight = "bold";
+                holeDiv1.style.color = "yellow";
+                holeDiv2.style.color = "yellow";
+                holeDiv1.style.backgroundColor = "blue";
+                holeDiv2.style.backgroundColor = "purple";
+                var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                holeLabel1.position.set(0,1000,0);
+                holeLabel2.position.set(0,-1000,0);
+                mesh8.add(holeLabel1);
+                mesh8.add(holeLabel2);
                 var group8 = new THREE.Group();
                 group8.add(mesh8);
                 group.add(group8);
@@ -410,6 +397,27 @@
                 mesh9.rotation.x = -0.5 * Math.PI; //将模型摆正
                 mesh9.position.set(-270,-97,25);
                 mesh9.scale.set(0.1, 0.1, 0.1); //缩放
+                mesh9.name = "工业机器人,状态:正常";
+                var holeDiv1 = document.createElement("div1");
+                var holeDiv2 = document.createElement("div2");
+                holeDiv1.className = "class";
+                holeDiv2.className = "coordinate";
+                holeDiv1.textContent = "";
+                holeDiv2.textContent = "";
+                holeDiv1.style.fontSize = "5px";
+                holeDiv2.style.fontSize = "5px";
+                holeDiv1.style.fontWeight = "bold";
+                holeDiv2.style.fontWeight = "bold";
+                holeDiv1.style.color = "yellow";
+                holeDiv2.style.color = "yellow";
+                holeDiv1.style.backgroundColor = "blue";
+                holeDiv2.style.backgroundColor = "purple";
+                var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                holeLabel1.position.set(0,1000,0);
+                holeLabel2.position.set(0,-1000,0);
+                mesh9.add(holeLabel1);
+                mesh9.add(holeLabel2);
                 var group9 = new THREE.Group();
                 group9.add(mesh9);
                 group.add(group9);
@@ -421,8 +429,28 @@
                 mesh10.rotation.y = 1 * Math.PI; //将模型摆正
                 mesh10.rotation.z = 0.5 * Math.PI;
                 mesh10.position.set(-255,3,136);
-
                 mesh10.scale.set(0.1, 0.1, 0.1); //缩放
+                mesh10.name = "工业机器人,状态:正常";
+                var holeDiv1 = document.createElement("div1");
+                var holeDiv2 = document.createElement("div2");
+                holeDiv1.className = "class";
+                holeDiv2.className = "coordinate";
+                holeDiv1.textContent = "";
+                holeDiv2.textContent = "";
+                holeDiv1.style.fontSize = "5px";
+                holeDiv2.style.fontSize = "5px";
+                holeDiv1.style.fontWeight = "bold";
+                holeDiv2.style.fontWeight = "bold";
+                holeDiv1.style.color = "yellow";
+                holeDiv2.style.color = "yellow";
+                holeDiv1.style.backgroundColor = "blue";
+                holeDiv2.style.backgroundColor = "purple";
+                var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                holeLabel1.position.set(0,1000,0);
+                holeLabel2.position.set(0,-1000,0);
+                mesh10.add(holeLabel1);
+                mesh10.add(holeLabel2);
                 var group10 = new THREE.Group();
                 group10.add(mesh10);
                 group.add(group10);
@@ -435,6 +463,27 @@
                 mesh11.rotation.x = -0.5 * Math.PI;
                 mesh11.position.set(-366,78,22);
                 mesh11.scale.set(0.1, 0.1, 0.1); //缩放
+                mesh11.name = "工业机器人,状态:正常";
+                var holeDiv1 = document.createElement("div1");
+                var holeDiv2 = document.createElement("div2");
+                holeDiv1.className = "class";
+                holeDiv2.className = "coordinate";
+                holeDiv1.textContent = "";
+                holeDiv2.textContent = "";
+                holeDiv1.style.fontSize = "5px";
+                holeDiv2.style.fontSize = "5px";
+                holeDiv1.style.fontWeight = "bold";
+                holeDiv2.style.fontWeight = "bold";
+                holeDiv1.style.color = "yellow";
+                holeDiv2.style.color = "yellow";
+                holeDiv1.style.backgroundColor = "blue";
+                holeDiv2.style.backgroundColor = "purple";
+                var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                holeLabel1.position.set(0,1000,0);
+                holeLabel2.position.set(0,-1000,0);
+                mesh11.add(holeLabel1);
+                mesh11.add(holeLabel2);
                 var group11 = new THREE.Group();
                 group11.add(mesh11);
                 group.add(group11);
@@ -447,6 +496,27 @@
                 mesh12.rotation.x = -0.5 * Math.PI;
                 mesh12.position.set(-366,78,22);
                 mesh12.scale.set(0.1, 0.1, 0.1); //缩放
+                mesh12.name = "工业机器人,状态:正常";
+                var holeDiv1 = document.createElement("div1");
+                var holeDiv2 = document.createElement("div2");
+                holeDiv1.className = "class";
+                holeDiv2.className = "coordinate";
+                holeDiv1.textContent = "";
+                holeDiv2.textContent = "";
+                holeDiv1.style.fontSize = "5px";
+                holeDiv2.style.fontSize = "5px";
+                holeDiv1.style.fontWeight = "bold";
+                holeDiv2.style.fontWeight = "bold";
+                holeDiv1.style.color = "yellow";
+                holeDiv2.style.color = "yellow";
+                holeDiv1.style.backgroundColor = "blue";
+                holeDiv2.style.backgroundColor = "purple";
+                var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                holeLabel1.position.set(0,1000,0);
+                holeLabel2.position.set(0,-1000,0);
+                mesh12.add(holeLabel1);
+                mesh12.add(holeLabel2);
                 var group12 = new THREE.Group();
                 group12.add(mesh12);
                 group.add(group12);
@@ -459,6 +529,27 @@
                 mesh13.rotation.x = -0.5 * Math.PI;
                 mesh13.position.set(-366,78,22);
                 mesh13.scale.set(0.1, 0.1, 0.1); //缩放
+                mesh13.name = "工业机器人,状态:正常";
+                var holeDiv1 = document.createElement("div1");
+                var holeDiv2 = document.createElement("div2");
+                holeDiv1.className = "class";
+                holeDiv2.className = "coordinate";
+                holeDiv1.textContent = "";
+                holeDiv2.textContent = "";
+                holeDiv1.style.fontSize = "5px";
+                holeDiv2.style.fontSize = "5px";
+                holeDiv1.style.fontWeight = "bold";
+                holeDiv2.style.fontWeight = "bold";
+                holeDiv1.style.color = "yellow";
+                holeDiv2.style.color = "yellow";
+                holeDiv1.style.backgroundColor = "blue";
+                holeDiv2.style.backgroundColor = "purple";
+                var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                holeLabel1.position.set(0,1000,0);
+                holeLabel2.position.set(0,-1000,0);
+                mesh13.add(holeLabel1);
+                mesh13.add(holeLabel2);
                 var group13 = new THREE.Group();
                 group13.add(mesh13);
                 group.add(group13);
@@ -467,6 +558,27 @@
             var stand = new THREE.BoxGeometry(70, 3, 70);
             var meshs = new THREE.Mesh(stand, materials);
             meshs.position.set(-250,-97,3);
+            meshs.name = "机器人底座,位置:已校验";
+            var holeDiv1 = document.createElement("div1");
+            var holeDiv2 = document.createElement("div2");
+            holeDiv1.className = "class";
+            holeDiv2.className = "coordinate";
+            holeDiv1.textContent = "";
+            holeDiv2.textContent = "";
+            holeDiv1.style.fontSize = "5px";
+            holeDiv2.style.fontSize = "5px";
+            holeDiv1.style.fontWeight = "bold";
+            holeDiv2.style.fontWeight = "bold";
+            holeDiv1.style.color = "yellow";
+            holeDiv2.style.color = "yellow";
+            holeDiv1.style.backgroundColor = "blue";
+            holeDiv2.style.backgroundColor = "purple";
+            var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+            var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+            holeLabel1.position.set(0,100,0);
+            holeLabel2.position.set(0,-100,0);
+            meshs.add(holeLabel1);
+            meshs.add(holeLabel2);
             var groups = new THREE.Group();
             groups.add(meshs);
             group.add(groups);
@@ -480,6 +592,27 @@
                 var meshg = new THREE.Mesh(ground, materialg);  // 创建这个mesh对象
                 meshg.position.y = -100;
                 meshg.position.x = -150;
+                meshg.name = "场景地面";
+                var holeDiv1 = document.createElement("div1");
+                var holeDiv2 = document.createElement("div2");
+                holeDiv1.className = "class";
+                holeDiv2.className = "coordinate";
+                holeDiv1.textContent = "";
+                holeDiv2.textContent = "";
+                holeDiv1.style.fontSize = "5px";
+                holeDiv2.style.fontSize = "5px";
+                holeDiv1.style.fontWeight = "bold";
+                holeDiv2.style.fontWeight = "bold";
+                holeDiv1.style.color = "yellow";
+                holeDiv2.style.color = "yellow";
+                holeDiv1.style.backgroundColor = "blue";
+                holeDiv2.style.backgroundColor = "purple";
+                var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                holeLabel1.position.set(0,1000,0);
+                holeLabel2.position.set(0,-1000,0);
+                meshg.add(holeLabel1);
+                meshg.add(holeLabel2);
                 var groupg = new THREE.Group();
                 groupg.add(meshg);
                 group.add(groupg);
@@ -516,23 +649,25 @@
             var container = document.getElementById("wholeCylinder");
             container.appendChild(renderer.domElement); //body元素中插入canvas对象
             //执行渲染操作   指定场景、相机作为参数
-            render();
-            controls = new THREE.OrbitControls(camera,renderer.domElement);//创建控件对象
-            controls.addEventListener('change', render);//监听鼠标、键盘事件
+            labelRenderer = new THREE.CSS2DRenderer();
+            labelRenderer.setSize(width, height);
+            labelRenderer.domElement.style.position = 'absolute';
+            labelRenderer.domElement.style.top = '20px';
+            container.appendChild(labelRenderer.domElement);
+            controls = new THREE.OrbitControls(camera,labelRenderer.domElement);//创建控件对象
             window.addEventListener('resize', onWindowResize, false);
             window.addEventListener("mousemove", onDocumentMouseMove, false );
         }
-        function render(){
-            renderer.render(scene, camera);
-        }
         function animate() {
             renderer.render( scene, camera );
+            labelRenderer.render( scene, camera);
             requestAnimationFrame( animate );
         }
         function onWindowResize() {
             camera.aspect = width / height;
             camera.updateProjectionMatrix();
             renderer.setSize( width, height );
+            labelRenderer.setSize( width, height );
         }
         var selectedObject = null;
         function onDocumentMouseMove(event) {
@@ -543,6 +678,8 @@
                 selectedObject.material.color.b = selectedObject.material.color.b-0.5;
                 selectedObject.material.color.g = selectedObject.material.color.g-0.5;
                 selectedObject.material.color.r = selectedObject.material.color.r-0.5;
+                selectedObject.children[0].element.innerHTML = "";
+                selectedObject.children[1].element.innerHTML = "";
                 selectedObject = null;
             }
             var intersects = getIntersects(event.layerX,event.layerY );
@@ -555,6 +692,7 @@
                     selectedObject.material.color.b = selectedObject.material.color.b+0.5;
                     selectedObject.material.color.g = selectedObject.material.color.g+0.5;
                     selectedObject.material.color.r = selectedObject.material.color.r+0.5;
+                    selectedObject.children[0].element.innerHTML = selectedObject.name;
                     //selectedObject.material.color.set('#00FFFF');
                 }
             }
@@ -700,6 +838,188 @@
         function animater() {
             rendererr.render( scener, camerar );
             requestAnimationFrame( animater );
+        }
+    </script>
+    <script>
+        function updateList2() {
+            $("#selectLog").html("");
+            $.ajax({
+                type:'GET',
+                data:{'mydata':1},
+                url:"/poseCalculate/updateList",
+                dataType: 'json',
+                success:function(res){
+                    //console.log("第一步");
+                    var options = "<option value=0>请选择待检测日志</option>";
+                    for (var key in res) {
+                        //console.log("第二步");
+                        options += "<option value='"+key+"'>"+res[key]+"</option>";
+                    }
+                    $("#selectLog").append(options);
+                    //console.log("第三步");
+                    //window.location.reload();
+                    //alert('已选择'+type+'类筒端');
+
+                    //window.location.reload();
+
+                },
+                error: function (res) {
+                    alert('失败！')
+                }
+            });
+        }
+        function selectLog(){
+            var type = $("#selectLog").val();
+            var type1 = $("#selectLog").find("option:selected").text();
+            $.ajax({
+                type:'GET',
+                data:{'mydata':type},
+                url:"/poseCalculate/selectLog",
+                dataType: 'json',
+                success:function(res){
+                    //window.location.reload();
+                    if(type==0){
+                        alert('误操作！请选择待检测日志！')
+                    }
+                    else{
+                        alert('已选择'+type1+'日志');
+                    }
+
+                    //window.location.reload();
+                },
+                error: function (res) {
+                      alert('失败！')
+                }
+            })
+        }
+    </script>
+    <script>
+        function confirmDelete(){
+            var flag = $("#selectLog").find("option:selected").text();
+            var r = confirm("确定要对"+flag+"日志进行筒段位姿计算吗？")
+		    if (r == true) {
+		        Calculate();
+		    }
+		    else {
+		    }
+        }
+        function Calculate(){
+            var flag = $("#selectLog").find("option:selected").text();
+            $.ajax({
+                type:'GET',
+                data:{'flag':flag},
+                url:"/poseCalculate/Calculate",
+                dataType: 'json',
+                success:function(res){
+                    alert('位姿计算完成！')
+                    document.getElementById("Axis").value=res["Axis"];
+                    document.getElementById("Angle").value=res["Angle"];
+                    document.getElementById("A_center").value=res["A_center"];
+                    document.getElementById("B_center").value=res["B_center"];
+                    loader.load("/static/model/shortTube.stl", function (geometry6) {
+                        //筒段本体
+                        var material6 = new THREE.MeshLambertMaterial({color: 0xE5E5E5});
+                        var mesh6 = new THREE.Mesh(geometry6,material6);
+                        mesh6.rotation.x = -0.5 * Math.PI; //将模型摆正
+                        mesh6.rotation.z = -0.5 * Math.PI;
+                        mesh6.position.set(-90,-20,-35);
+                        mesh6.scale.set(0.1, 0.1, 0.1); //缩放
+                        mesh6.name = "筒端本体,位姿参数:已计算  轴线向量:("+res["Axis"]+")   象限偏角:"+res["Angle"]+"°";
+                        var holeDiv1 = document.createElement("div1");
+                        var holeDiv2 = document.createElement("div2");
+                        holeDiv1.className = "class";
+                        holeDiv2.className = "coordinate";
+                        holeDiv1.textContent = "";
+                        holeDiv2.textContent = "";
+                        holeDiv1.style.fontSize = "5px";
+                        holeDiv2.style.fontSize = "5px";
+                        holeDiv1.style.fontWeight = "bold";
+                        holeDiv2.style.fontWeight = "bold";
+                        holeDiv1.style.color = "yellow";
+                        holeDiv2.style.color = "yellow";
+                        holeDiv1.style.backgroundColor = "blue";
+                        holeDiv2.style.backgroundColor = "purple";
+                        var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                        var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                        holeLabel1.position.set(0,1000,0);
+                        holeLabel2.position.set(0,-1000,0);
+                        mesh6.add(holeLabel1);
+                        mesh6.add(holeLabel2);
+                        var group6 = new THREE.Group();
+                        group6.add(mesh6);
+                        group.add(group6);
+                    });
+                    loader.load("/static/model/standardPadAndSupport_A.stl", function (geometry1) {
+                        //基准板组A
+                        var material1 = new THREE.MeshLambertMaterial({color: 0xCCCCCC});
+                        var mesh1 = new THREE.Mesh(geometry1,material1);
+                        mesh1.rotation.x = -0.5 * Math.PI;
+                        mesh1.rotation.z = -0.5 * Math.PI;
+                        mesh1.position.set(0,-12,-0.5*res["lll"]);
+                        mesh1.scale.set(0.1, 0.1, 0.1); //缩放
+                        mesh1.name = "基准板A,位置:已校验  关键定位点: APO("+res["APO"]+") APH("+res["APH"]+") APW("+res["APW"]+")";
+                        var holeDiv1 = document.createElement("div1");
+                        var holeDiv2 = document.createElement("div2");
+                        holeDiv1.className = "class";
+                        holeDiv2.className = "coordinate";
+                        holeDiv1.textContent = "";
+                        holeDiv2.textContent = "";
+                        holeDiv1.style.fontSize = "5px";
+                        holeDiv2.style.fontSize = "5px";
+                        holeDiv1.style.fontWeight = "bold";
+                        holeDiv2.style.fontWeight = "bold";
+                        holeDiv1.style.color = "yellow";
+                        holeDiv2.style.color = "yellow";
+                        holeDiv1.style.backgroundColor = "blue";
+                        holeDiv2.style.backgroundColor = "purple";
+                        var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                        var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                        holeLabel1.position.set(0,1000,0);
+                        holeLabel2.position.set(0,-1000,0);
+                        mesh1.add(holeLabel1);
+                        mesh1.add(holeLabel2);
+                        var group1 = new THREE.Group();
+                        group1.add(mesh1);
+                        group.add(group1);
+                    });
+                    loader.load("/static/model/standardPadAndSupport_B.stl", function (geometry2) {
+                        //基准板组B
+                        var material2 = new THREE.MeshLambertMaterial({color: 0xCCCCCC});
+                        var mesh2 = new THREE.Mesh(geometry2,material2);
+                        mesh2.rotation.x = -0.5 * Math.PI;
+                        mesh2.rotation.z = 0.5 * Math.PI;
+                        mesh2.position.set(0,-12,res["lll"]/2);
+                        mesh2.scale.set(0.1, 0.1, 0.1); //缩放
+                        mesh2.name = "基准板B,位置:已校验  关键定位点: BPO("+res["BPO"]+") BPH("+res["BPH"]+") BPW("+res["BPW"]+")";
+                        var holeDiv1 = document.createElement("div1");
+                        var holeDiv2 = document.createElement("div2");
+                        holeDiv1.className = "class";
+                        holeDiv2.className = "coordinate";
+                        holeDiv1.textContent = "";
+                        holeDiv2.textContent = "";
+                        holeDiv1.style.fontSize = "5px";
+                        holeDiv2.style.fontSize = "5px";
+                        holeDiv1.style.fontWeight = "bold";
+                        holeDiv2.style.fontWeight = "bold";
+                        holeDiv1.style.color = "yellow";
+                        holeDiv2.style.color = "yellow";
+                        holeDiv1.style.backgroundColor = "blue";
+                        holeDiv2.style.backgroundColor = "purple";
+                        var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                        var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                        holeLabel1.position.set(0,1000,0);
+                        holeLabel2.position.set(0,-1000,0);
+                        mesh2.add(holeLabel1);
+                        mesh2.add(holeLabel2);
+                        var group2 = new THREE.Group();
+                        group2.add(mesh2);
+                        group.add(group2);
+                    });
+                },
+                error: function (res) {
+                    alert('失败！')
+                }
+            })
         }
     </script>
     {% endblock %}
