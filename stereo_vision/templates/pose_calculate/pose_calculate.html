@@ -609,8 +609,8 @@
                 holeDiv2.style.backgroundColor = "purple";
                 var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
                 var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
-                holeLabel1.position.set(0,1000,0);
-                holeLabel2.position.set(0,-1000,0);
+                holeLabel1.position.set(0,100,0);
+                holeLabel2.position.set(0,-100,0);
                 meshg.add(holeLabel1);
                 meshg.add(holeLabel2);
                 var groupg = new THREE.Group();
@@ -709,7 +709,7 @@
     </script>
     <script>
         var rendererl, scenel, cameral;
-        var controlsl, groupl;
+        var controlsl, groupl, labelRendererl;
         var widthl; //窗口宽度
         var heightl; //窗口高度
         initl();
@@ -722,18 +722,6 @@
             //axes.position.set(0,-12,-100)//x,y,z,红,绿,蓝
             //axes.rotateZ(Math.PI);
             //加载模型
-            loader.load("/static/model/flange1.stl", function (geometry1) {
-                //基准板组A
-                var material1 = new THREE.MeshLambertMaterial({color: 0x1C86EE});
-                var mesh1 = new THREE.Mesh(geometry1,material1);
-                //mesh1.rotation.x = -0.5 * Math.PI;
-                //mesh1.rotation.z = -0.5 * Math.PI;
-                //mesh1.position.set(0,-12,-100);
-                mesh1.scale.set(0.1, 0.1, 0.1); //缩放
-                var group1 = new THREE.Group();
-                group1.add(mesh1);
-                groupl.add(group1);
-            });
             scenel.add(axes);
             var point = new THREE.PointLight(0xffffff);
             point.position.set(100, 0, 0); //点光源位置
@@ -763,19 +751,64 @@
             var container = document.getElementById("history1");
             container.appendChild(rendererl.domElement); //body元素中插入canvas对象
             //执行渲染操作   指定场景、相机作为参数
-            renderl();
-        }
-        function renderl(){
-            rendererl.render(scenel, cameral);
+            labelRendererl = new THREE.CSS2DRenderer();
+            labelRendererl.setSize(widthl, heightl);
+            labelRendererl.domElement.style.position = 'absolute';
+            labelRendererl.domElement.style.top = '115px';
+            container.appendChild(labelRendererl.domElement);
+            //controlsl = new THREE.OrbitControls(cameral,labelRendererl.domElement);//创建控件对象
+            window.addEventListener('resize', onWindowResizel, false);
+            window.addEventListener("mousemove", onDocumentMouseMovel, false );
         }
         function animatel() {
             rendererl.render( scenel, cameral );
+            labelRendererl.render( scenel, cameral);
             requestAnimationFrame( animatel );
+        }
+        function onWindowResizel() {
+            cameral.aspect = widthl / heightl;
+            cameral.updateProjectionMatrix();
+            rendererl.setSize( widthl, heightl );
+        }
+        var selectedObjectl = null;
+        function onDocumentMouseMovel(event) {
+            event.preventDefault();
+            if ( selectedObjectl ) {
+                selectedObjectl.material.color.b = selectedObjectl.material.color.b-0.5;
+                selectedObjectl.material.color.g = selectedObjectl.material.color.g-0.5;
+                selectedObjectl.material.color.r = selectedObjectl.material.color.r-0.5;
+                selectedObjectl.children[0].element.innerHTML = "";
+                selectedObjectl.children[1].element.innerHTML = "";
+                selectedObjectl = null;
+            }
+            var intersectsl = getIntersectsl(event.layerX,event.layerY );
+            if ( intersectsl.length > 0 &&selectedObjectl!=intersectsl[0].object) {
+                var res = intersectsl.filter( function ( res ) {
+                    return res && res.object;
+                } )[0];
+                if ( res && res.object ) {
+                    selectedObjectl = res.object;
+                    selectedObjectl.material.color.b = selectedObjectl.material.color.b+0.5;
+                    selectedObjectl.material.color.g = selectedObjectl.material.color.g+0.5;
+                    selectedObjectl.material.color.r = selectedObjectl.material.color.r+0.5;
+                    selectedObjectl.children[0].element.innerHTML = selectedObjectl.name;
+                    selectedObjectl.children[1].element.innerHTML = "";
+                }
+            }
+        }
+        var raycasterl = new THREE.Raycaster();
+        var mouseVectorl = new THREE.Vector3();
+        function getIntersectsl( x, y ) {
+            x = ( x / widthl ) * 2 - 1;
+            y = - ( y / heightl ) * 2 + 1;
+            mouseVectorl.set( x, y, 0.5 );
+            raycasterl.setFromCamera( mouseVectorl, cameral );
+            return raycasterl.intersectObject(groupl,true);
         }
     </script>
     <script>
         var rendererr, scener, camerar;
-        var controlsr, groupr;
+        var controlsr, groupr,labelRendererr;
         var widthr; //窗口宽度
         var heightr; //窗口高度
         initr();
@@ -788,19 +821,6 @@
             //axes.position.set(0,-12,-100)//x,y,z,红,绿,蓝
             axes.rotateY(-0.5 * Math.PI);
             //加载模型
-            loader.load("/static/model/shortTube.stl", function (geometry1) {
-                //基准板组A
-                var material1 = new THREE.MeshLambertMaterial({color: 0x1C86EE});
-                var mesh1 = new THREE.Mesh(geometry1,material1);
-                //mesh1.rotation.x = -0.5 * Math.PI;
-                mesh1.rotation.y = -0.5 * Math.PI;
-                //mesh1.rotation.z = -0.5 * Math.PI;
-                mesh1.position.set(0,0,-38);
-                mesh1.scale.set(0.1, 0.1, 0.1); //缩放
-                var group1 = new THREE.Group();
-                group1.add(mesh1);
-                groupr.add(group1);
-            });
             scener.add(axes);
             var point = new THREE.PointLight(0xffffff);
             point.position.set(100, 0, 0); //点光源位置
@@ -830,14 +850,59 @@
             var container = document.getElementById("history2");
             container.appendChild(rendererr.domElement); //body元素中插入canvas对象
             //执行渲染操作   指定场景、相机作为参数
-            renderr();
-        }
-        function renderr(){
-            rendererr.render(scener, camerar);
+            labelRendererr = new THREE.CSS2DRenderer();
+            labelRendererr.setSize(widthr, heightr);
+            labelRendererr.domElement.style.position = 'absolute';
+            labelRendererr.domElement.style.top = '115px';
+            container.appendChild(labelRendererr.domElement);
+            //controlsr = new THREE.OrbitControls(camerar,labelRendererr.domElement);
+            window.addEventListener('resize', onWindowResizer, false);
+            window.addEventListener("mousemove", onDocumentMouseMover, false );
         }
         function animater() {
             rendererr.render( scener, camerar );
+            labelRendererr.render( scener, camerar);
             requestAnimationFrame( animater );
+        }
+        function onWindowResizer() {
+            camerar.aspect = widthr / heightr;
+            camerar.updateProjectionMatrix();
+            rendererr.setSize( widthr, heightr );
+        }
+        var selectedObjectr = null;
+        function onDocumentMouseMover(event) {
+            event.preventDefault();
+            if ( selectedObjectr ) {
+                selectedObjectr.material.color.b = selectedObjectr.material.color.b-0.5;
+                selectedObjectr.material.color.g = selectedObjectr.material.color.g-0.5;
+                selectedObjectr.material.color.r = selectedObjectr.material.color.r-0.5;
+                selectedObjectr.children[0].element.innerHTML = "";
+                selectedObjectr.children[1].element.innerHTML = "";
+                selectedObjectr = null;
+            }
+            var intersectsr = getIntersectsr(event.layerX,event.layerY );
+            if ( intersectsr.length > 0 &&selectedObjectr!=intersectsr[0].object) {
+                var res = intersectsr.filter( function ( res ) {
+                    return res && res.object;
+                } )[0];
+                if ( res && res.object ) {
+                    selectedObjectr = res.object;
+                    selectedObjectr.material.color.b = selectedObjectr.material.color.b+0.5;
+                    selectedObjectr.material.color.g = selectedObjectr.material.color.g+0.5;
+                    selectedObjectr.material.color.r = selectedObjectr.material.color.r+0.5;
+                    selectedObjectr.children[0].element.innerHTML = selectedObjectr.name;
+                    selectedObjectr.children[1].element.innerHTML = "";
+                }
+            }
+        }
+        var raycasterr = new THREE.Raycaster();
+        var mouseVectorr = new THREE.Vector3();
+        function getIntersectsr( x, y ) {
+            x = ( x / widthr ) * 2 - 1;
+            y = - ( y / heightr ) * 2 + 1;
+            mouseVectorr.set( x, y, 0.5 );
+            raycasterr.setFromCamera( mouseVectorr, camerar );
+            return raycasterr.intersectObject(groupr,true);
         }
     </script>
     <script>
@@ -1014,6 +1079,94 @@
                         var group2 = new THREE.Group();
                         group2.add(mesh2);
                         group.add(group2);
+                    });
+
+
+                    //小相框里
+                    loader.load("/static/model/flange1.stl", function (geometry1) {
+                        var material1 = new THREE.MeshLambertMaterial({color: 0x1C86EE});
+                        var mesh1 = new THREE.Mesh(geometry1,material1);
+                        //mesh1.rotation.x = -0.5 * Math.PI;
+                        //mesh1.rotation.z = -0.5 * Math.PI;
+                        //mesh1.position.set(0,-12,-100);
+                        mesh1.scale.set(0.1, 0.1, 0.1); //缩放
+                        mesh1.name = "端面视图,象限偏角: "+res["Angle"]+"°";
+                        var holeDiv1 = document.createElement("div1");
+                        var holeDiv2 = document.createElement("div2");
+                        holeDiv1.className = "class";
+                        holeDiv2.className = "coordinate";
+                        holeDiv1.textContent = "";
+                        holeDiv2.textContent = "";
+                        holeDiv1.style.fontSize = "5px";
+                        holeDiv2.style.fontSize = "5px";
+                        holeDiv1.style.fontWeight = "bold";
+                        holeDiv2.style.fontWeight = "bold";
+                        holeDiv1.style.color = "yellow";
+                        holeDiv2.style.color = "yellow";
+                        holeDiv1.style.backgroundColor = "blue";
+                        holeDiv2.style.backgroundColor = "purple";
+                        var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                        var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                        holeLabel1.position.set(0,100,0);
+                        holeLabel2.position.set(0,-100,0);
+                        mesh1.add(holeLabel1);
+                        mesh1.add(holeLabel2);
+                        var group1 = new THREE.Group();
+                        group1.add(mesh1);
+
+                        //绘制指引直线
+                        var lineg = new THREE.BufferGeometry();
+                        //创建材质
+                        var linem = new THREE.LineBasicMaterial({　vertexColors: true　})
+                        //定义颜色
+                        var color1 = new THREE.Color("#000000")
+                        var color2 = new THREE.Color("#ff0000")
+                        //定义点位
+                        var p1 = new THREE.Vector3(0, 0, 0)
+                        var p2 = new THREE.Vector3(50, 50, 50)
+
+                        lineg.vertices.push(p1, p2)
+                        lineg.colors.push(color1, color2)
+
+                        var line = new THREE.Line(lineg, linem, THREE.LineSegments)
+
+                        group1.add(line)
+
+
+                        groupl.add(group1);
+                    });
+                    loader.load("/static/model/shortTube.stl", function (geometry1) {
+                        var material1 = new THREE.MeshLambertMaterial({color: 0x1C86EE});
+                        var mesh1 = new THREE.Mesh(geometry1,material1);
+                        //mesh1.rotation.x = -0.5 * Math.PI;
+                        mesh1.rotation.y = -0.5 * Math.PI;
+                        //mesh1.rotation.z = -0.5 * Math.PI;
+                        mesh1.position.set(0,0,-38);
+                        mesh1.scale.set(0.1, 0.1, 0.1); //缩放
+                        mesh1.name = "侧面视图,轴线向量: ("+res["Axis"][0]+", "+res["Axis"][1]+", "+res["Axis"][2]+")";
+                        var holeDiv1 = document.createElement("div1");
+                        var holeDiv2 = document.createElement("div2");
+                        holeDiv1.className = "class";
+                        holeDiv2.className = "coordinate";
+                        holeDiv1.textContent = "";
+                        holeDiv2.textContent = "";
+                        holeDiv1.style.fontSize = "5px";
+                        holeDiv2.style.fontSize = "5px";
+                        holeDiv1.style.fontWeight = "bold";
+                        holeDiv2.style.fontWeight = "bold";
+                        holeDiv1.style.color = "yellow";
+                        holeDiv2.style.color = "yellow";
+                        holeDiv1.style.backgroundColor = "blue";
+                        holeDiv2.style.backgroundColor = "purple";
+                        var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                        var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                        holeLabel1.position.set(0,100,0);
+                        holeLabel2.position.set(0,-100,0);
+                        mesh1.add(holeLabel1);
+                        mesh1.add(holeLabel2);
+                        var group1 = new THREE.Group();
+                        group1.add(mesh1);
+                        groupr.add(group1);
                     });
                 },
                 error: function (res) {
