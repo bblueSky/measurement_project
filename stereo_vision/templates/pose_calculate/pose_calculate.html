@@ -216,9 +216,6 @@
             scene = new THREE.Scene();
             group = new THREE.Group();
             scene.add(group);
-            var axes = new THREE.AxisHelper(200);
-            axes.position.set(0,-12,-100)//x,y,z,红,绿,蓝
-            axes.rotateZ(Math.PI);
             //加载模型
             loader.load("/static/model/laserTracker.stl", function (geometry3) {
                 //loadert.load('/static/picture/LTcolor3.jpg',function (texture) {
@@ -582,7 +579,6 @@
             var groups = new THREE.Group();
             groups.add(meshs);
             group.add(groups);
-            scene.add(axes);
             loadert.load('/static/picture/ground1.jpg',function (texture) {
                 //加载地面地标贴图
                 var materialg = new THREE.MeshLambertMaterial({
@@ -1016,6 +1012,10 @@
                         group6.add(mesh6);
                         group.add(group6);
                     });
+                    var axes = new THREE.AxisHelper(200);
+                    axes.position.set(0,-12,-0.5*res["lll"])//x,y,z,红,绿,蓝
+                    axes.rotateZ(Math.PI);
+                    scene.add(axes);
                     loader.load("/static/model/standardPadAndSupport_A.stl", function (geometry1) {
                         //基准板组A
                         var material1 = new THREE.MeshLambertMaterial({color: 0xCCCCCC});
