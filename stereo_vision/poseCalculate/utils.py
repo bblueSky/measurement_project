@@ -141,6 +141,7 @@ def tubePoseCalculate(filePath,dataPath):
     hole_list = list()##Ａ端三维重构孔位列表
     hole_index_list = list()##Ａ端三维重构孔位序号列表
     hole_r_list = list()##Ａ端三维重构孔位孔径列表
+    A_hole_s_list = list()##A端三维重构孔位评分
     Aminy = float("inf") ##用来拿出最上面的点
     Aminyi = 0
     for i in range(numsOfAhole):
@@ -151,6 +152,7 @@ def tubePoseCalculate(filePath,dataPath):
             Aminyi = i
         z = Ahole.getElementsByTagName('point' + str(i))[0].childNodes[2].childNodes[0].data
         r = Ahole.getElementsByTagName('point' + str(i))[0].childNodes[3].childNodes[0].data
+        A_hole_s_list.append(float(Ahole.getElementsByTagName('point' + str(i))[0].childNodes[4].childNodes[0].data))
         hole_list.append([float(x),float(y),float(z)])
         hole_index_list.append(i)
         hole_r_list.append(float(r))
@@ -170,6 +172,7 @@ def tubePoseCalculate(filePath,dataPath):
         x = Atarget.getElementsByTagName('point' + str(i))[0].childNodes[0].childNodes[0].data
         y = float(Atarget.getElementsByTagName('point' + str(i))[0].childNodes[1].childNodes[0].data)
         z = Atarget.getElementsByTagName('point' + str(i))[0].childNodes[2].childNodes[0].data
+        A_hole_s_list.append(float(Atarget.getElementsByTagName('point' + str(i))[0].childNodes[4].childNodes[0].data))
         target_list.append([float(x), float(y), float(z)])
         target_index_list.append(i)
         if y>max_y:
@@ -532,6 +535,7 @@ def tubePoseCalculate(filePath,dataPath):
     hole_list = list()
     hole_index_list = list()
     hole_r_list = list()
+    B_hole_s_list = list()
     Bminy = float("inf")  ##用来拿出最上面的点
     Bminyi = 0
     for i in range(numsOfBhole):
@@ -542,6 +546,7 @@ def tubePoseCalculate(filePath,dataPath):
             Bminyi = i
         z = Bhole.getElementsByTagName('point' + str(i))[0].childNodes[2].childNodes[0].data
         r = Bhole.getElementsByTagName('point' + str(i))[0].childNodes[3].childNodes[0].data
+        B_hole_s_list.append(float(Bhole.getElementsByTagName('point' + str(i))[0].childNodes[4].childNodes[0].data))
         hole_list.append([float(x), float(y), float(z)])
         hole_index_list.append(i)
         hole_r_list.append(float(r))
@@ -561,6 +566,7 @@ def tubePoseCalculate(filePath,dataPath):
         x = Btarget.getElementsByTagName('point' + str(i))[0].childNodes[0].childNodes[0].data
         y = float(Btarget.getElementsByTagName('point' + str(i))[0].childNodes[1].childNodes[0].data)
         z = Btarget.getElementsByTagName('point' + str(i))[0].childNodes[2].childNodes[0].data
+        B_hole_s_list.append(float(Btarget.getElementsByTagName('point' + str(i))[0].childNodes[4].childNodes[0].data))
         target_list.append([float(x), float(y), float(z)])
         target_index_list.append(i)
         if y > max_y:
@@ -912,7 +918,7 @@ def tubePoseCalculate(filePath,dataPath):
         B_angle = [B_centerAndAngle2[1, 0], B_centerAndAngle2[1, 1],B_centerAndAngle2[1, 2]]
         print(Axis)
         print(Angle)
-        return {"Axis":Axis1,"Angle":Angle,"A_center":A_center,"A_angle":A_angle,"B_center":B_center,"B_angle":B_angle,"lll":lll,"APO":[APO_X,APO_Y,APO_Z],"APH":[APH_X,APH_Y,APH_Z],"APW":[APW_X,APW_Y,APW_Z],"BPO":[BPO_X,BPO_Y,BPO_Z],"BPH":[BPH_X,BPH_Y,BPH_Z],"BPW":[BPW_X,BPW_Y,BPW_Z]}
+        return {"Axis":Axis1,"Angle":Angle,"A_center":A_center,"A_angle":A_angle,"B_center":B_center,"B_angle":B_angle,"lll":lll,"APO":[APO_X,APO_Y,APO_Z],"APH":[APH_X,APH_Y,APH_Z],"APW":[APW_X,APW_Y,APW_Z],"BPO":[BPO_X,BPO_Y,BPO_Z],"BPH":[BPH_X,BPH_Y,BPH_Z],"BPW":[BPW_X,BPW_Y,BPW_Z],"Ascore":A_hole_s_list,"Bscore":B_hole_s_list}
     else:
         Axis1 = [xc_2B-xc_2A,yc_2B-yc_2A,zc_2B-zc_2A]
         while abs(Axis1[0])>100:
@@ -947,4 +953,4 @@ def tubePoseCalculate(filePath,dataPath):
 
 
         print(lll)
-        return {"Axis":Axis1,"Angle":Angle,"A_center":A_center,"A_angle":A_angle,"B_center":B_center,"B_angle":B_angle,"lll":lll,"APO":[APO_X,APO_Y,APO_Z],"APH":[APH_X,APH_Y,APH_Z],"APW":[APW_X,APW_Y,APW_Z],"BPO":[BPO_X,BPO_Y,BPO_Z],"BPH":[BPH_X,BPH_Y,BPH_Z],"BPW":[BPW_X,BPW_Y,BPW_Z]}
+        return {"Axis":Axis1,"Angle":Angle,"A_center":A_center,"A_angle":A_angle,"B_center":B_center,"B_angle":B_angle,"lll":lll,"APO":[APO_X,APO_Y,APO_Z],"APH":[APH_X,APH_Y,APH_Z],"APW":[APW_X,APW_Y,APW_Z],"BPO":[BPO_X,BPO_Y,BPO_Z],"BPH":[BPH_X,BPH_Y,BPH_Z],"BPW":[BPW_X,BPW_Y,BPW_Z],"Ascore":A_hole_s_list,"Bscore":B_hole_s_list}

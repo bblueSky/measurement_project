@@ -178,30 +178,36 @@
     <script src="/static/js/STLLoader.js"></script>
     <script src="/static/js/CSS2DRenderer.js"></script>
     <script>
-        var myChart1 = echarts.init(document.getElementById("theChart1"));
-
-        // 指定图表的配置项和数据
-        var option1 = {
+        line = echarts.init(document.getElementById("theChart1"));
+        option = {
             title: {
-                text: '测量系统误差统计'
+                text: '关键特征三维重构效果评分及基准'
             },
             tooltip: {},
             legend: {
-                data:['双目标定误差']
+                data:['END A','END B','standard']
             },
             xAxis: {
-                data: ["1","2","3","4","5","6"]
+                data: []
             },
             yAxis: {},
             series: [{
-                name: '双目标定误差',
+                name: 'END A',
+                type: 'bar',
+                data: []
+            },
+            {
+                name: 'END B',
+                type: 'bar',
+                data: []
+            },
+            {
+                name: 'standard',
                 type: 'line',
-                data: [0.5, 0.2, 0.36, 0.1, 0.1, 0.2]
+                data: [50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50]
             }]
         };
-
-        // 使用刚指定的配置项和数据显示图表。
-        myChart1.setOption(option1);
+        line.setOption(option);
     </script>
     <script>
         var loader = new THREE.STLLoader();
@@ -968,6 +974,7 @@
         }
         function Calculate(){
             var flag = $("#selectLog").find("option:selected").text();
+            var bar = echarts.init(document.getElementById("theChart1"));
             $.ajax({
                 type:'GET',
                 data:{'flag':flag},
@@ -979,6 +986,37 @@
                     document.getElementById("Angle").value=res["Angle"];
                     document.getElementById("A_center").value=res["A_center"];
                     document.getElementById("B_center").value=res["B_center"];
+                    Ascore = res["Ascore"]
+                    Bscore = res["Bscore"]
+                    option = {
+                        title: {
+                            text: '关键特征三维重构效果评分及基准'
+                        },
+                        tooltip: {},
+                        legend: {
+                            data:['END A','END B','standard']
+                        },
+                        xAxis: {
+                            data: []
+                        },
+                        yAxis: {},
+                        series: [{
+                            name: 'END A',
+                            type: 'bar',
+                            data: Ascore
+                        },
+                        {
+                            name: 'END B',
+                            type: 'bar',
+                            data: Bscore
+                        },
+                        {
+                            name: 'standard',
+                            type: 'line',
+                            data: [50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50]
+                        }]
+                    };
+                    bar.setOption(option);
                     loader.load("/static/model/shortTube.stl", function (geometry6) {
                         //筒段本体
                         var material6 = new THREE.MeshLambertMaterial({color: 0xE5E5E5});
