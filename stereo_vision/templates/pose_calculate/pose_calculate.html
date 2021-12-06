@@ -59,7 +59,6 @@
             </a><!-- sl-menu-link -->
 	        <ul class="sl-menu-sub nav flex-column">
                 <li class="nav-item"><a href="../resultsAnalysis/" class="nav-link">测量报告编辑及生成</a></li>
-                <li class="nav-item"><a href="../planoMiller/" class="nav-link">龙门铣床加工系统数据输出</a></li>
                 <li class="nav-item"><a href="../robotMachine/" class="nav-link">多机器人加工系统数据输出</a></li>
             </ul>
         </div>
@@ -1260,6 +1259,7 @@
                     var group1 = new THREE.Group();
                     group1.add(line);
                     groupr.add(group1)
+                    print();
                 },
                 error: function (res) {
                     alert('失败！')
