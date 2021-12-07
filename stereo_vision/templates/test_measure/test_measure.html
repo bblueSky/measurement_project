@@ -496,6 +496,8 @@
             labelRendererr.domElement.style.top = '20px';
             container.appendChild(labelRendererr.domElement);
             controlsr = new THREE.OrbitControls(camerar,labelRendererr.domElement);
+            new THREE.OrbitControls(camerar,labelRendererl.domElement);
+            new THREE.OrbitControls(cameral,labelRendererr.domElement);
             window.addEventListener('resize', onWindowResizer, false);
             window.addEventListener("mousemove", onDocumentMouseMover, false );
         }
