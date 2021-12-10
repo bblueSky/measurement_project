@@ -101,75 +101,20 @@
                 <div class="card container" style="margin-left:0px">
                     <div style="height:15px"></div>
                     <div style="display:flex">
-                        <div>
-                            <div style="width:120px;height:45px">
-                                <button class="btn-success" style="font-size:18px;width:110px;height:35px;border-radius:8px;margin-left:0px" type="button" id="prioriFile" onclick="prioriFile()"><i class="fa fa-download"></i> 数据导入</button>
-                            </div>
-                            <div style="width:120px;height:45px">
-                                <button class="btn-success" style="font-size:18px;width:110px;height:35px;border-radius:8px;margin-left:0px" type="button" id="fitCircle" onclick="fitCircle()"><i class="fa fa-bullseye"></i> 形心拟合</button>
-                            </div>
-                        </div>
-                        <div style="display:flex">
-                            <div id="Aend" style="width:302px;height:302px;border:1px solid #ffffff">
-                                <!--这里放条件文本-->
-                            </div>
-                            <div id="Bend" style="width:302px;height:302px;border:1px solid #ffffff">
-                                <!--这里放条件文本-->
-                            </div>
-                        </div>
+                        <span>
+                            <button type="button" class="btn-success" id="updateList" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="updateList1()"><i class="fa fa-refresh"></i> 更新列表</button>
+                            <label style="font-size:18px">报告对应的日志为</label>
+                            <select id="selectType" style="font-size:18px;background:rgba(0,0,0,0.08);width:250px;height:35px;border-radius:8px" onchange="selectType()">
+                                <option value ="0">请先点击左侧“更新列表”</option>
+                            </select>
+                            <button type="button" class="btn-success" id="confirmLog" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="confirmLog()"><i class="fa fa-chrome"></i> 确认日志</button>
+                            <button type="button" class="btn-success" id="generateReport" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="generateReport()"><i class="fa fa-book"></i> 生成报告</button>
+                        </span>
                     </div>
-                    <div style="height:15px"></div>
-                </div>
-                <div style="height:15px"></div>
-                <div class="card container" style="margin-left:0px;height:700px">
-                    <div style="height:15px"></div>
-                    <span>
-                        <button type="button" class="btn-success" id="updateList" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="updateList1()"><i class="fa fa-refresh"></i> 更新列表</button>
-                        <label style="font-size:18px">选择待拍摄筒类型</label>
-                        <select id="selectType" style="font-size:18px;background:rgba(0,0,0,0.08);width:250px;height:35px;border-radius:8px" onchange="selectType()">
-                            <option value ="0">请先点击左侧“更新列表”</option>
-                        </select>
-                    </span>
                     <div style="height:10px"></div>
-                    <HR align=center width=775 color=#987cb9>
-                    <div style="height:15px"></div>
-                    <span>
-                        <div style="float:left;width:120px">
-                            <div style="height:45px">
-                                <button class="btn-primary" style="font-size:18px;width:110px;height:40px;border-radius:8px" type="button" id="takePhotos" onclick="take_pic()"><i class="fa fa-camera"></i> 拍摄</button><!--这里按钮在拍摄与保存之间切换-->
-                            </div>
-                            <div style="height:45px">
-                                <button class="btn-info" style="font-size:18px;width:110px;height:40px;border-radius:8px" type="button" id="savePic" onclick="save_pic()" disabled="disabled"><i class="fa fa-floppy-o"></i> 保存</button><!--我放弃了5555-->
-                            </div>
-                            <div style="height:45px">
-                                <button class="btn-primary" style="font-size:18px;width:110px;height:40px;border-radius:8px" type="button" id="pageUp" onclick="pageUp()"><i class="fa fa-arrow-circle-o-up"></i> 上翻</button>
-                            </div>
-                            <div style="height:45px">
-                                <button class="btn-primary" style="font-size:18px;width:110px;height:40px;border-radius:8px" type="button" id="pageDown" onclick="pageDown()"><i class="fa fa-arrow-circle-o-down"></i> 下翻</button>
-                            </div>
-                            <div style="height:45px">
-                                <button class="btn-warning" style="font-size:18px;width:110px;height:40px;border-radius:8px" type="button" id="deleteThis" onclick="confirmDelete1()"><i class="fa fa-trash"></i> 删除这组</button>
-                            </div>
-                            <div style="height:45px">
-                                <button class="btn-danger" style="font-size:18px;width:110px;height:40px;border-radius:8px" type="button" id="deleteAll" onclick="confirmDelete2()"><i class="fa fa-trash"></i> 删除所有</button>
-                            </div>
-                        </div>
-                        <div style="float:left">
-                              <!-- 左右相机照片显示 -->
-                            <table border="3" style="border:#ffffff">
-                                <tr>
-                                    <td><img name='leftcamera_A' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="300" height="250" id="left_img_A"></td>
-                                    <td><img name='rightcamera_A' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="300" height="250" id="right_img_A"></td>
-                                </tr>
-                                <tr>
-                                    <td><img name='leftcamera_B' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="300" height="250" id="left_img_B"></td>
-                                    <td><img name='rightcamera_B' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="300" height="250" id="right_img_B"></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </span>
+                    <HR align=center width=1420 color=#987cb9>
                     <div>
-                        <p align="center" id="numPic" style="font-size:18px">可点击“上翻”“下翻”按钮浏览历史图片</p><!--这里更换文本-->
+                        ssss
                     </div>
                 </div>
             </div>
@@ -188,7 +133,9 @@
     {% endblock %}
 
     {% block js %}
-
+    <script>
+        print();
+    </script>
     {% endblock %}
 
 
