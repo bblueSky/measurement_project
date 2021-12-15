@@ -116,7 +116,15 @@
                     <div>
                         <p align="left" style="font-size:16px;color:black">全局坐标系构建结果</p>
                         <HR align=center width=1420 color=#987cb9>
-                        <p align="left" id="global" style="font-size:14px">全局坐标系中的关键点坐标:</p>
+                        <p align="left" style="font-size:16px">全局坐标系中的关键点坐标:</p>
+                        <p align="left" style="font-size:14px">A端激光跟踪仪靶球全局坐标:</p>
+                        <p align="left" id="globalALT" style="font-size:14px"></p>
+                        <p align="left" style="font-size:14px">A端视觉测量靶标全局坐标:</p>
+                        <p align="left" id="globalACA" style="font-size:14px"></p>
+                        <p align="left" style="font-size:14px">B端激光跟踪仪靶球全局坐标:</p>
+                        <p align="left" id="globalBLT" style="font-size:14px"></p>
+                        <p align="left" style="font-size:14px">B端视觉测量靶标全局坐标:</p>
+                        <p align="left" id="globalBCA" style="font-size:14px"></p>
                     </div>
                     <div>
                         <p align="left" style="font-size:16px;color:black">关键特征点三维重构结果</p>
@@ -220,7 +228,10 @@
                 url:"/resultsAnalysis/confirmLog",
                 dataType: 'json',
                 success:function(res){
-                    console.log(res["dd"]);
+                    document.getElementById("globalALT").innerHTML="APO("+res["APO"]+");APH("+res["APH"]+");APW("+res["APW"]+");";
+                    document.getElementById("globalACA").innerHTML="APOs("+res["APOs"]+");APHs("+res["APHs"]+");APWs("+res["APWs"]+");";
+                    document.getElementById("globalBLT").innerHTML="BPO("+res["BPO"]+");BPH("+res["BPH"]+");BPW("+res["BPW"]+");";
+                    document.getElementById("globalBCA").innerHTML="BPOs("+res["BPOs"]+");BPHs("+res["BPHs"]+");BPWs("+res["BPWs"]+");";
                     alert("报告内容已生成！");
                 },
                 error: function (res) {
