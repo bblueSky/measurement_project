@@ -75,7 +75,7 @@
         <nav class="nav">
           <div class="dropdown">
             <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
-              <span class="logged-name">BUAA<span class="hidden-md-down"> 北航数字化设计与制造技术实验室</span></span>
+              <span class="logged-name">构件测量报告<span class="hidden-md-down"> 北航数字化设计与制造技术实验室</span></span>
             </a>
             <div class="dropdown-menu dropdown-menu-header wd-200" style="background-color:#033f75">
               <ul class="list-unstyled user-profile-nav">
@@ -102,9 +102,9 @@
                     <div style="height:15px"></div>
                     <div style="display:flex">
                         <span>
-                            <button type="button" class="btn-success" id="updateList" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="updateList1()"><i class="fa fa-refresh"></i> 更新列表</button>
+                            <button type="button" class="btn-success" id="updateList" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="updateList()"><i class="fa fa-refresh"></i> 更新列表</button>
                             <label id="justwords" style="font-size:18px">选择待生成日志</label>
-                            <select id="selectType" style="font-size:18px;background:rgba(0,0,0,0.08);width:250px;height:35px;border-radius:8px" onchange="selectType()">
+                            <select id="selectLog" style="font-size:18px;background:rgba(0,0,0,0.08);width:250px;height:35px;border-radius:8px" onchange="selectLog()">
                                 <option value ="0">请先点击左侧“更新列表”</option>
                             </select>
                             <button type="button" class="btn-success" id="confirmLog" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="confirmLog()"><i class="fa fa-chrome"></i> 确认日志</button>
@@ -112,34 +112,34 @@
                         </span>
                     </div>
                     <div style="height:10px"></div>
-                    <HR align=center width=1420 color=#987cb9>
+                    <p align="left" id="theFlag" style="font-size:18px;color:black"></p>
                     <div>
-                        <p align="left" style="font-size:18px;color:black">双目相机标定</p>
+                        <p align="left" style="font-size:16px;color:black">全局坐标系构建结果</p>
                         <HR align=center width=1420 color=#987cb9>
+                        <p align="left" id="global" style="font-size:14px">全局坐标系中的关键点坐标:</p>
                     </div>
                     <div>
-                        <p align="left" style="font-size:18px;color:black">全局坐标系构建</p>
+                        <p align="left" style="font-size:16px;color:black">关键特征点三维重构结果</p>
                         <HR align=center width=1420 color=#987cb9>
+                        <p align="left" id="A_threed" style="font-size:14px">A端重构结果三维坐标:</p>
+                        <p align="left" style="font-size:14px">A端重构结果展示图</p>
+                        <table border="3" style="border:#5b93d3"><tr>
+                            <td><img src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="650" height="500" id="A_img"></td>
+                        </tr></table>
+                        <p align="left" id="B_threed" style="font-size:14px">B端重构结果三维坐标:</p>
+                        <p align="left" style="font-size:14px">B端重构结果展示图</p>
+                        <table border="3" style="border:#5b93d3"><tr>
+                            <td><img src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="650" height="500" id="B_img"></td>
+                        </tr></table>
                     </div>
+                    <div style="height:240px"></div>
                     <div>
-                        <p align="left" style="font-size:18px;color:black">先验检测数据导入</p>
+                        <p align="left" style="font-size:16px;color:black">构件位姿计算结果</p>
                         <HR align=center width=1420 color=#987cb9>
-                    </div>
-                    <div>
-                        <p align="left" style="font-size:18px;color:black">关键特征检测</p>
-                        <HR align=center width=1420 color=#987cb9>
-                    </div>
-                    <div>
-                        <p align="left" id="" style="font-size:18px;color:black">三维重构结果及示意图</p>
-                        <HR align=center width=1420 color=#987cb9>
-                    </div>
-                    <div>
-                        <p align="left" id="" style="font-size:18px;color:black">位姿计算结果及场景图</p>
-                        <HR align=center width=1420 color=#987cb9>
-                    </div>
-                    <div>
-                        <p align="left" id="" style="font-size:18px;color:black">先验数据示意图及目标检测结果展示</p>
-                        <HR align=center width=1420 color=#987cb9>
+                        <p align="left" id="Aixs" style="font-size:14px">轴线向量为:</p>
+                        <p align="left" id="Angle" style="font-size:14px">象限偏角为:</p>
+                        <p align="left" id="Acenter" style="font-size:14px">A端形心坐标为:</p>
+                        <p align="left" id="Bcenter" style="font-size:14px">B端形心坐标为:</p>
                     </div>
                 </div>
             </div>
@@ -159,10 +159,81 @@
 
     {% block js %}
     <script>
+        function updateList() {
+            $("#selectLog").html("");
+            $.ajax({
+                type:'GET',
+                data:{'mydata':1},
+                url:"/resultsAnalysis/updateList",
+                dataType: 'json',
+                success:function(res){
+                    //console.log("第一步");
+                    var options = "<option value=0>请选择待检测日志</option>";
+                    for (var key in res) {
+                        //console.log("第二步");
+                        options += "<option value='"+key+"'>"+res[key]+"</option>";
+                    }
+                    $("#selectLog").append(options);
+                    //console.log("第三步");
+                    //window.location.reload();
+                    //alert('已选择'+type+'类筒端');
+
+                    //window.location.reload();
+
+                },
+                error: function (res) {
+                    alert('失败！')
+                }
+            });
+        }
+        function selectLog(){
+            var type = $("#selectLog").val();
+            var type1 = $("#selectLog").find("option:selected").text();
+            $.ajax({
+                type:'GET',
+                data:{'mydata':type},
+                url:"/resultsAnalysis/selectLog",
+                dataType: 'json',
+                success:function(res){
+                    //window.location.reload();
+                    if(type==0){
+                        alert('误操作！请选择待检测日志！')
+                    }
+                    else{
+                        alert('已选择'+type1+'日志');
+                    }
+
+                    //window.location.reload();
+                },
+                error: function (res) {
+                      alert('失败！')
+                }
+            })
+        }
+    </script>
+    <script>
+        function confirmLog(){
+            var flag = $("#selectLog").find("option:selected").text();
+            $.ajax({
+                type:'GET',
+                data:{'flag':flag},
+                url:"/resultsAnalysis/confirmLog",
+                dataType: 'json',
+                success:function(res){
+                    console.log(res["dd"]);
+                    alert("报告内容已生成！");
+                },
+                error: function (res) {
+                    alert('失败！')
+                }
+            })
+        }
+    </script>
+    <script>
         function generateReport(){
             document.getElementById("updateList").remove();
             document.getElementById("justwords").remove();
-            document.getElementById("selectType").remove();
+            document.getElementById("selectLog").remove();
             document.getElementById("confirmLog").remove();
             document.getElementById("generateReport").remove();
             print();
