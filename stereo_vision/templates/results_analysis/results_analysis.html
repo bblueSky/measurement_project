@@ -116,38 +116,43 @@
                     <div>
                         <p align="left" style="font-size:16px;color:black">全局坐标系构建结果</p>
                         <HR align=center width=1420 color=#987cb9>
-                        <p align="left" style="font-size:16px">全局坐标系中的关键点坐标:</p>
-                        <p align="left" style="font-size:14px">A端激光跟踪仪靶球全局坐标:</p>
+                        <p align="left" style="font-size:16px;color:black">全局坐标系中的关键点坐标:</p>
+                        <p align="left" style="font-size:14px;color:black">A端激光跟踪仪靶球全局坐标:</p>
                         <p align="left" id="globalALT" style="font-size:14px"></p>
-                        <p align="left" style="font-size:14px">A端视觉测量靶标全局坐标:</p>
+                        <p align="left" style="font-size:14px;color:black">A端视觉测量靶标全局坐标:</p>
                         <p align="left" id="globalACA" style="font-size:14px"></p>
-                        <p align="left" style="font-size:14px">B端激光跟踪仪靶球全局坐标:</p>
+                        <p align="left" style="font-size:14px;color:black">B端激光跟踪仪靶球全局坐标:</p>
                         <p align="left" id="globalBLT" style="font-size:14px"></p>
-                        <p align="left" style="font-size:14px">B端视觉测量靶标全局坐标:</p>
+                        <p align="left" style="font-size:14px;color:black">B端视觉测量靶标全局坐标:</p>
                         <p align="left" id="globalBCA" style="font-size:14px"></p>
                     </div>
+                    <div style="height:60px"></div>
                     <div>
                         <p align="left" style="font-size:16px;color:black">关键特征点三维重构结果</p>
                         <HR align=center width=1420 color=#987cb9>
-                        <p align="left" id="A_threed" style="font-size:14px">A端重构结果三维坐标:</p>
-                        <p align="left" style="font-size:14px">A端重构结果展示图</p>
-                        <table border="3" style="border:#5b93d3"><tr>
-                            <td><img src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="650" height="500" id="A_img"></td>
+                        <p align="left" style="font-size:14px;color:black">A端重构结果三维坐标:</p>
+                        <p align="left" id="A_threed" style="font-size:14px"></p>
+                        <table border="1"><tr>
+                            <td><img src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="320" height="250" id="A_img"></td>
                         </tr></table>
-                        <p align="left" id="B_threed" style="font-size:14px">B端重构结果三维坐标:</p>
-                        <p align="left" style="font-size:14px">B端重构结果展示图</p>
-                        <table border="3" style="border:#5b93d3"><tr>
-                            <td><img src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="650" height="500" id="B_img"></td>
+                        <p align="left" style="font-size:14px;color:black">B端重构结果三维坐标:</p>
+                        <p align="left" id="B_threed" style="font-size:14px"></p>
+                        <table border="1"><tr>
+                            <td><img src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="320" height="250" id="B_img"></td>
                         </tr></table>
                     </div>
-                    <div style="height:240px"></div>
+                    <div style="height:180px"></div>
                     <div>
                         <p align="left" style="font-size:16px;color:black">构件位姿计算结果</p>
                         <HR align=center width=1420 color=#987cb9>
-                        <p align="left" id="Aixs" style="font-size:14px">轴线向量为:</p>
-                        <p align="left" id="Angle" style="font-size:14px">象限偏角为:</p>
-                        <p align="left" id="Acenter" style="font-size:14px">A端形心坐标为:</p>
-                        <p align="left" id="Bcenter" style="font-size:14px">B端形心坐标为:</p>
+                        <p align="left" style="font-size:14px">轴线向量:</p>
+                        <p align="left" id="Aixs" style="font-size:14px"></p>
+                        <p align="left" style="font-size:14px">象限偏角:</p>
+                        <p align="left" id="Angle" style="font-size:14px"></p>
+                        <p align="left" style="font-size:14px">A端形心坐标:</p>
+                        <p align="left" id="Acenter" style="font-size:14px"></p>
+                        <p align="left" style="font-size:14px">B端形心坐标:</p>
+                        <p align="left" id="Bcenter" style="font-size:14px"></p>
                     </div>
                 </div>
             </div>
@@ -232,6 +237,10 @@
                     document.getElementById("globalACA").innerHTML="APOs("+res["APOs"]+");APHs("+res["APHs"]+");APWs("+res["APWs"]+");";
                     document.getElementById("globalBLT").innerHTML="BPO("+res["BPO"]+");BPH("+res["BPH"]+");BPW("+res["BPW"]+");";
                     document.getElementById("globalBCA").innerHTML="BPOs("+res["BPOs"]+");BPHs("+res["BPHs"]+");BPWs("+res["BPWs"]+");";
+                    document.getElementById("A_threed").innerHTML=res["Aend"];
+                    document.getElementById("B_threed").innerHTML=res["Bend"];
+                    document.getElementById("A_img").src="/static/res_pictures/temp/Aend.jpg";
+                    document.getElementById("B_img").src="/static/res_pictures/temp/Bend.jpg";
                     alert("报告内容已生成！");
                 },
                 error: function (res) {

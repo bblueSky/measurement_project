@@ -2,10 +2,8 @@
 
 from flask  import render_template, request
 from stereo_vision.resultsAnalysis import  resultsAnalysis
-import json
-import numpy as np
-import time
-import datetime
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 import os
 from xml.dom import minidom
 
@@ -55,57 +53,120 @@ def confirmLog():
     pose_root = pose_doc.documentElement
 
     ##需要拿的数据：1、全局坐标系12个点 2、两端三维点 3、位姿四件套
-    APOX = global_root.getElementsByTagName("APO")[0].childNodes[0].childNodes[0].data
-    APOY = global_root.getElementsByTagName("APO")[0].childNodes[1].childNodes[0].data
-    APOZ = global_root.getElementsByTagName("APO")[0].childNodes[2].childNodes[0].data
+    APOX = round(float(global_root.getElementsByTagName("APO")[0].childNodes[0].childNodes[0].data),3)
+    APOY = round(float(global_root.getElementsByTagName("APO")[0].childNodes[1].childNodes[0].data),3)
+    APOZ = round(float(global_root.getElementsByTagName("APO")[0].childNodes[2].childNodes[0].data),3)
 
-    APHX = global_root.getElementsByTagName("APH")[0].childNodes[0].childNodes[0].data
-    APHY = global_root.getElementsByTagName("APH")[0].childNodes[1].childNodes[0].data
-    APHZ = global_root.getElementsByTagName("APH")[0].childNodes[2].childNodes[0].data
+    APHX = round(float(global_root.getElementsByTagName("APH")[0].childNodes[0].childNodes[0].data),3)
+    APHY = round(float(global_root.getElementsByTagName("APH")[0].childNodes[1].childNodes[0].data),3)
+    APHZ = round(float(global_root.getElementsByTagName("APH")[0].childNodes[2].childNodes[0].data),3)
 
-    APWX = global_root.getElementsByTagName("APW")[0].childNodes[0].childNodes[0].data
-    APWY = global_root.getElementsByTagName("APW")[0].childNodes[1].childNodes[0].data
-    APWZ = global_root.getElementsByTagName("APW")[0].childNodes[2].childNodes[0].data
+    APWX = round(float(global_root.getElementsByTagName("APW")[0].childNodes[0].childNodes[0].data),3)
+    APWY = round(float(global_root.getElementsByTagName("APW")[0].childNodes[1].childNodes[0].data),3)
+    APWZ = round(float(global_root.getElementsByTagName("APW")[0].childNodes[2].childNodes[0].data),3)
 
-    BPOX = global_root.getElementsByTagName("BPO")[0].childNodes[0].childNodes[0].data
-    BPOY = global_root.getElementsByTagName("BPO")[0].childNodes[1].childNodes[0].data
-    BPOZ = global_root.getElementsByTagName("BPO")[0].childNodes[2].childNodes[0].data
+    BPOX = round(float(global_root.getElementsByTagName("BPO")[0].childNodes[0].childNodes[0].data),3)
+    BPOY = round(float(global_root.getElementsByTagName("BPO")[0].childNodes[1].childNodes[0].data),3)
+    BPOZ = round(float(global_root.getElementsByTagName("BPO")[0].childNodes[2].childNodes[0].data),3)
 
-    BPHX = global_root.getElementsByTagName("BPH")[0].childNodes[0].childNodes[0].data
-    BPHY = global_root.getElementsByTagName("BPH")[0].childNodes[1].childNodes[0].data
-    BPHZ = global_root.getElementsByTagName("BPH")[0].childNodes[2].childNodes[0].data
+    BPHX = round(float(global_root.getElementsByTagName("BPH")[0].childNodes[0].childNodes[0].data),3)
+    BPHY = round(float(global_root.getElementsByTagName("BPH")[0].childNodes[1].childNodes[0].data),3)
+    BPHZ = round(float(global_root.getElementsByTagName("BPH")[0].childNodes[2].childNodes[0].data),3)
 
-    BPWX = global_root.getElementsByTagName("BPW")[0].childNodes[0].childNodes[0].data
-    BPWY = global_root.getElementsByTagName("BPW")[0].childNodes[1].childNodes[0].data
-    BPWZ = global_root.getElementsByTagName("BPW")[0].childNodes[2].childNodes[0].data
-
-
+    BPWX = round(float(global_root.getElementsByTagName("BPW")[0].childNodes[0].childNodes[0].data),3)
+    BPWY = round(float(global_root.getElementsByTagName("BPW")[0].childNodes[1].childNodes[0].data),3)
+    BPWZ = round(float(global_root.getElementsByTagName("BPW")[0].childNodes[2].childNodes[0].data),3)
 
 
+    APOXs = round(float(global_root.getElementsByTagName("APOs")[0].childNodes[0].childNodes[0].data),3)
+    APOYs = round(float(global_root.getElementsByTagName("APOs")[0].childNodes[1].childNodes[0].data),3)
+    APOZs = round(float(global_root.getElementsByTagName("APOs")[0].childNodes[2].childNodes[0].data),3)
 
-    APOXs = global_root.getElementsByTagName("APOs")[0].childNodes[0].childNodes[0].data
-    APOYs = global_root.getElementsByTagName("APOs")[0].childNodes[1].childNodes[0].data
-    APOZs = global_root.getElementsByTagName("APOs")[0].childNodes[2].childNodes[0].data
+    APHXs = round(float(global_root.getElementsByTagName("APHs")[0].childNodes[0].childNodes[0].data),3)
+    APHYs = round(float(global_root.getElementsByTagName("APHs")[0].childNodes[1].childNodes[0].data),3)
+    APHZs = round(float(global_root.getElementsByTagName("APHs")[0].childNodes[2].childNodes[0].data),3)
 
-    APHXs = global_root.getElementsByTagName("APHs")[0].childNodes[0].childNodes[0].data
-    APHYs = global_root.getElementsByTagName("APHs")[0].childNodes[1].childNodes[0].data
-    APHZs = global_root.getElementsByTagName("APHs")[0].childNodes[2].childNodes[0].data
+    APWXs = round(float(global_root.getElementsByTagName("APWs")[0].childNodes[0].childNodes[0].data),3)
+    APWYs = round(float(global_root.getElementsByTagName("APWs")[0].childNodes[1].childNodes[0].data),3)
+    APWZs = round(float(global_root.getElementsByTagName("APWs")[0].childNodes[2].childNodes[0].data),3)
 
-    APWXs = global_root.getElementsByTagName("APWs")[0].childNodes[0].childNodes[0].data
-    APWYs = global_root.getElementsByTagName("APWs")[0].childNodes[1].childNodes[0].data
-    APWZs = global_root.getElementsByTagName("APWs")[0].childNodes[2].childNodes[0].data
+    BPOXs = round(float(global_root.getElementsByTagName("BPOs")[0].childNodes[0].childNodes[0].data),3)
+    BPOYs = round(float(global_root.getElementsByTagName("BPOs")[0].childNodes[1].childNodes[0].data),3)
+    BPOZs = round(float(global_root.getElementsByTagName("BPOs")[0].childNodes[2].childNodes[0].data),3)
 
-    BPOXs = global_root.getElementsByTagName("BPOs")[0].childNodes[0].childNodes[0].data
-    BPOYs = global_root.getElementsByTagName("BPOs")[0].childNodes[1].childNodes[0].data
-    BPOZs = global_root.getElementsByTagName("BPOs")[0].childNodes[2].childNodes[0].data
+    BPHXs = round(float(global_root.getElementsByTagName("BPHs")[0].childNodes[0].childNodes[0].data),3)
+    BPHYs = round(float(global_root.getElementsByTagName("BPHs")[0].childNodes[1].childNodes[0].data),3)
+    BPHZs = round(float(global_root.getElementsByTagName("BPHs")[0].childNodes[2].childNodes[0].data),3)
 
-    BPHXs = global_root.getElementsByTagName("BPHs")[0].childNodes[0].childNodes[0].data
-    BPHYs = global_root.getElementsByTagName("BPHs")[0].childNodes[1].childNodes[0].data
-    BPHZs = global_root.getElementsByTagName("BPHs")[0].childNodes[2].childNodes[0].data
+    BPWXs = round(float(global_root.getElementsByTagName("BPWs")[0].childNodes[0].childNodes[0].data),3)
+    BPWYs = round(float(global_root.getElementsByTagName("BPWs")[0].childNodes[1].childNodes[0].data),3)
+    BPWZs = round(float(global_root.getElementsByTagName("BPWs")[0].childNodes[2].childNodes[0].data),3)
 
-    BPWXs = global_root.getElementsByTagName("BPWs")[0].childNodes[0].childNodes[0].data
-    BPWYs = global_root.getElementsByTagName("BPWs")[0].childNodes[1].childNodes[0].data
-    BPWZs = global_root.getElementsByTagName("BPWs")[0].childNodes[2].childNodes[0].data
+    savepath = os.path.dirname(os.path.realpath(__file__)).replace("resultsAnalysis", "static/res_pictures/temp/")
+    fig = plt.figure(dpi=400)
+    font = {'serif': 'Times New Roman', 'weight': 'normal'}
+    plt.rc('font', **font)
+    ax = fig.add_subplot(111, projection='3d')
+    A_end = list()
+    B_end = list()
+    numofAhole = len(point_root.getElementsByTagName("threeD")[0].childNodes)
+    numofAtarget = len(point_root.getElementsByTagName("threeD")[1].childNodes)
+    numofBhole = len(point_root.getElementsByTagName("threeD")[2].childNodes)
+    numofBtarget = len(point_root.getElementsByTagName("threeD")[3].childNodes)
+    for i in range(numofAhole):
+        x__ = round(float(point_root.getElementsByTagName("X")[i].childNodes[0].data), 3)
+        y__ = round(float(point_root.getElementsByTagName("Y")[i].childNodes[0].data), 3)
+        z__ = round(float(point_root.getElementsByTagName("Z")[i].childNodes[0].data), 3)
+        if i == 0:
+            ax.scatter(x__, y__, z__, s=30, linewidth=0.5, label='hole', marker='o', color='blue', alpha=0.3)
+        else:
+            ax.scatter(x__, y__, z__, s=30, linewidth=0.5, marker='o', color='blue',alpha=0.3)
+        A_end.append("特征点"+str(i+1)+"  ("+str(x__)+","+str(y__)+","+str(z__)+")")
+    for i in range(numofAtarget):
+        x__ = round(float(point_root.getElementsByTagName("X")[i+numofAhole].childNodes[0].data), 3)
+        y__ = round(float(point_root.getElementsByTagName("Y")[i+numofAhole].childNodes[0].data), 3)
+        z__ = round(float(point_root.getElementsByTagName("Z")[i+numofAhole].childNodes[0].data), 3)
+        if i == 0:
+            ax.scatter(x__, y__, z__, s=30, linewidth=0.5, label="target",marker='o', color='red', alpha=0.3)
+        else:
+            ax.scatter(x__, y__, z__, s=30, linewidth=0.5, marker='o', color='red', alpha=0.3)
+        A_end.append("特征点"+str(i+1)+"  ("+str(x__)+","+str(y__)+","+str(z__)+")")
+    ax.set_xlabel('X-axis')
+    ax.set_ylabel('Y-axis')
+    ax.set_zlabel('Z-axis')
+    plt.legend()
+
+    plt.savefig(savepath+"Aend.jpg")
+
+    fig = plt.figure(dpi=400)
+    font = {'serif': 'Times New Roman', 'weight': 'normal'}
+    plt.rc('font', **font)
+    ax = fig.add_subplot(111, projection='3d')
+    for i in range(numofBhole):
+        x__ = round(float(point_root.getElementsByTagName("X")[i+numofAhole+numofAtarget].childNodes[0].data), 3)
+        y__ = round(float(point_root.getElementsByTagName("Y")[i+numofAhole+numofAtarget].childNodes[0].data), 3)
+        z__ = round(float(point_root.getElementsByTagName("Z")[i+numofAhole+numofAtarget].childNodes[0].data), 3)
+        if i == 0:
+            ax.scatter(x__, y__, z__, s=30, linewidth=0.5, label='hole', marker='o', color='blue', alpha=0.3)
+        else:
+            ax.scatter(x__, y__, z__, s=30, linewidth=0.5, marker='o', color='blue', alpha=0.3)
+        B_end.append("特征点"+str(i+1)+"  ("+str(x__)+","+str(y__)+","+str(z__)+")")
+    for i in range(numofBtarget):
+        x__ = round(float(point_root.getElementsByTagName("X")[i+numofAhole+numofAtarget+numofBhole].childNodes[0].data), 3)
+        y__ = round(float(point_root.getElementsByTagName("Y")[i+numofAhole+numofAtarget+numofBhole].childNodes[0].data), 3)
+        z__ = round(float(point_root.getElementsByTagName("Z")[i+numofAhole+numofAtarget+numofBhole].childNodes[0].data), 3)
+        if i == 0:
+            ax.scatter(x__, y__, z__, s=30, linewidth=0.5, label="target", marker='o', color='red', alpha=0.3)
+        else:
+            ax.scatter(x__, y__, z__, s=30, linewidth=0.5, marker='o', color='red', alpha=0.3)
+        B_end.append("特征点"+str(i+1)+"  ("+str(x__)+","+str(y__)+","+str(z__)+")")
+    ax.set_xlabel('X-axis')
+    ax.set_ylabel('Y-axis')
+    ax.set_zlabel('Z-axis')
+    plt.legend()
+
+    plt.savefig(savepath + "Bend.jpg")
+
 
     res = {
         "APO": [APOX, APOY, APOZ],
@@ -119,7 +180,10 @@ def confirmLog():
         "APWs": [APWXs, APWYs, APWZs],
         "BPOs": [BPOXs, BPOYs, BPOZs],
         "BPHs": [BPHXs, BPHYs, BPHZs],
-        "BPWs": [BPWXs, BPWYs, BPWZs]
+        "BPWs": [BPWXs, BPWYs, BPWZs],
+        "Aend":A_end,
+        "Bend":B_end,
+
     }
     return res
 
