@@ -953,4 +953,20 @@ def tubePoseCalculate(filePath,dataPath):
 
 
         print(lll)
-        return {"Axis":Axis1,"Angle":Angle,"A_center":A_center,"A_angle":A_angle,"B_center":B_center,"B_angle":B_angle,"lll":lll,"APO":[APO_X,APO_Y,APO_Z],"APH":[APH_X,APH_Y,APH_Z],"APW":[APW_X,APW_Y,APW_Z],"BPO":[BPO_X,BPO_Y,BPO_Z],"BPH":[BPH_X,BPH_Y,BPH_Z],"BPW":[BPW_X,BPW_Y,BPW_Z],"Ascore":A_hole_s_list,"Bscore":B_hole_s_list}
+        return {
+            "Axis":Axis1,
+            "Angle":Angle,
+            "A_center":A_center,
+            "A_angle":A_angle,
+            "B_center":B_center,
+            "B_angle":B_angle,
+            "lll":lll,
+            "APO":[APO_X,APO_Y,APO_Z],
+            "APH":[APH_X,APH_Y,APH_Z],
+            "APW":[APW_X,APW_Y,APW_Z],
+            "BPO":[BPO_X,BPO_Y,BPO_Z],
+            "BPH":[BPH_X,BPH_Y,BPH_Z],
+            "BPW":[BPW_X,BPW_Y,BPW_Z],
+            "Ascore":A_hole_s_list,
+            "Bscore":B_hole_s_list
+        }
