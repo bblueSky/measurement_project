@@ -97,9 +97,7 @@
     <div class="sl-mainpanel">
         <div style="display:flex">
             <div class="container" style="flex:1;padding-right:0px;padding-left:0px">
-                <div style="height:15px"></div>
                 <div class="card container" style="margin-left:0px">
-                    <div style="height:15px"></div>
                     <div style="display:flex">
                         <span>
                             <button type="button" class="btn-success" id="updateList" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="updateList()"><i class="fa fa-refresh"></i> 更新列表</button>
@@ -111,59 +109,54 @@
                             <button type="button" class="btn-success" id="generateReport" style="font-size:18px;width:110px;height:35px;border-radius:8px" onclick="generateReport()"><i class="fa fa-book"></i> 生成报告</button>
                         </span>
                     </div>
-                    <div style="height:10px"></div>
-                    <p align="left" id="theFlag" style="font-size:18px;color:black"></p>
+                    <p align="left" id="theFlag" style="font-size:14px;color:black"></p>
                     <div>
-                        <p align="left" style="font-size:16px;color:black">全局坐标系构建结果</p>
+                        <p align="left" style="font-size:14px;color:black">全局坐标系构建结果</p>
                         <HR align=center width=1420 color=#987cb9>
-                        <p align="left" style="font-size:16px;color:black">全局坐标系中的关键点坐标:</p>
-                        <p align="left" style="font-size:14px;color:black">A端激光跟踪仪靶球全局坐标:</p>
-                        <p align="left" id="globalALT" style="font-size:14px"></p>
-                        <p align="left" style="font-size:14px;color:black">A端视觉测量靶标全局坐标:</p>
-                        <p align="left" id="globalACA" style="font-size:14px"></p>
-                        <p align="left" style="font-size:14px;color:black">B端激光跟踪仪靶球全局坐标:</p>
-                        <p align="left" id="globalBLT" style="font-size:14px"></p>
-                        <p align="left" style="font-size:14px;color:black">B端视觉测量靶标全局坐标:</p>
-                        <p align="left" id="globalBCA" style="font-size:14px"></p>
+                        <p align="left" style="font-size:10px;color:black">全局坐标系中的关键点坐标:</p>
+                        <p align="left" style="font-size:10px;color:black">A端激光跟踪仪靶球全局坐标:</p>
+                        <p align="left" id="globalALT" style="font-size:10px"></p>
+                        <p align="left" style="font-size:10px;color:black">A端视觉测量靶标全局坐标:</p>
+                        <p align="left" id="globalACA" style="font-size:10px"></p>
+                        <p align="left" style="font-size:10px;color:black">B端激光跟踪仪靶球全局坐标:</p>
+                        <p align="left" id="globalBLT" style="font-size:10px"></p>
+                        <p align="left" style="font-size:10px;color:black">B端视觉测量靶标全局坐标:</p>
+                        <p align="left" id="globalBCA" style="font-size:10px"></p>
                     </div>
-                    <div style="height:60px"></div>
+                    <div style="height:10px"></div>
                     <div>
-                        <p align="left" style="font-size:16px;color:black">关键特征点三维重构结果</p>
+                        <p align="left" style="font-size:14px;color:black">关键特征点三维重构结果</p>
                         <HR align=center width=1420 color=#987cb9>
-                        <p align="left" style="font-size:14px;color:black">A端重构结果三维坐标:</p>
-                        <p align="left" id="A_threed" style="font-size:14px"></p>
+                        <p align="left" style="font-size:10px;color:black">A端重构结果三维坐标:</p>
+                        <p align="left" id="A_threed" style="font-size:10px"></p>
                         <table border="1"><tr>
                             <td><img src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="320" height="250" id="A_img"></td>
                         </tr></table>
-                        <p align="left" style="font-size:14px;color:black">B端重构结果三维坐标:</p>
-                        <p align="left" id="B_threed" style="font-size:14px"></p>
+                        <p align="left" style="font-size:10px;color:black">B端重构结果三维坐标:</p>
+                        <p align="left" id="B_threed" style="font-size:10px"></p>
                         <table border="1"><tr>
                             <td><img src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="320" height="250" id="B_img"></td>
                         </tr></table>
                     </div>
                     <div style="height:180px"></div>
                     <div>
-                        <p align="left" style="font-size:16px;color:black">构件位姿计算结果</p>
+                        <p align="left" style="font-size:14px;color:black">构件位姿计算结果</p>
                         <HR align=center width=1420 color=#987cb9>
-                        <p align="left" style="font-size:14px">轴线向量:</p>
-                        <p align="left" id="Aixs" style="font-size:14px"></p>
-                        <p align="left" style="font-size:14px">象限偏角:</p>
-                        <p align="left" id="Angle" style="font-size:14px"></p>
-                        <p align="left" style="font-size:14px">A端形心坐标:</p>
-                        <p align="left" id="Acenter" style="font-size:14px"></p>
-                        <p align="left" style="font-size:14px">B端形心坐标:</p>
-                        <p align="left" id="Bcenter" style="font-size:14px"></p>
+                        <p align="left" id="Axis" style="font-size:10px;color:black">轴线向量为:</p>
+                        <p align="left" id="Angle" style="font-size:10px;color:black">象限偏角为:</p>
+                        <p align="left" id="Acenter" style="font-size:10px;color:black">A端形心坐标为:</p>
+                        <p align="left" id="Bcenter" style="font-size:10px;color:black">B端形心坐标为:</p>
                         <div style="display:flex">
-                            <div id="history1" style="width:300px;height:300px;border:1px">
+                            <div id="history1" style="width:240px;height:240px;border:1px">
                                 <!--这里放条件文本-->
                             </div>
-                            <div style="width:200px;"></div>
-                            <div id="history2" style="width:300px;height:300px;border:1px">
+                            <div style="width:30px;"></div>
+                            <div id="history2" style="width:240px;height:240px;border:1px">
                                 <!--这里放条件文本-->
                             </div>
                         </div>
-                        <div style="height:20px"></div>
-                        <div id="wholeCylinder" style="height:500px;width:800px;border:1px">
+                        <div style="height:10px"></div>
+                        <div id="wholeCylinder" style="height:400px;width:640px;border:1px">
                             <!--这里面放全筒端三维模型-->
                         </div>
                     </div>
@@ -257,6 +250,12 @@
                     document.getElementById("B_threed").innerHTML=res["Bend"];
                     document.getElementById("A_img").src="/static/res_pictures/temp/Aend.jpg";
                     document.getElementById("B_img").src="/static/res_pictures/temp/Bend.jpg";
+                    document.getElementById("Axis").innerHTML="轴线向量为: ("+res["Axis"]+")";
+                    document.getElementById("Angle").innerHTML="象限偏角为: "+res["Angle"]+"°";
+                    document.getElementById("Acenter").innerHTML="A端形心坐标为: ("+res["A_center"]+")";
+                    document.getElementById("Bcenter").innerHTML="B端形心坐标为: ("+res["B_center"]+")";
+
+
 
                     var loader = new THREE.STLLoader();
                     var loadert = new THREE.TextureLoader();
@@ -785,8 +784,8 @@
                         /**
                         * 相机设置
                         */
-                        width = 800; //窗口宽度
-                        height = 500; //窗口高度
+                        width = 640; //窗口宽度
+                        height = 400; //窗口高度
                         var k = width / height; //窗口宽高比
                         var s = 300; //三维场景显示范围控制系数，系数越大，显示的范围越大
                         //创建相机对象
@@ -955,8 +954,8 @@
                         /**
                         * 相机设置
                         */
-                        widthl = 300; //窗口宽度
-                        heightl = 300; //窗口高度
+                        widthl = 240; //窗口宽度
+                        heightl = 240; //窗口高度
                         var k = widthl / heightl; //窗口宽高比
                         var s = 70; //三维场景显示范围控制系数，系数越大，显示的范围越大
                         //创建相机对象
@@ -1123,8 +1122,8 @@
                         /**
                         * 相机设置
                         */
-                        widthr = 300; //窗口宽度
-                        heightr = 300; //窗口高度
+                        widthr = 240; //窗口宽度
+                        heightr = 240; //窗口高度
                         var k = widthr / heightr; //窗口宽高比
                         var s = 70; //三维场景显示范围控制系数，系数越大，显示的范围越大
                         //创建相机对象

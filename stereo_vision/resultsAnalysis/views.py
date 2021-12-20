@@ -102,6 +102,9 @@ def confirmLog():
     BPWYs = round(float(global_root.getElementsByTagName("BPWs")[0].childNodes[1].childNodes[0].data),3)
     BPWZs = round(float(global_root.getElementsByTagName("BPWs")[0].childNodes[2].childNodes[0].data),3)
 
+
+
+    ##拿到两端三维点的数据
     savepath = os.path.dirname(os.path.realpath(__file__)).replace("resultsAnalysis", "static/res_pictures/temp/")
     fig = plt.figure(dpi=400)
     font = {'serif': 'Times New Roman', 'weight': 'normal'}
@@ -168,6 +171,28 @@ def confirmLog():
     plt.savefig(savepath + "Bend.jpg")
 
 
+    ##拿到位姿四件套数据
+    Axis1 = [
+        round(float(pose_root.getElementsByTagName("Axis")[0].childNodes[0].childNodes[0].data), 3),
+        round(float(pose_root.getElementsByTagName("Axis")[0].childNodes[1].childNodes[0].data), 3),
+        round(float(pose_root.getElementsByTagName("Axis")[0].childNodes[2].childNodes[0].data), 3)
+    ]
+    Angle = round(float(pose_root.getElementsByTagName("degree")[0].childNodes[0].data), 3)
+
+    A_center = [
+        round(float(pose_root.getElementsByTagName("center")[0].childNodes[0].childNodes[0].data), 3),
+        round(float(pose_root.getElementsByTagName("center")[0].childNodes[1].childNodes[0].data), 3),
+        round(float(pose_root.getElementsByTagName("center")[0].childNodes[2].childNodes[0].data), 3)
+    ]
+
+    B_center = [
+        round(float(pose_root.getElementsByTagName("center")[1].childNodes[0].childNodes[0].data), 3),
+        round(float(pose_root.getElementsByTagName("center")[1].childNodes[1].childNodes[0].data), 3),
+        round(float(pose_root.getElementsByTagName("center")[1].childNodes[2].childNodes[0].data), 3)
+    ]
+
+    lll = ((BPOX ** 2 + BPOY ** 2 + BPOZ ** 2) ** 0.5) * 0.5
+
     res = {
         "APO": [APOX, APOY, APOZ],
         "APH": [APHX, APHY, APHZ],
@@ -183,7 +208,11 @@ def confirmLog():
         "BPWs": [BPWXs, BPWYs, BPWZs],
         "Aend":A_end,
         "Bend":B_end,
-
+        "Axis": Axis1,
+        "Angle": Angle,
+        "A_center": A_center,
+        "B_center": B_center,
+        "lll":lll
     }
     return res
 
