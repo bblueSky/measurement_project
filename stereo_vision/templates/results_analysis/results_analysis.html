@@ -160,6 +160,22 @@
                             <!--这里面放全筒端三维模型-->
                         </div>
                     </div>
+                    <div style="height:640px"></div>
+                    <div>
+                        <p align="left" style="font-size:14px;color:black">筒端图像及检测结果</p>
+                        <HR align=center width=1420 color=#987cb9>
+                        <p align="left" id="time" style="font-size:10px;color:black"></p>
+                        <table align="center" border="1">
+                            <tr>
+                                <td><img name='leftcamera_A' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="450" height="375" id="left_img_A"></td>
+                                <td><img name='rightcamera_A' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="450" height="375" id="right_img_A"></td>
+                            </tr>
+                            <tr>
+                                <td><img name='leftcamera_B' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="450" height="375" id="left_img_B"></td>
+                                <td><img name='rightcamera_B' src="/static/res_pictures/temp/noImage.png" alt="Pulpit rock" width="450" height="375" id="right_img_B"></td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -254,8 +270,11 @@
                     document.getElementById("Angle").innerHTML="象限偏角为: "+res["Angle"]+"°";
                     document.getElementById("Acenter").innerHTML="A端形心坐标为: ("+res["A_center"]+")";
                     document.getElementById("Bcenter").innerHTML="B端形心坐标为: ("+res["B_center"]+")";
-
-
+                    document.getElementById("time").innerHTML="测量时间为:"+flag;
+                    document.getElementById("left_img_A").src="/static/res_pictures/result/"+flag+"/A_left.jpg";
+                    document.getElementById("right_img_A").src="/static/res_pictures/result/"+flag+"/A_right.jpg";
+                    document.getElementById("left_img_B").src="/static/res_pictures/result/"+flag+"/B_left.jpg";
+                    document.getElementById("right_img_B").src="/static/res_pictures/result/"+flag+"/B_right.jpg";
 
                     var loader = new THREE.STLLoader();
                     var loadert = new THREE.TextureLoader();
