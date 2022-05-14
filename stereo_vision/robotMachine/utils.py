@@ -26,7 +26,9 @@ def robotComunicate() :
             time.sleep(1)
         slave_1.set_values('A', 0, 2)
     finally:
+        print("收到确认帧！")
         server.stop()
+        print("停止通讯")
 
 
 
