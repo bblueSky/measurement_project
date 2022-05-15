@@ -589,7 +589,7 @@
                 var materialg = new THREE.MeshLambertMaterial({
                     map: texture // 将材质的map属性设置为加载的图片
                 });
-                var ground = new THREE.BoxGeometry(600, 5, 600);
+                var ground = new THREE.BoxGeometry(600, 5, 600);//原始值600*5*600
                 var meshg = new THREE.Mesh(ground, materialg);  // 创建这个mesh对象
                 meshg.position.y = -100;
                 meshg.position.x = -150;
@@ -636,10 +636,10 @@
             width = 755; //窗口宽度
             height = 700; //窗口高度
             var k = width / height; //窗口宽高比
-            var s = 300; //三维场景显示范围控制系数，系数越大，显示的范围越大
+            var s = 300; //三维场景显示范围控制系数，系数越大，显示的范围越大，原始值300
             //创建相机对象
             camera = new THREE.OrthographicCamera(-s * k, s * k, s, -s, 1, 1000);
-            camera.position.set(300, 300, 300); //设置相机位置
+            camera.position.set(300, 300, 300); //设置相机位置，原始值300*300*300
             camera.lookAt(scene.position); //设置相机方向(指向的场景对象)
             /**
             * 创建渲染器对象
@@ -974,162 +974,200 @@
         function Calculate(){
             var flag = $("#selectLog").find("option:selected").text();
             var bar = echarts.init(document.getElementById("theChart1"));
-            $.ajax({
-                type:'GET',
-                data:{'flag':flag},
-                url:"/poseCalculate/Calculate",
-                dataType: 'json',
-                success:function(res){
-                    alert('位姿计算完成！')
-                    document.getElementById("Axis").value=res["Axis"];
-                    document.getElementById("Angle").value=res["Angle"];
-                    document.getElementById("A_center").value=res["A_center"];
-                    document.getElementById("B_center").value=res["B_center"];
-                    Ascore = res["Ascore"]
-                    Bscore = res["Bscore"]
-                    option = {
-                        title: {
-                            text: '关键特征三维重构效果评分及基准'
-                        },
-                        tooltip: {},
-                        legend: {
-                            data:['END A','END B','standard']
-                        },
-                        xAxis: {
-                            data: []
-                        },
-                        yAxis: {},
-                        series: [{
-                            name: 'END A',
-                            type: 'bar',
-                            data: Ascore
-                        },
-                        {
-                            name: 'END B',
-                            type: 'bar',
-                            data: Bscore
-                        },
-                        {
-                            name: 'standard',
-                            type: 'line',
-                            data: [50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50]
-                        }]
-                    };
-                    bar.setOption(option);
-                    loader.load("/static/model/shortTube.stl", function (geometry6) {
-                        //筒段本体
-                        var material6 = new THREE.MeshLambertMaterial({color: 0xE5E5E5});
-                        var mesh6 = new THREE.Mesh(geometry6,material6);
-                        mesh6.rotation.x = -0.5 * Math.PI; //将模型摆正
-                        mesh6.rotation.z = -0.5 * Math.PI;
-                        mesh6.position.set(-90,-20,-35);
-                        mesh6.scale.set(0.1, 0.1, 0.1); //缩放
-                        mesh6.name = "筒端本体,位姿参数:已计算  轴线向量:("+res["Axis"]+")   象限偏角:"+res["Angle"]+"°";
-                        var holeDiv1 = document.createElement("div1");
-                        var holeDiv2 = document.createElement("div2");
-                        holeDiv1.className = "class";
-                        holeDiv2.className = "coordinate";
-                        holeDiv1.textContent = "";
-                        holeDiv2.textContent = "";
-                        holeDiv1.style.fontSize = "5px";
-                        holeDiv2.style.fontSize = "5px";
-                        holeDiv1.style.fontWeight = "bold";
-                        holeDiv2.style.fontWeight = "bold";
-                        holeDiv1.style.color = "yellow";
-                        holeDiv2.style.color = "yellow";
-                        holeDiv1.style.backgroundColor = "blue";
-                        holeDiv2.style.backgroundColor = "purple";
-                        var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
-                        var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
-                        holeLabel1.position.set(0,1000,0);
-                        holeLabel2.position.set(0,-1000,0);
-                        mesh6.add(holeLabel1);
-                        mesh6.add(holeLabel2);
-                        var group6 = new THREE.Group();
-                        group6.add(mesh6);
-                        group.add(group6);
-                    });
-                    var axes = new THREE.AxisHelper(200);
-                    axes.position.set(0,-12,-0.5*res["lll"])//x,y,z,红,绿,蓝
-                    axes.rotateZ(Math.PI);
-                    scene.add(axes);
-                    loader.load("/static/model/standardPadAndSupport_A.stl", function (geometry1) {
-                        //基准板组A
-                        var material1 = new THREE.MeshLambertMaterial({color: 0xCCCCCC});
-                        var mesh1 = new THREE.Mesh(geometry1,material1);
-                        mesh1.rotation.x = -0.5 * Math.PI;
-                        mesh1.rotation.z = -0.5 * Math.PI;
-                        mesh1.position.set(0,-12,-0.5*res["lll"]);
-                        mesh1.scale.set(0.1, 0.1, 0.1); //缩放
-                        mesh1.name = "基准板A,位置:已校验  关键定位点: APO("+res["APO"]+") APH("+res["APH"]+") APW("+res["APW"]+")";
-                        var holeDiv1 = document.createElement("div1");
-                        var holeDiv2 = document.createElement("div2");
-                        holeDiv1.className = "class";
-                        holeDiv2.className = "coordinate";
-                        holeDiv1.textContent = "";
-                        holeDiv2.textContent = "";
-                        holeDiv1.style.fontSize = "5px";
-                        holeDiv2.style.fontSize = "5px";
-                        holeDiv1.style.fontWeight = "bold";
-                        holeDiv2.style.fontWeight = "bold";
-                        holeDiv1.style.color = "yellow";
-                        holeDiv2.style.color = "yellow";
-                        holeDiv1.style.backgroundColor = "blue";
-                        holeDiv2.style.backgroundColor = "purple";
-                        var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
-                        var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
-                        holeLabel1.position.set(0,1000,0);
-                        holeLabel2.position.set(0,-1000,0);
-                        mesh1.add(holeLabel1);
-                        mesh1.add(holeLabel2);
-                        var group1 = new THREE.Group();
-                        group1.add(mesh1);
-                        group.add(group1);
-                    });
-                    loader.load("/static/model/standardPadAndSupport_B.stl", function (geometry2) {
-                        //基准板组B
-                        var material2 = new THREE.MeshLambertMaterial({color: 0xCCCCCC});
-                        var mesh2 = new THREE.Mesh(geometry2,material2);
-                        mesh2.rotation.x = -0.5 * Math.PI;
-                        mesh2.rotation.z = 0.5 * Math.PI;
-                        mesh2.position.set(0,-12,res["lll"]/2);
-                        mesh2.scale.set(0.1, 0.1, 0.1); //缩放
-                        mesh2.name = "基准板B,位置:已校验  关键定位点: BPO("+res["BPO"]+") BPH("+res["BPH"]+") BPW("+res["BPW"]+")";
-                        var holeDiv1 = document.createElement("div1");
-                        var holeDiv2 = document.createElement("div2");
-                        holeDiv1.className = "class";
-                        holeDiv2.className = "coordinate";
-                        holeDiv1.textContent = "";
-                        holeDiv2.textContent = "";
-                        holeDiv1.style.fontSize = "5px";
-                        holeDiv2.style.fontSize = "5px";
-                        holeDiv1.style.fontWeight = "bold";
-                        holeDiv2.style.fontWeight = "bold";
-                        holeDiv1.style.color = "yellow";
-                        holeDiv2.style.color = "yellow";
-                        holeDiv1.style.backgroundColor = "blue";
-                        holeDiv2.style.backgroundColor = "purple";
-                        var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
-                        var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
-                        holeLabel1.position.set(0,1000,0);
-                        holeLabel2.position.set(0,-1000,0);
-                        mesh2.add(holeLabel1);
-                        mesh2.add(holeLabel2);
-                        var group2 = new THREE.Group();
-                        group2.add(mesh2);
-                        group.add(group2);
-                    });
+            if(flag=="2022-00-00-00:00:00"){
+                $.ajax({
+                    type:'GET',
+                    data:{'flag':flag},
+                    url:"/poseCalculate/Calculate",
+                    dataType: 'json',
+                    success:function(res){
+                        alert('位姿计算完成！')
+                        document.getElementById("Axis").value=res["Axis"];
+                        document.getElementById("Angle").value=res["Angle"];
+                        document.getElementById("A_center").value=res["A_center"];
+                        document.getElementById("B_center").value=res["B_center"];
+                        Ascore = res["Ascore"]
+                        Bscore = res["Bscore"]
+                        option = {
+                            title: {
+                                text: '关键特征三维重构效果评分及基准'
+                            },
+                            tooltip: {},
+                            legend: {
+                                data:['END A','END B','standard']
+                            },
+                            xAxis: {
+                                data: []
+                            },
+                            yAxis: {},
+                            series: [{
+                                name: 'END A',
+                                type: 'bar',
+                                data: Ascore
+                            },
+                            {
+                                name: 'END B',
+                                type: 'bar',
+                                data: Bscore
+                            },
+                            {
+                                name: 'standard',
+                                type: 'line',
+                                data: [50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50]
+                            }]
+                        };
+                        bar.setOption(option);
+                        loader.load("/static/model/longTube.STL", function (geometry6) {
+                            //筒段本体
+                            var material6 = new THREE.MeshLambertMaterial({color: 0xE5E5E5});
+                            var mesh6 = new THREE.Mesh(geometry6,material6);
+                            mesh6.rotation.x = -0.5 * Math.PI; //将模型摆正
+                            mesh6.rotation.z = -0.5 * Math.PI;
+                            mesh6.position.set(-310,-230,-595);
+                            mesh6.scale.set(0.1, 0.1, 0.1); //缩放
+                            mesh6.name = "筒端本体,位姿参数:已计算  轴线向量:("+res["Axis"]+")   象限偏角:"+res["Angle"]+"°";
+                            var holeDiv1 = document.createElement("div1");
+                            var holeDiv2 = document.createElement("div2");
+                            holeDiv1.className = "class";
+                            holeDiv2.className = "coordinate";
+                            holeDiv1.textContent = "";
+                            holeDiv2.textContent = "";
+                            holeDiv1.style.fontSize = "5px";
+                            holeDiv2.style.fontSize = "5px";
+                            holeDiv1.style.fontWeight = "bold";
+                            holeDiv2.style.fontWeight = "bold";
+                            holeDiv1.style.color = "yellow";
+                            holeDiv2.style.color = "yellow";
+                            holeDiv1.style.backgroundColor = "blue";
+                            holeDiv2.style.backgroundColor = "purple";
+                            var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                            var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                            holeLabel1.position.set(0,1000,0);
+                            holeLabel2.position.set(0,-1000,0);
+                            mesh6.add(holeLabel1);
+                            mesh6.add(holeLabel2);
+                            var group6 = new THREE.Group();
+                            group6.add(mesh6);
+                            group.add(group6);
+                        });
+                        var axes = new THREE.AxisHelper(200);
+                        axes.position.set(0,-12,-0.5*res["lll"])//x,y,z,红,绿,蓝
+                        axes.rotateZ(Math.PI);
+                        scene.add(axes);
+                        loader.load("/static/model/standardPadAndSupport_A.stl", function (geometry1) {
+                            //基准板组A
+                            var material1 = new THREE.MeshLambertMaterial({color: 0xCCCCCC});
+                            var mesh1 = new THREE.Mesh(geometry1,material1);
+                            mesh1.rotation.x = -0.5 * Math.PI;
+                            mesh1.rotation.z = -0.5 * Math.PI;
+                            mesh1.position.set(0,-12,-0.5*res["lll"]);
+                            mesh1.scale.set(0.1, 0.1, 0.1); //缩放
+                            mesh1.name = "基准板A,位置:已校验  关键定位点: APO("+res["APO"]+") APH("+res["APH"]+") APW("+res["APW"]+")";
+                            var holeDiv1 = document.createElement("div1");
+                            var holeDiv2 = document.createElement("div2");
+                            holeDiv1.className = "class";
+                            holeDiv2.className = "coordinate";
+                            holeDiv1.textContent = "";
+                            holeDiv2.textContent = "";
+                            holeDiv1.style.fontSize = "5px";
+                            holeDiv2.style.fontSize = "5px";
+                            holeDiv1.style.fontWeight = "bold";
+                            holeDiv2.style.fontWeight = "bold";
+                            holeDiv1.style.color = "yellow";
+                            holeDiv2.style.color = "yellow";
+                            holeDiv1.style.backgroundColor = "blue";
+                            holeDiv2.style.backgroundColor = "purple";
+                            var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                            var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                            holeLabel1.position.set(0,1000,0);
+                            holeLabel2.position.set(0,-1000,0);
+                            mesh1.add(holeLabel1);
+                            mesh1.add(holeLabel2);
+                            var group1 = new THREE.Group();
+                            group1.add(mesh1);
+                            group.add(group1);
+                        });
+                        loader.load("/static/model/standardPadAndSupport_B.stl", function (geometry2) {
+                            //基准板组B
+                            var material2 = new THREE.MeshLambertMaterial({color: 0xCCCCCC});
+                            var mesh2 = new THREE.Mesh(geometry2,material2);
+                            mesh2.rotation.x = -0.5 * Math.PI;
+                            mesh2.rotation.z = 0.5 * Math.PI;
+                            mesh2.position.set(0,-12,res["lll"]/2);
+                            mesh2.scale.set(0.1, 0.1, 0.1); //缩放
+                            mesh2.name = "基准板B,位置:已校验  关键定位点: BPO("+res["BPO"]+") BPH("+res["BPH"]+") BPW("+res["BPW"]+")";
+                            var holeDiv1 = document.createElement("div1");
+                            var holeDiv2 = document.createElement("div2");
+                            holeDiv1.className = "class";
+                            holeDiv2.className = "coordinate";
+                            holeDiv1.textContent = "";
+                            holeDiv2.textContent = "";
+                            holeDiv1.style.fontSize = "5px";
+                            holeDiv2.style.fontSize = "5px";
+                            holeDiv1.style.fontWeight = "bold";
+                            holeDiv2.style.fontWeight = "bold";
+                            holeDiv1.style.color = "yellow";
+                            holeDiv2.style.color = "yellow";
+                            holeDiv1.style.backgroundColor = "blue";
+                            holeDiv2.style.backgroundColor = "purple";
+                            var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                            var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                            holeLabel1.position.set(0,1000,0);
+                            holeLabel2.position.set(0,-1000,0);
+                            mesh2.add(holeLabel1);
+                            mesh2.add(holeLabel2);
+                            var group2 = new THREE.Group();
+                            group2.add(mesh2);
+                            group.add(group2);
+                        });
 
 
-                    //小相框里
-                    loader.load("/static/model/flange1.stl", function (geometry1) {
-                        var material1 = new THREE.MeshLambertMaterial({color: 0x1C86EE});
-                        var mesh1 = new THREE.Mesh(geometry1,material1);
-                        //mesh1.rotation.x = -0.5 * Math.PI;
-                        //mesh1.rotation.z = -0.5 * Math.PI;
-                        //mesh1.position.set(0,-12,-100);
-                        mesh1.scale.set(0.1, 0.1, 0.1); //缩放
-                        mesh1.name = "端面视图,象限偏角: "+res["Angle"]+"°";
+                        //小相框里
+                        loader.load("/static/model/flange1.stl", function (geometry1) {
+                            var material1 = new THREE.MeshLambertMaterial({color: 0x1C86EE});
+                            var mesh1 = new THREE.Mesh(geometry1,material1);
+                            //mesh1.rotation.x = -0.5 * Math.PI;
+                            //mesh1.rotation.z = -0.5 * Math.PI;
+                            //mesh1.position.set(0,-12,-100);
+                            mesh1.scale.set(0.1, 0.1, 0.1); //缩放
+                            mesh1.name = "端面视图,象限偏角: "+res["Angle"]+"°";
+                            var holeDiv1 = document.createElement("div1");
+                            var holeDiv2 = document.createElement("div2");
+                            holeDiv1.className = "class";
+                            holeDiv2.className = "coordinate";
+                            holeDiv1.textContent = "";
+                            holeDiv2.textContent = "";
+                            holeDiv1.style.fontSize = "5px";
+                            holeDiv2.style.fontSize = "5px";
+                            holeDiv1.style.fontWeight = "bold";
+                            holeDiv2.style.fontWeight = "bold";
+                            holeDiv1.style.color = "yellow";
+                            holeDiv2.style.color = "yellow";
+                            holeDiv1.style.backgroundColor = "blue";
+                            holeDiv2.style.backgroundColor = "purple";
+                            var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                            var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                            holeLabel1.position.set(0,100,0);
+                            holeLabel2.position.set(0,-100,0);
+                            mesh1.add(holeLabel1);
+                            mesh1.add(holeLabel2);
+                            var group1 = new THREE.Group();
+                            group1.add(mesh1);
+                            groupl.add(group1);
+                        });
+                        //绘制指引直线
+                        var lineg = new THREE.BufferGeometry();
+                        //创建材质
+                        var linem = new THREE.LineBasicMaterial({color: 0xff00ff});
+                        //定义点位
+                        var p1 = new THREE.Vector3(0, 0, 0);
+                        var p2 = new THREE.Vector3(0, 200, (res["Angle"]/Math.abs(res["Angle"]))*200*Math.tan(Math.PI*res["Angle"]/180));
+                        var pointsArray = new Array();
+                        pointsArray.push(p1);
+                        pointsArray.push(p2);
+                        lineg.setFromPoints(pointsArray);
+                        var line = new THREE.Line(lineg, linem);
+                        line.name = "偏角线"
                         var holeDiv1 = document.createElement("div1");
                         var holeDiv2 = document.createElement("div2");
                         holeDiv1.className = "class";
@@ -1148,57 +1186,57 @@
                         var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
                         holeLabel1.position.set(0,100,0);
                         holeLabel2.position.set(0,-100,0);
-                        mesh1.add(holeLabel1);
-                        mesh1.add(holeLabel2);
+                        line.add(holeLabel1);
+                        line.add(holeLabel2);
                         var group1 = new THREE.Group();
-                        group1.add(mesh1);
-                        groupl.add(group1);
-                    });
-                    //绘制指引直线
-                    var lineg = new THREE.BufferGeometry();
-                    //创建材质
-                    var linem = new THREE.LineBasicMaterial({color: 0xff00ff});
-                    //定义点位
-                    var p1 = new THREE.Vector3(0, 0, 0);
-                    var p2 = new THREE.Vector3(0, 200, (res["Angle"]/Math.abs(res["Angle"]))*200*Math.tan(Math.PI*res["Angle"]/180));
-                    var pointsArray = new Array();
-                    pointsArray.push(p1);
-                    pointsArray.push(p2);
-                    lineg.setFromPoints(pointsArray);
-                    var line = new THREE.Line(lineg, linem);
-                    line.name = "偏角线"
-                    var holeDiv1 = document.createElement("div1");
-                    var holeDiv2 = document.createElement("div2");
-                    holeDiv1.className = "class";
-                    holeDiv2.className = "coordinate";
-                    holeDiv1.textContent = "";
-                    holeDiv2.textContent = "";
-                    holeDiv1.style.fontSize = "5px";
-                    holeDiv2.style.fontSize = "5px";
-                    holeDiv1.style.fontWeight = "bold";
-                    holeDiv2.style.fontWeight = "bold";
-                    holeDiv1.style.color = "yellow";
-                    holeDiv2.style.color = "yellow";
-                    holeDiv1.style.backgroundColor = "blue";
-                    holeDiv2.style.backgroundColor = "purple";
-                    var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
-                    var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
-                    holeLabel1.position.set(0,100,0);
-                    holeLabel2.position.set(0,-100,0);
-                    line.add(holeLabel1);
-                    line.add(holeLabel2);
-                    var group1 = new THREE.Group();
-                    group1.add(line);
-                    groupl.add(group1)
-                    loader.load("/static/model/shortTube.stl", function (geometry1) {
-                        var material1 = new THREE.MeshLambertMaterial({color: 0x1C86EE});
-                        var mesh1 = new THREE.Mesh(geometry1,material1);
-                        //mesh1.rotation.x = -0.5 * Math.PI;
-                        mesh1.rotation.y = -0.5 * Math.PI;
-                        //mesh1.rotation.z = -0.5 * Math.PI;
-                        mesh1.position.set(0,0,-38);
-                        mesh1.scale.set(0.1, 0.1, 0.1); //缩放
-                        mesh1.name = "侧面视图,轴线向量: ("+res["Axis"][0]+", "+res["Axis"][1]+", "+res["Axis"][2]+")";
+                        group1.add(line);
+                        groupl.add(group1)
+                        loader.load("/static/model/shortTube.stl", function (geometry1) {
+                            var material1 = new THREE.MeshLambertMaterial({color: 0x1C86EE});
+                            var mesh1 = new THREE.Mesh(geometry1,material1);
+                            //mesh1.rotation.x = -0.5 * Math.PI;
+                            mesh1.rotation.y = -0.5 * Math.PI;
+                            //mesh1.rotation.z = -0.5 * Math.PI;
+                            mesh1.position.set(0,0,-38);
+                            mesh1.scale.set(0.1, 0.1, 0.1); //缩放
+                            mesh1.name = "侧面视图,轴线向量: ("+res["Axis"][0]+", "+res["Axis"][1]+", "+res["Axis"][2]+")";
+                            var holeDiv1 = document.createElement("div1");
+                            var holeDiv2 = document.createElement("div2");
+                            holeDiv1.className = "class";
+                            holeDiv2.className = "coordinate";
+                            holeDiv1.textContent = "";
+                            holeDiv2.textContent = "";
+                            holeDiv1.style.fontSize = "5px";
+                            holeDiv2.style.fontSize = "5px";
+                            holeDiv1.style.fontWeight = "bold";
+                            holeDiv2.style.fontWeight = "bold";
+                            holeDiv1.style.color = "yellow";
+                            holeDiv2.style.color = "yellow";
+                            holeDiv1.style.backgroundColor = "blue";
+                            holeDiv2.style.backgroundColor = "purple";
+                            var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                            var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                            holeLabel1.position.set(0,100,0);
+                            holeLabel2.position.set(0,-100,0);
+                            mesh1.add(holeLabel1);
+                            mesh1.add(holeLabel2);
+                            var group1 = new THREE.Group();
+                            group1.add(mesh1);
+                            groupr.add(group1);
+                        });
+                        //绘制指引直线
+                        var lineg = new THREE.BufferGeometry();
+                        //创建材质
+                        var linem = new THREE.LineBasicMaterial({color: 0xff00ff});
+                        //定义点位
+                        var p1 = new THREE.Vector3(-1*res["Axis"][1],-1*res["Axis"][0],-1*res["Axis"][2]);
+                        var p2 = new THREE.Vector3(res["Axis"][1],res["Axis"][0],res["Axis"][2]);
+                        var pointsArray = new Array();
+                        pointsArray.push(p1);
+                        pointsArray.push(p2);
+                        lineg.setFromPoints(pointsArray);
+                        var line = new THREE.Line(lineg, linem);
+                        line.name = "向量线"
                         var holeDiv1 = document.createElement("div1");
                         var holeDiv2 = document.createElement("div2");
                         holeDiv1.className = "class";
@@ -1217,53 +1255,309 @@
                         var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
                         holeLabel1.position.set(0,100,0);
                         holeLabel2.position.set(0,-100,0);
-                        mesh1.add(holeLabel1);
-                        mesh1.add(holeLabel2);
+                        line.add(holeLabel1);
+                        line.add(holeLabel2);
                         var group1 = new THREE.Group();
-                        group1.add(mesh1);
-                        groupr.add(group1);
-                    });
-                    //绘制指引直线
-                    var lineg = new THREE.BufferGeometry();
-                    //创建材质
-                    var linem = new THREE.LineBasicMaterial({color: 0xff00ff});
-                    //定义点位
-                    var p1 = new THREE.Vector3(-1*res["Axis"][1],-1*res["Axis"][0],-1*res["Axis"][2]);
-                    var p2 = new THREE.Vector3(res["Axis"][1],res["Axis"][0],res["Axis"][2]);
-                    var pointsArray = new Array();
-                    pointsArray.push(p1);
-                    pointsArray.push(p2);
-                    lineg.setFromPoints(pointsArray);
-                    var line = new THREE.Line(lineg, linem);
-                    line.name = "向量线"
-                    var holeDiv1 = document.createElement("div1");
-                    var holeDiv2 = document.createElement("div2");
-                    holeDiv1.className = "class";
-                    holeDiv2.className = "coordinate";
-                    holeDiv1.textContent = "";
-                    holeDiv2.textContent = "";
-                    holeDiv1.style.fontSize = "5px";
-                    holeDiv2.style.fontSize = "5px";
-                    holeDiv1.style.fontWeight = "bold";
-                    holeDiv2.style.fontWeight = "bold";
-                    holeDiv1.style.color = "yellow";
-                    holeDiv2.style.color = "yellow";
-                    holeDiv1.style.backgroundColor = "blue";
-                    holeDiv2.style.backgroundColor = "purple";
-                    var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
-                    var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
-                    holeLabel1.position.set(0,100,0);
-                    holeLabel2.position.set(0,-100,0);
-                    line.add(holeLabel1);
-                    line.add(holeLabel2);
-                    var group1 = new THREE.Group();
-                    group1.add(line);
-                    groupr.add(group1)
-                },
-                error: function (res) {
-                    alert('失败！')
-                }
-            })
+                        group1.add(line);
+                        groupr.add(group1)
+                    },
+                    error: function (res) {
+                        alert('失败！')
+                    }
+                })
+            }
+            else{
+                $.ajax({
+                    type:'GET',
+                    data:{'flag':flag},
+                    url:"/poseCalculate/Calculate",
+                    dataType: 'json',
+                    success:function(res){
+                        alert('位姿计算完成！')
+                        document.getElementById("Axis").value=res["Axis"];
+                        document.getElementById("Angle").value=res["Angle"];
+                        document.getElementById("A_center").value=res["A_center"];
+                        document.getElementById("B_center").value=res["B_center"];
+                        Ascore = res["Ascore"]
+                        Bscore = res["Bscore"]
+                        option = {
+                            title: {
+                                text: '关键特征三维重构效果评分及基准'
+                            },
+                            tooltip: {},
+                            legend: {
+                                data:['END A','END B','standard']
+                            },
+                            xAxis: {
+                                data: []
+                            },
+                            yAxis: {},
+                            series: [{
+                                name: 'END A',
+                                type: 'bar',
+                                data: Ascore
+                            },
+                            {
+                                name: 'END B',
+                                type: 'bar',
+                                data: Bscore
+                            },
+                            {
+                                name: 'standard',
+                                type: 'line',
+                                data: [50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50]
+                            }]
+                        };
+                        bar.setOption(option);
+                        loader.load("/static/model/shortTube.stl", function (geometry6) {
+                            //筒段本体
+                            var material6 = new THREE.MeshLambertMaterial({color: 0xE5E5E5});
+                            var mesh6 = new THREE.Mesh(geometry6,material6);
+                            mesh6.rotation.x = -0.5 * Math.PI; //将模型摆正
+                            mesh6.rotation.z = -0.5 * Math.PI;
+                            mesh6.position.set(-90,-20,-35);
+                            mesh6.scale.set(0.1, 0.1, 0.1); //缩放
+                            mesh6.name = "筒端本体,位姿参数:已计算  轴线向量:("+res["Axis"]+")   象限偏角:"+res["Angle"]+"°";
+                            var holeDiv1 = document.createElement("div1");
+                            var holeDiv2 = document.createElement("div2");
+                            holeDiv1.className = "class";
+                            holeDiv2.className = "coordinate";
+                            holeDiv1.textContent = "";
+                            holeDiv2.textContent = "";
+                            holeDiv1.style.fontSize = "5px";
+                            holeDiv2.style.fontSize = "5px";
+                            holeDiv1.style.fontWeight = "bold";
+                            holeDiv2.style.fontWeight = "bold";
+                            holeDiv1.style.color = "yellow";
+                            holeDiv2.style.color = "yellow";
+                            holeDiv1.style.backgroundColor = "blue";
+                            holeDiv2.style.backgroundColor = "purple";
+                            var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                            var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                            holeLabel1.position.set(0,1000,0);
+                            holeLabel2.position.set(0,-1000,0);
+                            mesh6.add(holeLabel1);
+                            mesh6.add(holeLabel2);
+                            var group6 = new THREE.Group();
+                            group6.add(mesh6);
+                            group.add(group6);
+                        });
+                        var axes = new THREE.AxisHelper(200);
+                        axes.position.set(0,-12,-0.5*res["lll"])//x,y,z,红,绿,蓝
+                        axes.rotateZ(Math.PI);
+                        scene.add(axes);
+                        loader.load("/static/model/standardPadAndSupport_A.stl", function (geometry1) {
+                            //基准板组A
+                            var material1 = new THREE.MeshLambertMaterial({color: 0xCCCCCC});
+                            var mesh1 = new THREE.Mesh(geometry1,material1);
+                            mesh1.rotation.x = -0.5 * Math.PI;
+                            mesh1.rotation.z = -0.5 * Math.PI;
+                            mesh1.position.set(0,-12,-0.5*res["lll"]);
+                            mesh1.scale.set(0.1, 0.1, 0.1); //缩放
+                            mesh1.name = "基准板A,位置:已校验  关键定位点: APO("+res["APO"]+") APH("+res["APH"]+") APW("+res["APW"]+")";
+                            var holeDiv1 = document.createElement("div1");
+                            var holeDiv2 = document.createElement("div2");
+                            holeDiv1.className = "class";
+                            holeDiv2.className = "coordinate";
+                            holeDiv1.textContent = "";
+                            holeDiv2.textContent = "";
+                            holeDiv1.style.fontSize = "5px";
+                            holeDiv2.style.fontSize = "5px";
+                            holeDiv1.style.fontWeight = "bold";
+                            holeDiv2.style.fontWeight = "bold";
+                            holeDiv1.style.color = "yellow";
+                            holeDiv2.style.color = "yellow";
+                            holeDiv1.style.backgroundColor = "blue";
+                            holeDiv2.style.backgroundColor = "purple";
+                            var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                            var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                            holeLabel1.position.set(0,1000,0);
+                            holeLabel2.position.set(0,-1000,0);
+                            mesh1.add(holeLabel1);
+                            mesh1.add(holeLabel2);
+                            var group1 = new THREE.Group();
+                            group1.add(mesh1);
+                            group.add(group1);
+                        });
+                        loader.load("/static/model/standardPadAndSupport_B.stl", function (geometry2) {
+                            //基准板组B
+                            var material2 = new THREE.MeshLambertMaterial({color: 0xCCCCCC});
+                            var mesh2 = new THREE.Mesh(geometry2,material2);
+                            mesh2.rotation.x = -0.5 * Math.PI;
+                            mesh2.rotation.z = 0.5 * Math.PI;
+                            mesh2.position.set(0,-12,res["lll"]/2);
+                            mesh2.scale.set(0.1, 0.1, 0.1); //缩放
+                            mesh2.name = "基准板B,位置:已校验  关键定位点: BPO("+res["BPO"]+") BPH("+res["BPH"]+") BPW("+res["BPW"]+")";
+                            var holeDiv1 = document.createElement("div1");
+                            var holeDiv2 = document.createElement("div2");
+                            holeDiv1.className = "class";
+                            holeDiv2.className = "coordinate";
+                            holeDiv1.textContent = "";
+                            holeDiv2.textContent = "";
+                            holeDiv1.style.fontSize = "5px";
+                            holeDiv2.style.fontSize = "5px";
+                            holeDiv1.style.fontWeight = "bold";
+                            holeDiv2.style.fontWeight = "bold";
+                            holeDiv1.style.color = "yellow";
+                            holeDiv2.style.color = "yellow";
+                            holeDiv1.style.backgroundColor = "blue";
+                            holeDiv2.style.backgroundColor = "purple";
+                            var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                            var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                            holeLabel1.position.set(0,1000,0);
+                            holeLabel2.position.set(0,-1000,0);
+                            mesh2.add(holeLabel1);
+                            mesh2.add(holeLabel2);
+                            var group2 = new THREE.Group();
+                            group2.add(mesh2);
+                            group.add(group2);
+                        });
+
+
+                        //小相框里
+                        loader.load("/static/model/flange1.stl", function (geometry1) {
+                            var material1 = new THREE.MeshLambertMaterial({color: 0x1C86EE});
+                            var mesh1 = new THREE.Mesh(geometry1,material1);
+                            //mesh1.rotation.x = -0.5 * Math.PI;
+                            //mesh1.rotation.z = -0.5 * Math.PI;
+                            //mesh1.position.set(0,-12,-100);
+                            mesh1.scale.set(0.1, 0.1, 0.1); //缩放
+                            mesh1.name = "端面视图,象限偏角: "+res["Angle"]+"°";
+                            var holeDiv1 = document.createElement("div1");
+                            var holeDiv2 = document.createElement("div2");
+                            holeDiv1.className = "class";
+                            holeDiv2.className = "coordinate";
+                            holeDiv1.textContent = "";
+                            holeDiv2.textContent = "";
+                            holeDiv1.style.fontSize = "5px";
+                            holeDiv2.style.fontSize = "5px";
+                            holeDiv1.style.fontWeight = "bold";
+                            holeDiv2.style.fontWeight = "bold";
+                            holeDiv1.style.color = "yellow";
+                            holeDiv2.style.color = "yellow";
+                            holeDiv1.style.backgroundColor = "blue";
+                            holeDiv2.style.backgroundColor = "purple";
+                            var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                            var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                            holeLabel1.position.set(0,100,0);
+                            holeLabel2.position.set(0,-100,0);
+                            mesh1.add(holeLabel1);
+                            mesh1.add(holeLabel2);
+                            var group1 = new THREE.Group();
+                            group1.add(mesh1);
+                            groupl.add(group1);
+                        });
+                        //绘制指引直线
+                        var lineg = new THREE.BufferGeometry();
+                        //创建材质
+                        var linem = new THREE.LineBasicMaterial({color: 0xff00ff});
+                        //定义点位
+                        var p1 = new THREE.Vector3(0, 0, 0);
+                        var p2 = new THREE.Vector3(0, 200, (res["Angle"]/Math.abs(res["Angle"]))*200*Math.tan(Math.PI*res["Angle"]/180));
+                        var pointsArray = new Array();
+                        pointsArray.push(p1);
+                        pointsArray.push(p2);
+                        lineg.setFromPoints(pointsArray);
+                        var line = new THREE.Line(lineg, linem);
+                        line.name = "偏角线"
+                        var holeDiv1 = document.createElement("div1");
+                        var holeDiv2 = document.createElement("div2");
+                        holeDiv1.className = "class";
+                        holeDiv2.className = "coordinate";
+                        holeDiv1.textContent = "";
+                        holeDiv2.textContent = "";
+                        holeDiv1.style.fontSize = "5px";
+                        holeDiv2.style.fontSize = "5px";
+                        holeDiv1.style.fontWeight = "bold";
+                        holeDiv2.style.fontWeight = "bold";
+                        holeDiv1.style.color = "yellow";
+                        holeDiv2.style.color = "yellow";
+                        holeDiv1.style.backgroundColor = "blue";
+                        holeDiv2.style.backgroundColor = "purple";
+                        var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                        var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                        holeLabel1.position.set(0,100,0);
+                        holeLabel2.position.set(0,-100,0);
+                        line.add(holeLabel1);
+                        line.add(holeLabel2);
+                        var group1 = new THREE.Group();
+                        group1.add(line);
+                        groupl.add(group1)
+                        loader.load("/static/model/shortTube.stl", function (geometry1) {
+                            var material1 = new THREE.MeshLambertMaterial({color: 0x1C86EE});
+                            var mesh1 = new THREE.Mesh(geometry1,material1);
+                            //mesh1.rotation.x = -0.5 * Math.PI;
+                            mesh1.rotation.y = -0.5 * Math.PI;
+                            //mesh1.rotation.z = -0.5 * Math.PI;
+                            mesh1.position.set(0,0,-38);
+                            mesh1.scale.set(0.1, 0.1, 0.1); //缩放
+                            mesh1.name = "侧面视图,轴线向量: ("+res["Axis"][0]+", "+res["Axis"][1]+", "+res["Axis"][2]+")";
+                            var holeDiv1 = document.createElement("div1");
+                            var holeDiv2 = document.createElement("div2");
+                            holeDiv1.className = "class";
+                            holeDiv2.className = "coordinate";
+                            holeDiv1.textContent = "";
+                            holeDiv2.textContent = "";
+                            holeDiv1.style.fontSize = "5px";
+                            holeDiv2.style.fontSize = "5px";
+                            holeDiv1.style.fontWeight = "bold";
+                            holeDiv2.style.fontWeight = "bold";
+                            holeDiv1.style.color = "yellow";
+                            holeDiv2.style.color = "yellow";
+                            holeDiv1.style.backgroundColor = "blue";
+                            holeDiv2.style.backgroundColor = "purple";
+                            var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                            var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                            holeLabel1.position.set(0,100,0);
+                            holeLabel2.position.set(0,-100,0);
+                            mesh1.add(holeLabel1);
+                            mesh1.add(holeLabel2);
+                            var group1 = new THREE.Group();
+                            group1.add(mesh1);
+                            groupr.add(group1);
+                        });
+                        //绘制指引直线
+                        var lineg = new THREE.BufferGeometry();
+                        //创建材质
+                        var linem = new THREE.LineBasicMaterial({color: 0xff00ff});
+                        //定义点位
+                        var p1 = new THREE.Vector3(-1*res["Axis"][1],-1*res["Axis"][0],-1*res["Axis"][2]);
+                        var p2 = new THREE.Vector3(res["Axis"][1],res["Axis"][0],res["Axis"][2]);
+                        var pointsArray = new Array();
+                        pointsArray.push(p1);
+                        pointsArray.push(p2);
+                        lineg.setFromPoints(pointsArray);
+                        var line = new THREE.Line(lineg, linem);
+                        line.name = "向量线"
+                        var holeDiv1 = document.createElement("div1");
+                        var holeDiv2 = document.createElement("div2");
+                        holeDiv1.className = "class";
+                        holeDiv2.className = "coordinate";
+                        holeDiv1.textContent = "";
+                        holeDiv2.textContent = "";
+                        holeDiv1.style.fontSize = "5px";
+                        holeDiv2.style.fontSize = "5px";
+                        holeDiv1.style.fontWeight = "bold";
+                        holeDiv2.style.fontWeight = "bold";
+                        holeDiv1.style.color = "yellow";
+                        holeDiv2.style.color = "yellow";
+                        holeDiv1.style.backgroundColor = "blue";
+                        holeDiv2.style.backgroundColor = "purple";
+                        var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
+                        var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
+                        holeLabel1.position.set(0,100,0);
+                        holeLabel2.position.set(0,-100,0);
+                        line.add(holeLabel1);
+                        line.add(holeLabel2);
+                        var group1 = new THREE.Group();
+                        group1.add(line);
+                        groupr.add(group1)
+                    },
+                    error: function (res) {
+                        alert('失败！')
+                    }
+                })
+            }
         }
     </script>
     {% endblock %}
