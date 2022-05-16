@@ -41,12 +41,12 @@ def Calculate():
 
     if flag=="2022-00-00-00:00:00":
         result = {
-            "Axis": 1,
-            "Angle": 1,
-            "A_center": 1,
-            "A_angle": 1,
-            "B_center": 1,
-            "B_angle": 1,
+            "Axis": [0,0,1000],
+            "Angle": 0,
+            "A_center": "None",
+            "A_angle": 0,
+            "B_center": "None",
+            "B_angle": 0,
             "lll": 800,
             "APO": 1,
             "APH": 1,
@@ -54,8 +54,8 @@ def Calculate():
             "BPO": 1,
             "BPH": 1,
             "BPW": 1,
-            "Ascore": 1,
-            "Bscore": 1
+            "Ascore": 0,
+            "Bscore": 0
         }
     else:
         firmPath = os.path.dirname(os.path.realpath(__file__)).replace("poseCalculate","static/res_pictures/result/")

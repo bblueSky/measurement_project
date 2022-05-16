@@ -918,7 +918,23 @@ def tubePoseCalculate(filePath,dataPath):
         B_angle = [B_centerAndAngle2[1, 0], B_centerAndAngle2[1, 1],B_centerAndAngle2[1, 2]]
         print(Axis)
         print(Angle)
-        return {"Axis":Axis1,"Angle":Angle,"A_center":A_center,"A_angle":A_angle,"B_center":B_center,"B_angle":B_angle,"lll":lll,"APO":[APO_X,APO_Y,APO_Z],"APH":[APH_X,APH_Y,APH_Z],"APW":[APW_X,APW_Y,APW_Z],"BPO":[BPO_X,BPO_Y,BPO_Z],"BPH":[BPH_X,BPH_Y,BPH_Z],"BPW":[BPW_X,BPW_Y,BPW_Z],"Ascore":A_hole_s_list,"Bscore":B_hole_s_list}
+        return {
+            "Axis": [round(Axis1[0], 3), round(Axis1[1], 3), round(Axis1[2], 3)],
+            "Angle": round(Angle, 3),
+            "A_center": [round(A_center[0], 3), round(A_center[1], 3), round(A_center[2], 3)],
+            "A_angle": A_angle,
+            "B_center": [round(B_center[0], 3), round(B_center[1], 3), round(B_center[2], 3)],
+            "B_angle": B_angle,
+            "lll": lll,
+            "APO":[round(APO_X,3),round(APO_Y,3),round(APO_Z,3)],
+            "APH":[round(APH_X,3),round(APH_Y,3),round(APH_Z,3)],
+            "APW":[round(APW_X,3),round(APW_Y,3),round(APW_Z,3)],
+            "BPO":[round(BPO_X,3),round(BPO_Y,3),round(BPO_Z,3)],
+            "BPH":[round(BPH_X,3),round(BPH_Y,3),round(BPH_Z,3)],
+            "BPW":[round(BPW_X,3),round(BPW_Y,3),round(BPW_Z,3)],
+            "Ascore": A_hole_s_list,
+            "Bscore": B_hole_s_list
+        }
     else:
         Axis1 = [xc_2B-xc_2A,yc_2B-yc_2A,zc_2B-zc_2A]
         while abs(Axis1[0])>100:
@@ -954,19 +970,19 @@ def tubePoseCalculate(filePath,dataPath):
 
         print(lll)
         return {
-            "Axis":Axis1,
-            "Angle":Angle,
-            "A_center":A_center,
+            "Axis":[round(Axis1[0],3),round(Axis1[1],3),round(Axis1[2],3)],
+            "Angle":round(Angle,3),
+            "A_center":[round(A_center[0],3),round(A_center[1],3),round(A_center[2],3)],
             "A_angle":A_angle,
-            "B_center":B_center,
+            "B_center":[round(B_center[0],3),round(B_center[1],3),round(B_center[2],3)],
             "B_angle":B_angle,
             "lll":lll,
-            "APO":[APO_X,APO_Y,APO_Z],
-            "APH":[APH_X,APH_Y,APH_Z],
-            "APW":[APW_X,APW_Y,APW_Z],
-            "BPO":[BPO_X,BPO_Y,BPO_Z],
-            "BPH":[BPH_X,BPH_Y,BPH_Z],
-            "BPW":[BPW_X,BPW_Y,BPW_Z],
+            "APO":[round(APO_X,3),round(APO_Y,3),round(APO_Z,3)],
+            "APH":[round(APH_X,3),round(APH_Y,3),round(APH_Z,3)],
+            "APW":[round(APW_X,3),round(APW_Y,3),round(APW_Z,3)],
+            "BPO":[round(BPO_X,3),round(BPO_Y,3),round(BPO_Z,3)],
+            "BPH":[round(BPH_X,3),round(BPH_Y,3),round(BPH_Z,3)],
+            "BPW":[round(BPW_X,3),round(BPW_Y,3),round(BPW_Z,3)],
             "Ascore":A_hole_s_list,
             "Bscore":B_hole_s_list
         }

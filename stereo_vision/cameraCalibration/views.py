@@ -239,25 +239,25 @@ def  stereo_calibration():
     resultr = sig_calibration(flag,"right")
     results = stereo_Calibration(flag)
 
-    res["ltime"] = resultl[0]
-    res["lmtx0"] = resultl[1]
-    res["lmtx1"] = resultl[2]
-    res["lmtx2"] = resultl[3]
-    res["ldist"] = resultl[4]
-    res["lterror"] = resultl[5]
+    res["ltime"] = round(resultl[0],3)
+    res["lmtx0"] = [round(resultl[1][0],3),round(resultl[1][1],3),round(resultl[1][2],3)]
+    res["lmtx1"] = [round(resultl[2][0],3),round(resultl[2][1],3),round(resultl[2][2],3)]
+    res["lmtx2"] = [round(resultl[3][0],3),round(resultl[3][1],3),round(resultl[3][2],3)]
+    res["ldist"] = [round(resultl[4][0],3),round(resultl[4][1],3),round(resultl[4][2],3)]
+    res["lterror"] = round(resultl[5],3)
 
-    res["rtime"] = resultr[0]
-    res["rmtx0"] = resultr[1]
-    res["rmtx1"] = resultr[2]
-    res["rmtx2"] = resultr[3]
-    res["rdist"] = resultr[4]
-    res["rterror"] = resultr[5]
+    res["rtime"] = round(resultr[0],3)
+    res["rmtx0"] = [round(resultr[1][0],3),round(resultr[1][1],3),round(resultr[1][2],3)]
+    res["rmtx1"] = [round(resultr[2][0],3),round(resultr[2][1],3),round(resultr[2][2],3)]
+    res["rmtx2"] = [round(resultr[3][0],3),round(resultr[3][1],3),round(resultr[3][2],3)]
+    res["rdist"] = [round(resultr[4][0],3),round(resultr[4][1],3),round(resultr[4][2],3)]
+    res["rterror"] = round(resultr[5],3)
 
-    res["R0"] = results[0]
-    res["R1"] = results[1]
-    res["R2"] = results[2]
-    res["T"] = results[3]
-    res["stime"] = results[4]
+    res["R0"] = [round(results[0][0],3),round(results[0][1],3),round(results[0][2],3)]
+    res["R1"] = [round(results[1][0],3),round(results[1][1],3),round(results[1][2],3)]
+    res["R2"] = [round(results[2][0],3),round(results[2][1],3),round(results[2][2],3)]
+    res["T"] = [round(results[3][0],3),round(results[3][1],3),round(results[3][2],3)]
+    res["stime"] = round(results[4],3)
 
     # left_data = [50, 200, 360, 100, 100, 200]
 

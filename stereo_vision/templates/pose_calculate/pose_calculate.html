@@ -1025,7 +1025,7 @@
                             mesh6.rotation.z = -0.5 * Math.PI;
                             mesh6.position.set(-310,-230,-595);
                             mesh6.scale.set(0.1, 0.1, 0.1); //缩放
-                            mesh6.name = "筒端本体,位姿参数:已计算  轴线向量:("+res["Axis"]+")   象限偏角:"+res["Angle"]+"°";
+                            mesh6.name = "筒端本体,位姿参数:导入型  轴线向量:("+res["Axis"]+")   象限偏角:"+res["Angle"]+"°";
                             var holeDiv1 = document.createElement("div1");
                             var holeDiv2 = document.createElement("div2");
                             holeDiv1.className = "class";
@@ -1038,11 +1038,11 @@
                             holeDiv2.style.fontWeight = "bold";
                             holeDiv1.style.color = "yellow";
                             holeDiv2.style.color = "yellow";
-                            holeDiv1.style.backgroundColor = "blue";
+                            holeDiv1.style.backgroundColor = "red";
                             holeDiv2.style.backgroundColor = "purple";
                             var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
                             var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
-                            holeLabel1.position.set(0,1000,0);
+                            holeLabel1.position.set(6000,1000,2000);
                             holeLabel2.position.set(0,-1000,0);
                             mesh6.add(holeLabel1);
                             mesh6.add(holeLabel2);
@@ -1191,13 +1191,13 @@
                         var group1 = new THREE.Group();
                         group1.add(line);
                         groupl.add(group1)
-                        loader.load("/static/model/shortTube.stl", function (geometry1) {
+                        loader.load("/static/model/longTube.STL", function (geometry1) {
                             var material1 = new THREE.MeshLambertMaterial({color: 0x1C86EE});
                             var mesh1 = new THREE.Mesh(geometry1,material1);
                             //mesh1.rotation.x = -0.5 * Math.PI;
                             mesh1.rotation.y = -0.5 * Math.PI;
                             //mesh1.rotation.z = -0.5 * Math.PI;
-                            mesh1.position.set(0,0,-38);
+                            mesh1.position.set(205,-203,-603);
                             mesh1.scale.set(0.1, 0.1, 0.1); //缩放
                             mesh1.name = "侧面视图,轴线向量: ("+res["Axis"][0]+", "+res["Axis"][1]+", "+res["Axis"][2]+")";
                             var holeDiv1 = document.createElement("div1");
@@ -1216,7 +1216,7 @@
                             holeDiv2.style.backgroundColor = "purple";
                             var holeLabel1 = new THREE.CSS2DObject(holeDiv1);
                             var holeLabel2 = new THREE.CSS2DObject(holeDiv2);
-                            holeLabel1.position.set(0,100,0);
+                            holeLabel1.position.set(6000,2000,0);
                             holeLabel2.position.set(0,-100,0);
                             mesh1.add(holeLabel1);
                             mesh1.add(holeLabel2);
